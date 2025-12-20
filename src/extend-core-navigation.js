@@ -9,6 +9,7 @@ import { PanelBody, TextControl, SelectControl } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
 import { registerBlockVariation } from '@wordpress/blocks';
+import { plusCircle } from '@wordpress/icons';
 
 /**
  * Add Priority+ attributes to core/navigation block
@@ -103,9 +104,9 @@ addFilter(
  */
 registerBlockVariation( 'core/navigation', {
 	name: 'lumen-priority-nav',
-	title: __( 'Priority+ Navigation', 'priority-nav' ),
+	title: __( 'Priority+ Nav', 'priority-nav' ),
 	description: __( 'A responsive navigation that automatically moves overflow items to a "More" dropdown.', 'priority-nav' ),
-	icon: 'menu-alt',
+	icon: plusCircle,
 	attributes: {
 		priorityNavEnabled: true,
 		priorityNavMoreLabel: 'More',
