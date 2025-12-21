@@ -720,6 +720,9 @@ class PriorityNav {
 			this.moreContainer.style.display = 'none';
 			this.closeDropdown();
 		} else {
+			// Ensure more button is hidden during DOM manipulation
+			this.moreContainer.style.display = 'none';
+
 			// Hide overflow items FIRST to prevent button from wrapping
 			for ( let i = visibleCount; i < this.items.length; i++ ) {
 				this.items[ i ].style.display = 'none';
@@ -730,10 +733,14 @@ class PriorityNav {
 				this.items[ i ].style.display = '';
 			}
 
-			// Build dropdown from overflow (items already hidden)
+			// Force a reflow to ensure layout updates before showing button
+			// Reading offsetHeight forces the browser to recalculate layout
+			void this.list.offsetHeight;
+
+			// Build dropdown from overflow (items already hidden and layout updated)
 			this.buildDropdownFromOverflow( visibleCount );
 
-			// Show more button AFTER items are hidden
+			// Show more button AFTER items are hidden and layout has reflowed
 			this.moreContainer.style.display = '';
 		}
 
