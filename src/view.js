@@ -190,19 +190,15 @@ class PriorityNav {
 		this.moreButton.setAttribute( 'aria-label', this.moreLabel );
 
 		const iconMap = {
-			dots: '•••',
 			chevron: '▼',
 			plus: '+',
 			menu: '≡',
 		};
 
-		// Build icon HTML only if icon is not 'none'
-		const iconHTML =
-			this.moreIcon !== 'none' && iconMap[ this.moreIcon ]
-				? `<span class="priority-nav-icon">${
-						iconMap[ this.moreIcon ]
-				  }</span>`
-				: '';
+		// Build icon HTML only if icon exists in map
+		const iconHTML = iconMap[ this.moreIcon ]
+			? `<span class="priority-nav-icon">${ iconMap[ this.moreIcon ] }</span>`
+			: '';
 
 		this.moreButton.innerHTML = `
 			<span class="wp-block-navigation-item__label">${ this.moreLabel }</span>
