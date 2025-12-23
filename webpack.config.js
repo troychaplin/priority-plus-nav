@@ -7,7 +7,7 @@ module.exports = {
 	entry: {
 		...defaultConfig.entry(),
 		'priority-plus-nav': './src/priority-plus-nav.js',
-		'ppn-editor': './src/ppn-editor.js',
+		'priority-editor': './src/priority-editor.js',
 	},
 	output: {
 		...defaultConfig.output,
