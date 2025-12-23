@@ -11,7 +11,7 @@ import { addFilter } from '@wordpress/hooks';
  */
 registerBlockVariation( 'core/navigation', {
 	name: 'priority-nav',
-	title: __( 'Priority+ Nav', 'priority-nav' ),
+	title: __( 'Priority Plus Nav', 'priority-nav' ),
 	description: __(
 		'A responsive navigation that automatically moves overflow items to a "More" dropdown.',
 		'priority-nav'
