@@ -107,6 +107,49 @@ The block supports all standard WordPress block features:
 - **Spacing**: Margin, Padding
 - **Colors**: Background, Text
 
+### Theme.json Styling
+
+The Priority Plus Navigation dropdown menu can be customized via theme.json. Add the following to your theme's `theme.json` to override the default styles:
+
+```json
+{
+  "version": 3,
+  "settings": {
+    "custom": {
+      "priorityPlusNavigation": {
+        "dropdown": {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderWidth": "1px",
+          "borderRadius": "4px",
+          "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.15)",
+          "itemSpacing": "0.75rem 1rem",
+          "itemHoverBackgroundColor": "rgba(0, 0, 0, 0.05)",
+          "itemHoverTextColor": "inherit",
+          "multiLevelIndent": "1rem"
+        }
+      }
+    }
+  }
+}
+```
+
+**Available Properties:**
+
+| Property | Description | Default Value |
+|----------|-------------|---------------|
+| `backgroundColor` | Dropdown background color | `#ffffff` |
+| `borderColor` | Dropdown border color | `#dddddd` |
+| `borderWidth` | Dropdown border width | `1px` |
+| `borderRadius` | Dropdown corner radius | `4px` |
+| `boxShadow` | Dropdown box shadow | `0 4px 12px rgba(0, 0, 0, 0.15)` |
+| `itemSpacing` | Padding around dropdown items | `0.75rem 1rem` |
+| `itemHoverBackgroundColor` | Background color on item hover | `rgba(0, 0, 0, 0.05)` |
+| `itemHoverTextColor` | Text color on item hover | `inherit` |
+| `multiLevelIndent` | Indentation for nested submenus | `1rem` |
+
+Only specify the properties you want to override. The plugin provides sensible defaults for all values.
+
 ## How It Works
 
 ### Architecture
