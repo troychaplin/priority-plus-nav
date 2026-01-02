@@ -63,24 +63,11 @@ export function isInHamburgerMode( responsiveContainer, list ) {
 		responsiveContainer.classList.contains( 'is-menu-open' ) ||
 		responsiveContainer.classList.contains( 'has-modal-open' );
 
-	// Debug logging
-	console.log( '[Priority+ Debug] Hamburger mode check:', {
-		hasMenuOpenClass,
-		classList: Array.from( responsiveContainer.classList ),
-		ariaHidden: responsiveContainer.getAttribute( 'aria-hidden' ),
-		computedDisplay: window.getComputedStyle( responsiveContainer ).display,
-	} );
-
+	// If menu is open, we're in hamburger mode
 	if ( hasMenuOpenClass ) {
-		console.log(
-			'[Priority+ Debug] Hamburger mode ACTIVE (menu open) - Priority+ should be DISABLED'
-		);
 		return true;
 	}
 
 	// If no 'is-menu-open' class, we're in desktop mode (even if container exists)
-	console.log(
-		'[Priority+ Debug] Desktop mode (menu closed) - Priority+ should be ENABLED'
-	);
 	return false;
 }
