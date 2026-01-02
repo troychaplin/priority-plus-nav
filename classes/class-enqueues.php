@@ -2,17 +2,21 @@
 /**
  * Enqueue assets.
  *
- * @package PriorityPlusNav
+ * @package PriorityPlusNavigation
  */
 
-namespace PriorityPlusNav;
+namespace PriorityPlusNavigation;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class Enqueues
  *
  * This class is responsible for enqueueing scripts and styles for the plugin.
  *
- * @package PriorityPlusNav
+ * @package PriorityPlusNavigation
  */
 class Enqueues extends Plugin_Module {
 	/**
@@ -47,22 +51,22 @@ class Enqueues extends Plugin_Module {
 	}
 
 	/**
-	 * Enqueue editor assets for Priority+ Navigation extension.
+	 * Enqueue editor assets for Priority Plus Navigation extension.
 	 * Loads JS that extends core/navigation with Priority+ functionality.
 	 *
 	 * @return void
 	 */
 	public function enqueue_editor_assets(): void {
-		$asset_script = $this->build_dir->get_asset_meta( 'priority-editor.js' );
-		$asset_style  = $this->build_dir->get_path( 'priority-editor.css' );
+		$asset_script = $this->build_dir->get_asset_meta( 'priority-plus-nav-editor.js' );
+		$asset_style  = $this->build_dir->get_path( 'priority-plus-nav-editor.css' );
 
 		if ( ! $asset_script ) {
 			return;
 		}
 
 		wp_enqueue_script(
-			'priority-nav-editor',
-			$this->build_dir->get_url( 'priority-editor.js' ),
+			'priority-plus-nav-editor',
+			$this->build_dir->get_url( 'priority-plus-nav-editor.js' ),
 			$asset_script['dependencies'],
 			$asset_script['version'],
 			true
@@ -70,8 +74,8 @@ class Enqueues extends Plugin_Module {
 
 		if ( file_exists( $asset_style ) ) {
 			wp_enqueue_style(
-				'priority-nav-editor-style',
-				$this->build_dir->get_url( 'priority-editor.css' ),
+				'priority-plus-nav-editor-style',
+				$this->build_dir->get_url( 'priority-plus-nav-editor.css' ),
 				array(),
 				$asset_script['version']
 			);
@@ -89,7 +93,7 @@ class Enqueues extends Plugin_Module {
 			return;
 		}
 
-		$asset_meta = $this->build_dir->get_asset_meta( 'priority-plus-nav.js' );
+		$asset_meta = $this->build_dir->get_asset_meta( 'priority-plus-navigation.js' );
 		if ( ! $asset_meta ) {
 			return;
 		}
@@ -97,18 +101,18 @@ class Enqueues extends Plugin_Module {
 		$this->frontend_assets_enqueued = true;
 
 		wp_enqueue_script(
-			'priority-plus-nav',
-			$this->build_dir->get_url( 'priority-plus-nav.js' ),
+			'priority-plus-navigation',
+			$this->build_dir->get_url( 'priority-plus-navigation.js' ),
 			$asset_meta['dependencies'],
 			$asset_meta['version'],
 			true
 		);
 
-		$style_path = $this->build_dir->get_path( 'style-priority-plus-nav.css' );
+		$style_path = $this->build_dir->get_path( 'style-priority-plus-navigation.css' );
 		if ( file_exists( $style_path ) ) {
 			wp_enqueue_style(
-				'priority-plus-nav',
-				$this->build_dir->get_url( 'style-priority-plus-nav.css' ),
+				'priority-plus-navigation',
+				$this->build_dir->get_url( 'style-priority-plus-navigation.css' ),
 				array(),
 				$asset_meta['version']
 			);
@@ -138,7 +142,7 @@ class Enqueues extends Plugin_Module {
 		$this->enqueue_frontend_assets_once();
 
 		// Get Priority+ configuration with defaults.
-		$more_label                  = $this->get_priority_attr( $block, 'priorityNavMoreLabel', 'Browse' );
+		$more_label                  = $this->get_priority_attr( $block, 'priorityNavMoreLabel', 'More' );
 		$more_icon                   = $this->get_priority_attr( $block, 'priorityNavMoreIcon', 'none' );
 		$more_background_color       = $this->get_priority_attr( $block, 'priorityNavMoreBackgroundColor', '' );
 		$more_background_color_hover = $this->get_priority_attr( $block, 'priorityNavMoreBackgroundColorHover', '' );
@@ -162,7 +166,7 @@ class Enqueues extends Plugin_Module {
 	}
 
 	/**
-	 * Check if Priority+ Navigation is enabled for this block.
+	 * Check if Priority Plus Navigation is enabled for this block.
 	 *
 	 * @param array $block The full block array.
 	 * @return bool True if Priority+ is enabled.
@@ -183,7 +187,7 @@ class Enqueues extends Plugin_Module {
 
 		// Check for class name from block variation.
 		$class_name = $attrs['className'] ?? '';
-		return false !== strpos( $class_name, 'is-style-priority-nav' );
+		return false !== strpos( $class_name, 'is-style-priority-plus-navigation' );
 	}
 
 	/**
@@ -292,49 +296,6 @@ class Enqueues extends Plugin_Module {
 	}
 
 	/**
-	 * Convert border radius object to CSS value string.
-	 *
-	 * @param mixed $border_radius Border radius value (string or array with topLeft, topRight, bottomRight, bottomLeft).
-	 * @return string CSS border-radius value string.
-	 */
-	private function border_radius_to_css( $border_radius ): string {
-		// Handle string value.
-		if ( is_string( $border_radius ) ) {
-			return $border_radius;
-		}
-
-		// Handle array value.
-		if ( ! is_array( $border_radius ) || empty( $border_radius ) ) {
-			return '';
-		}
-
-		$top_left     = isset( $border_radius['topLeft'] ) ? (string) $border_radius['topLeft'] : '';
-		$top_right    = isset( $border_radius['topRight'] ) ? (string) $border_radius['topRight'] : '';
-		$bottom_right = isset( $border_radius['bottomRight'] ) ? (string) $border_radius['bottomRight'] : '';
-		$bottom_left  = isset( $border_radius['bottomLeft'] ) ? (string) $border_radius['bottomLeft'] : '';
-
-		// If all values are empty, return empty string.
-		if ( '' === $top_left && '' === $top_right && '' === $bottom_right && '' === $bottom_left ) {
-			return '';
-		}
-
-		// If all values are the same and not empty, use single value shorthand.
-		if ( '' !== $top_left && $top_left === $top_right && $top_right === $bottom_right && $bottom_right === $bottom_left ) {
-			return $top_left;
-		}
-
-		// For partial radius or mixed values, we need all 4 values.
-		// Use '0' for empty corners to ensure proper CSS.
-		$top_left     = '' !== $top_left ? $top_left : '0';
-		$top_right    = '' !== $top_right ? $top_right : '0';
-		$bottom_right = '' !== $bottom_right ? $bottom_right : '0';
-		$bottom_left  = '' !== $bottom_left ? $bottom_left : '0';
-
-		// CSS border-radius order: top-left, top-right, bottom-right, bottom-left.
-		return $top_left . ' ' . $top_right . ' ' . $bottom_right . ' ' . $bottom_left;
-	}
-
-	/**
 	 * Inject Priority+ data attributes into the navigation element.
 	 *
 	 * @param string $block_content              The block HTML content.
@@ -371,25 +332,25 @@ class Enqueues extends Plugin_Module {
 		// Add our CSS custom properties.
 		if ( ! empty( $more_background_color ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--background: %s',
+				'--priority-plus-navigation--background: %s',
 				esc_attr( $more_background_color )
 			);
 		}
 		if ( ! empty( $more_background_color_hover ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--background-hover: %s',
+				'--priority-plus-navigation--background-hover: %s',
 				esc_attr( $more_background_color_hover )
 			);
 		}
 		if ( ! empty( $more_text_color ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--color: %s',
+				'--priority-plus-navigation--color: %s',
 				esc_attr( $more_text_color )
 			);
 		}
 		if ( ! empty( $more_text_color_hover ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--color-hover: %s',
+				'--priority-plus-navigation--color-hover: %s',
 				esc_attr( $more_text_color_hover )
 			);
 		}
@@ -401,7 +362,7 @@ class Enqueues extends Plugin_Module {
 			// Only add if we got a non-empty CSS value (empty string means no padding was set).
 			if ( '' !== $padding_css ) {
 				$style_parts[] = sprintf(
-					'--priority-nav--padding: %s',
+					'--priority-plus-navigation--padding: %s',
 					esc_attr( $padding_css )
 				);
 			}
