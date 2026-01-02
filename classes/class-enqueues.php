@@ -332,25 +332,25 @@ class Enqueues extends Plugin_Module {
 		// Add our CSS custom properties.
 		if ( ! empty( $more_background_color ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--background: %s',
+				'--priority-plus-navigation--background: %s',
 				esc_attr( $more_background_color )
 			);
 		}
 		if ( ! empty( $more_background_color_hover ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--background-hover: %s',
+				'--priority-plus-navigation--background-hover: %s',
 				esc_attr( $more_background_color_hover )
 			);
 		}
 		if ( ! empty( $more_text_color ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--color: %s',
+				'--priority-plus-navigation--color: %s',
 				esc_attr( $more_text_color )
 			);
 		}
 		if ( ! empty( $more_text_color_hover ) ) {
 			$style_parts[] = sprintf(
-				'--priority-nav--color-hover: %s',
+				'--priority-plus-navigation--color-hover: %s',
 				esc_attr( $more_text_color_hover )
 			);
 		}
@@ -362,7 +362,7 @@ class Enqueues extends Plugin_Module {
 			// Only add if we got a non-empty CSS value (empty string means no padding was set).
 			if ( '' !== $padding_css ) {
 				$style_parts[] = sprintf(
-					'--priority-nav--padding: %s',
+					'--priority-plus-navigation--padding: %s',
 					esc_attr( $padding_css )
 				);
 			}
