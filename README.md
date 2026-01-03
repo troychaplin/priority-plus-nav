@@ -109,8 +109,8 @@ The Priority Plus Navigation dropdown menu can be customized via your theme's `t
 
 ```json
 {
-  "version": 3,
-  "settings": {
+    "version": 3,
+    "settings": {
     "custom": {
         "priorityPlusNavigation": {
             "dropdown": {
@@ -126,7 +126,7 @@ The Priority Plus Navigation dropdown menu can be customized via your theme's `t
             }
         }
     },
-  }
+    }
 }
 ```
 
