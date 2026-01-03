@@ -321,8 +321,9 @@ class Enqueues extends Plugin_Module {
 		$pattern = '/(<nav[^>]*\bclass="[^"]*wp-block-navigation[^"]*")/i';
 
 		// Extract existing style attribute if present (WordPress adds typography styles here).
+		// This pattern handles both attribute orders: style before class and class before style
 		$existing_style = '';
-		if ( preg_match( '/<nav[^>]*\bclass="[^"]*wp-block-navigation[^"]*"[^>]*style="([^"]*)"/i', $block_content, $style_matches ) ) {
+		if ( preg_match( '/<nav[^>]*\bstyle="([^"]*)"/i', $block_content, $style_matches ) ) {
 			$existing_style = $style_matches[1];
 		}
 
