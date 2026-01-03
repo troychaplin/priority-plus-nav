@@ -256,9 +256,9 @@ export function DropdownCustomizerModal({
 						label={__('Dropdown Items', 'priority-plus-navigation')}
 						resetAll={() => {
 							updateStyle(
-							'itemSpacing',
-							DEFAULT_DROPDOWN_STYLES.itemSpacing
-						);
+								'itemSpacing',
+								DEFAULT_DROPDOWN_STYLES.itemSpacing
+							);
 							updateStyle(
 								'itemHoverBackgroundColor',
 								DEFAULT_DROPDOWN_STYLES.itemHoverBackgroundColor

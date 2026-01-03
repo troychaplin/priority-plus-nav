@@ -374,14 +374,14 @@ class Enqueues extends Plugin_Module {
 		// Add dropdown style CSS custom properties.
 		if ( ! empty( $dropdown_styles ) ) {
 			$property_map = array(
-				'backgroundColor'             => '--wp--custom--priority-plus-navigation--dropdown--background-color',
-				'borderColor'                 => '--wp--custom--priority-plus-navigation--dropdown--border-color',
-				'borderWidth'                 => '--wp--custom--priority-plus-navigation--dropdown--border-width',
-				'borderRadius'                => '--wp--custom--priority-plus-navigation--dropdown--border-radius',
-				'boxShadow'                   => '--wp--custom--priority-plus-navigation--dropdown--box-shadow',
-				'itemHoverBackgroundColor'    => '--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color',
-				'itemHoverTextColor'          => '--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color',
-				'multiLevelIndent'            => '--wp--custom--priority-plus-navigation--dropdown--multi-level-indent',
+				'backgroundColor'          => '--wp--custom--priority-plus-navigation--dropdown--background-color',
+				'borderColor'              => '--wp--custom--priority-plus-navigation--dropdown--border-color',
+				'borderWidth'              => '--wp--custom--priority-plus-navigation--dropdown--border-width',
+				'borderRadius'             => '--wp--custom--priority-plus-navigation--dropdown--border-radius',
+				'boxShadow'                => '--wp--custom--priority-plus-navigation--dropdown--box-shadow',
+				'itemHoverBackgroundColor' => '--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color',
+				'itemHoverTextColor'       => '--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color',
+				'multiLevelIndent'         => '--wp--custom--priority-plus-navigation--dropdown--multi-level-indent',
 			);
 
 			foreach ( $property_map as $attr_key => $css_var_name ) {
@@ -394,14 +394,14 @@ class Enqueues extends Plugin_Module {
 				}
 			}
 
-			// Handle itemSpacing separately as it can be an object (SpacingSizesControl) or string
+			// Handle itemSpacing separately as it can be an object (SpacingSizesControl) or string.
 			if ( isset( $dropdown_styles['itemSpacing'] ) && ! empty( $dropdown_styles['itemSpacing'] ) ) {
 				$item_spacing_css = '';
 				if ( is_array( $dropdown_styles['itemSpacing'] ) ) {
-					// Convert spacing object to CSS value (same logic as padding_to_css)
+					// Convert spacing object to CSS value (same logic as padding_to_css).
 					$item_spacing_css = $this->padding_to_css( $dropdown_styles['itemSpacing'] );
 				} elseif ( is_string( $dropdown_styles['itemSpacing'] ) ) {
-					// Use string value directly (backward compatibility)
+					// Use string value directly (backward compatibility).
 					$item_spacing_css = $dropdown_styles['itemSpacing'];
 				}
 

@@ -313,7 +313,8 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 						)}
 						resetAll={() => {
 							setAttributes({
-								priorityNavDropdownStyles: DEFAULT_DROPDOWN_STYLES,
+								priorityNavDropdownStyles:
+									DEFAULT_DROPDOWN_STYLES,
 							});
 						}}
 					>
