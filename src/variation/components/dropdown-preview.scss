@@ -50,11 +50,6 @@
 		background-color: var(--preview-item-hover-background);
 		color: var(--preview-item-hover-text);
 	}
-
-	// Nested item indentation
-	&.dropdown-preview-item--nested a {
-		padding-left: var(--preview-multi-level-indent);
-	}
 }
 
 // Accordion toggle button (matches frontend)
@@ -94,11 +89,16 @@
 	}
 }
 
-.dropdown-preview-submenu {
+.dropdown-preview-accordion-content {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	background-color: var(--preview-background-color);
+
+	// Nested items get indented
+	.dropdown-preview-item a {
+		padding-left: var(--preview-multi-level-indent);
+	}
 }
 
 .dropdown-preview-help {
@@ -111,7 +111,7 @@
 }
 
 // Interactive hover effect for demonstration
-.dropdown-preview-item:not(.dropdown-preview-item--hover):not(.dropdown-preview-item--has-accordion) a:hover {
+.dropdown-preview-item:not(.dropdown-preview-item--hover) a:hover {
 	background-color: var(--preview-item-hover-background);
 	color: var(--preview-item-hover-text);
 }

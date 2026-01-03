@@ -23,7 +23,7 @@ export function DropdownPreview({ dropdownStyles }) {
 		borderWidth = '1px',
 		borderRadius = '4px',
 		boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)',
-		itemSpacing = '0.75rem 1.25rem',
+		itemSpacing,
 		itemHoverBackgroundColor = 'rgba(0, 0, 0, 0.05)',
 		itemHoverTextColor = 'inherit',
 		multiLevelIndent = '1.25rem',
@@ -31,6 +31,38 @@ export function DropdownPreview({ dropdownStyles }) {
 
 	// State for accordion open/closed
 	const [isAccordionOpen, setIsAccordionOpen] = useState(true);
+
+	// Convert itemSpacing to CSS string (handles both object and string formats)
+	const getItemSpacingCSS = (spacing) => {
+		if (!spacing) {
+			return '0.75rem 1.25rem'; // Default
+		}
+
+		// If it's already a string, return it
+		if (typeof spacing === 'string') {
+			return spacing;
+		}
+
+		// If it's an object (SpacingSizesControl format), convert to CSS
+		if (typeof spacing === 'object') {
+			const { top = '0', right = '0', bottom = '0', left = '0' } = spacing;
+
+			// All same
+			if (top === right && right === bottom && bottom === left) {
+				return top;
+			}
+
+			// Top/bottom same, left/right same
+			if (top === bottom && right === left) {
+				return `${top} ${right}`;
+			}
+
+			// All different
+			return `${top} ${right} ${bottom} ${left}`;
+		}
+
+		return '0.75rem 1.25rem'; // Fallback
+	};
 
 	// Memoize the inline styles to avoid unnecessary recalculations
 	const previewStyles = useMemo(
@@ -40,7 +72,7 @@ export function DropdownPreview({ dropdownStyles }) {
 			'--preview-border-width': borderWidth,
 			'--preview-border-radius': borderRadius,
 			'--preview-box-shadow': boxShadow,
-			'--preview-item-spacing': itemSpacing,
+			'--preview-item-spacing': getItemSpacingCSS(itemSpacing),
 			'--preview-item-hover-background': itemHoverBackgroundColor,
 			'--preview-item-hover-text': itemHoverTextColor,
 			'--preview-multi-level-indent': multiLevelIndent,
@@ -72,7 +104,7 @@ export function DropdownPreview({ dropdownStyles }) {
 							{__('About (Hover)', 'priority-plus-navigation')}
 						</a>
 					</li>
-					<li className="dropdown-preview-item dropdown-preview-item--has-accordion">
+					<li className="dropdown-preview-item">
 						<button
 							className="dropdown-preview-accordion-toggle"
 							onClick={() => setIsAccordionOpen(!isAccordionOpen)}
@@ -86,13 +118,13 @@ export function DropdownPreview({ dropdownStyles }) {
 							</span>
 						</button>
 						{isAccordionOpen && (
-							<ul className="dropdown-preview-submenu">
-								<li className="dropdown-preview-item dropdown-preview-item--nested">
+							<ul className="dropdown-preview-accordion-content">
+								<li className="dropdown-preview-item">
 									<a href="#" onClick={(e) => e.preventDefault()}>
 										{__('Web Design', 'priority-plus-navigation')}
 									</a>
 								</li>
-								<li className="dropdown-preview-item dropdown-preview-item--nested">
+								<li className="dropdown-preview-item">
 									<a href="#" onClick={(e) => e.preventDefault()}>
 										{__('Development', 'priority-plus-navigation')}
 									</a>

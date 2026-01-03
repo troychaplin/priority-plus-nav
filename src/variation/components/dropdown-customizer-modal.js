@@ -4,13 +4,17 @@
 import {
 	Modal,
 	Button,
-	ColorPicker,
 	TextControl,
 	__experimentalUnitControl as UnitControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
+import {
+	PanelColorSettings,
+	__experimentalSpacingSizesControl as SpacingSizesControl,
+	useSetting,
+} from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -19,81 +23,15 @@ import { __ } from '@wordpress/i18n';
 import './dropdown-customizer-modal.scss';
 import { DropdownPreview } from './dropdown-preview';
 
-/**
- * Parse spacing value string to BoxControl format
- * e.g., "0.75rem 1.25rem" -> { top: '0.75rem', right: '1.25rem', bottom: '0.75rem', left: '1.25rem' }
- */
-function parseSpacingValue(value) {
-	if (!value || typeof value !== 'string') {
-		return { top: '0', right: '0', bottom: '0', left: '0' };
-	}
-
-	const parts = value.trim().split(/\s+/);
-
-	if (parts.length === 1) {
-		return {
-			top: parts[0],
-			right: parts[0],
-			bottom: parts[0],
-			left: parts[0],
-		};
-	} else if (parts.length === 2) {
-		return {
-			top: parts[0],
-			right: parts[1],
-			bottom: parts[0],
-			left: parts[1],
-		};
-	} else if (parts.length === 3) {
-		return {
-			top: parts[0],
-			right: parts[1],
-			bottom: parts[2],
-			left: parts[1],
-		};
-	} else if (parts.length === 4) {
-		return {
-			top: parts[0],
-			right: parts[1],
-			bottom: parts[2],
-			left: parts[3],
-		};
-	}
-
-	return { top: '0', right: '0', bottom: '0', left: '0' };
-}
-
-/**
- * Format BoxControl value to spacing string
- * e.g., { top: '0.75rem', right: '1.25rem', bottom: '0.75rem', left: '1.25rem' } -> "0.75rem 1.25rem"
- */
-function formatSpacingValue(values) {
-	if (!values) {
-		return '';
-	}
-
-	const { top = '0', right = '0', bottom = '0', left = '0' } = values;
-
-	// All same
-	if (top === right && right === bottom && bottom === left) {
-		return top;
-	}
-
-	// Top/bottom same, left/right same
-	if (top === bottom && right === left) {
-		return `${top} ${right}`;
-	}
-
-	// All different
-	return `${top} ${right} ${bottom} ${left}`;
-}
-
 export function DropdownCustomizerModal({
 	attributes,
 	setAttributes,
 	onClose,
 }) {
 	const { priorityNavDropdownStyles = {} } = attributes;
+
+	// Get spacing sizes from theme
+	const spacingSizes = useSetting('spacing.spacingSizes') || [];
 
 	// Helper to update a single style property
 	const updateStyle = (key, value) => {
@@ -113,6 +51,18 @@ export function DropdownCustomizerModal({
 	// Helper to reset a property to default
 	const resetToDefault = (key, defaultValue) => {
 		updateStyle(key, defaultValue);
+	};
+
+	// Helper to check if item spacing has values
+	const hasItemSpacingValue = () => {
+		if (!priorityNavDropdownStyles.itemSpacing) {
+			return false;
+		}
+		// Check if it's an object (SpacingSizesControl format) or string (legacy format)
+		if (typeof priorityNavDropdownStyles.itemSpacing === 'object') {
+			return Object.keys(priorityNavDropdownStyles.itemSpacing).length > 0;
+		}
+		return !!priorityNavDropdownStyles.itemSpacing;
 	};
 
 	return (
@@ -142,70 +92,6 @@ export function DropdownCustomizerModal({
 							);
 						}}
 					>
-						{/* Background Color */}
-						<ToolsPanelItem
-							hasValue={() => hasValue('backgroundColor')}
-							label={__(
-								'Background Color',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault('backgroundColor', '#ffffff')
-							}
-							isShownByDefault
-						>
-							<div className="dropdown-customizer-control">
-								<label>
-									{__(
-										'Background Color',
-										'priority-plus-navigation'
-									)}
-								</label>
-								<ColorPicker
-									color={
-										priorityNavDropdownStyles.backgroundColor ||
-										'#ffffff'
-									}
-									onChange={(value) =>
-										updateStyle('backgroundColor', value)
-									}
-									enableAlpha
-								/>
-							</div>
-						</ToolsPanelItem>
-
-						{/* Border Color */}
-						<ToolsPanelItem
-							hasValue={() => hasValue('borderColor')}
-							label={__(
-								'Border Color',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault('borderColor', '#dddddd')
-							}
-							isShownByDefault
-						>
-							<div className="dropdown-customizer-control">
-								<label>
-									{__(
-										'Border Color',
-										'priority-plus-navigation'
-									)}
-								</label>
-								<ColorPicker
-									color={
-										priorityNavDropdownStyles.borderColor ||
-										'#dddddd'
-									}
-									onChange={(value) =>
-										updateStyle('borderColor', value)
-									}
-									enableAlpha
-								/>
-							</div>
-						</ToolsPanelItem>
-
 						{/* Border Width */}
 						<ToolsPanelItem
 							hasValue={() => hasValue('borderWidth')}
@@ -302,11 +188,44 @@ export function DropdownCustomizerModal({
 						</ToolsPanelItem>
 					</ToolsPanel>
 
+					{/* DROPDOWN CONTAINER COLORS */}
+					<PanelColorSettings
+						title={__(
+							'Dropdown Container Colors',
+							'priority-plus-navigation'
+						)}
+						colorSettings={[
+							{
+								label: __(
+									'Background Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.backgroundColor,
+								onChange: (color) =>
+									updateStyle(
+										'backgroundColor',
+										color || '#ffffff'
+									),
+								clearable: true,
+							},
+							{
+								label: __(
+									'Border Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.borderColor,
+								onChange: (color) =>
+									updateStyle('borderColor', color || '#dddddd'),
+								clearable: true,
+							},
+						]}
+					/>
+
 					{/* DROPDOWN ITEM STYLES */}
 					<ToolsPanel
 						label={__('Dropdown Items', 'priority-plus-navigation')}
 						resetAll={() => {
-							updateStyle('itemSpacing', '0.75rem 1.25rem');
+							updateStyle('itemSpacing', undefined);
 							updateStyle(
 								'itemHoverBackgroundColor',
 								'rgba(0, 0, 0, 0.05)'
@@ -317,109 +236,41 @@ export function DropdownCustomizerModal({
 					>
 						{/* Item Spacing */}
 						<ToolsPanelItem
-							hasValue={() => hasValue('itemSpacing')}
-							label={__(
-								'Item Spacing',
-								'priority-plus-navigation'
-							)}
+							hasValue={hasItemSpacingValue}
+							label={__('Item Spacing', 'priority-plus-navigation')}
 							onDeselect={() =>
-								resetToDefault('itemSpacing', '0.75rem 1.25rem')
+								updateStyle('itemSpacing', undefined)
 							}
 							isShownByDefault
 						>
-							<BoxControl
-								label={__(
-									'Item Spacing (Padding)',
-									'priority-plus-navigation'
-								)}
-								values={parseSpacingValue(
-									priorityNavDropdownStyles.itemSpacing ||
-										'0.75rem 1.25rem'
-								)}
-								onChange={(value) =>
-									updateStyle(
-										'itemSpacing',
-										formatSpacingValue(value)
-									)
-								}
-								sides={['top', 'right', 'bottom', 'left']}
-								units={[
-									{ value: 'px', label: 'px' },
-									{ value: 'rem', label: 'rem' },
-									{ value: 'em', label: 'em' },
-								]}
-							/>
-						</ToolsPanelItem>
-
-						{/* Item Hover Background Color */}
-						<ToolsPanelItem
-							hasValue={() =>
-								hasValue('itemHoverBackgroundColor')
-							}
-							label={__(
-								'Hover Background',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault(
-									'itemHoverBackgroundColor',
-									'rgba(0, 0, 0, 0.05)'
-								)
-							}
-							isShownByDefault
-						>
-							<div className="dropdown-customizer-control">
-								<label>
-									{__(
-										'Hover Background Color',
+							{spacingSizes.length > 0 ? (
+								<SpacingSizesControl
+									values={priorityNavDropdownStyles.itemSpacing}
+									onChange={(value) =>
+										updateStyle('itemSpacing', value)
+									}
+									label={__(
+										'Item Spacing (Padding)',
 										'priority-plus-navigation'
 									)}
-								</label>
-								<ColorPicker
-									color={
-										priorityNavDropdownStyles.itemHoverBackgroundColor ||
-										'rgba(0, 0, 0, 0.05)'
-									}
-									onChange={(value) =>
-										updateStyle(
-											'itemHoverBackgroundColor',
-											value
-										)
-									}
-									enableAlpha
+									sides={['top', 'right', 'bottom', 'left']}
+									units={['px', 'em', 'rem', 'vh', 'vw']}
 								/>
-							</div>
-						</ToolsPanelItem>
-
-						{/* Item Hover Text Color */}
-						<ToolsPanelItem
-							hasValue={() => hasValue('itemHoverTextColor')}
-							label={__(
-								'Hover Text Color',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault('itemHoverTextColor', 'inherit')
-							}
-						>
-							<div className="dropdown-customizer-control">
-								<label>
-									{__(
-										'Hover Text Color',
+							) : (
+								<BoxControl
+									label={__(
+										'Item Spacing (Padding)',
 										'priority-plus-navigation'
 									)}
-								</label>
-								<ColorPicker
-									color={
-										priorityNavDropdownStyles.itemHoverTextColor ||
-										'inherit'
-									}
+									values={priorityNavDropdownStyles.itemSpacing}
 									onChange={(value) =>
-										updateStyle('itemHoverTextColor', value)
+										updateStyle('itemSpacing', value)
 									}
-									enableAlpha
+									sides={['top', 'right', 'bottom', 'left']}
+									units={['px', 'em', 'rem', 'vh', 'vw']}
+									allowReset={true}
 								/>
-							</div>
+							)}
 						</ToolsPanelItem>
 
 						{/* Multi-level Indent */}
@@ -458,6 +309,43 @@ export function DropdownCustomizerModal({
 							/>
 						</ToolsPanelItem>
 					</ToolsPanel>
+
+					{/* DROPDOWN ITEM HOVER COLORS */}
+					<PanelColorSettings
+						title={__(
+							'Dropdown Item Hover Colors',
+							'priority-plus-navigation'
+						)}
+						colorSettings={[
+							{
+								label: __(
+									'Hover Background Color',
+									'priority-plus-navigation'
+								),
+								value:
+									priorityNavDropdownStyles.itemHoverBackgroundColor,
+								onChange: (color) =>
+									updateStyle(
+										'itemHoverBackgroundColor',
+										color || 'rgba(0, 0, 0, 0.05)'
+									),
+								clearable: true,
+							},
+							{
+								label: __(
+									'Hover Text Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.itemHoverTextColor,
+								onChange: (color) =>
+									updateStyle(
+										'itemHoverTextColor',
+										color || 'inherit'
+									),
+								clearable: true,
+							},
+						]}
+					/>
 				</div>
 
 				<div className="dropdown-customizer-preview">
@@ -477,7 +365,7 @@ export function DropdownCustomizerModal({
 								borderWidth: '1px',
 								borderRadius: '4px',
 								boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-								itemSpacing: '0.75rem 1.25rem',
+								itemSpacing: undefined,
 								itemHoverBackgroundColor:
 									'rgba(0, 0, 0, 0.05)',
 								itemHoverTextColor: 'inherit',
