@@ -14,6 +14,22 @@ import {
 } from '../../constants';
 
 /**
+ * Check if a color value differs from its default.
+ * Returns the value if it's different, undefined otherwise.
+ * This allows PanelColorSettings to correctly show reset as available.
+ *
+ * @param {string} value        - Current color value
+ * @param {string} defaultValue - Default color value
+ * @return {string|undefined} Value if different from default, undefined otherwise
+ */
+function getDisplayValue(value, defaultValue) {
+	if (!value || value === defaultValue) {
+		return undefined;
+	}
+	return value;
+}
+
+/**
  * ColorPanel Component
  *
  * Provides color controls for dropdown menu styling.
@@ -36,7 +52,10 @@ export function ColorPanel({ attributes, setAttributes }) {
 			colorSettings={[
 				{
 					label: __('Background Color', 'priority-plus-navigation'),
-					value: priorityNavDropdownBackgroundColor,
+					value: getDisplayValue(
+						priorityNavDropdownBackgroundColor,
+						DEFAULT_DROPDOWN_BACKGROUND_COLOR
+					),
 					onChange: (color) =>
 						setAttributes({
 							priorityNavDropdownBackgroundColor:
@@ -49,7 +68,10 @@ export function ColorPanel({ attributes, setAttributes }) {
 						'Hover Background Color',
 						'priority-plus-navigation'
 					),
-					value: priorityNavDropdownItemHoverBackgroundColor,
+					value: getDisplayValue(
+						priorityNavDropdownItemHoverBackgroundColor,
+						DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR
+					),
 					onChange: (color) =>
 						setAttributes({
 							priorityNavDropdownItemHoverBackgroundColor:
@@ -60,7 +82,10 @@ export function ColorPanel({ attributes, setAttributes }) {
 				},
 				{
 					label: __('Hover Text Color', 'priority-plus-navigation'),
-					value: priorityNavDropdownItemHoverTextColor,
+					value: getDisplayValue(
+						priorityNavDropdownItemHoverTextColor,
+						DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR
+					),
 					onChange: (color) =>
 						setAttributes({
 							priorityNavDropdownItemHoverTextColor:
