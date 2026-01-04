@@ -21,7 +21,7 @@ import { useEffect } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import './dropdown-customizer-modal.scss';
+import './modal.scss';
 import { DropdownPreview } from './dropdown-preview';
 import { DEFAULT_DROPDOWN_STYLES } from '../constants';
 
@@ -102,15 +102,75 @@ export function DropdownCustomizerModal({
 		>
 			<div className="dropdown-customizer-layout">
 				<div className="dropdown-customizer-controls">
+					{/* DROPDOWN CONTAINER COLORS */}
+					<PanelColorSettings
+						title={__(
+							'Priority Plus Menu Colors',
+							'priority-plus-navigation'
+						)}
+						colorSettings={[
+							{
+								label: __(
+									'Background Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.backgroundColor,
+								onChange: (color) =>
+									updateStyle(
+										'backgroundColor',
+										color || '#ffffff'
+									),
+								clearable: true,
+							},
+							{
+								label: __(
+									'Border Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.borderColor,
+								onChange: (color) =>
+									updateStyle(
+										'borderColor',
+										color || '#dddddd'
+									),
+								clearable: true,
+							},
+							{
+								label: __(
+									'Hover Background Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.itemHoverBackgroundColor,
+								onChange: (color) =>
+									updateStyle(
+										'itemHoverBackgroundColor',
+										color || 'rgba(0, 0, 0, 0.05)'
+									),
+								clearable: true,
+							},
+							{
+								label: __(
+									'Hover Text Color',
+									'priority-plus-navigation'
+								),
+								value: priorityNavDropdownStyles.itemHoverTextColor,
+								onChange: (color) =>
+									updateStyle(
+										'itemHoverTextColor',
+										color || 'inherit'
+									),
+								clearable: true,
+							},
+						]}
+					/>
+
 					{/* DROPDOWN CONTAINER STYLES */}
 					<ToolsPanel
 						label={__(
-							'Dropdown Container',
+							'Dropdown Menu Styles',
 							'priority-plus-navigation'
 						)}
 						resetAll={() => {
-							updateStyle('backgroundColor', '#ffffff');
-							updateStyle('borderColor', '#dddddd');
 							updateStyle('borderWidth', '1px');
 							updateStyle('borderRadius', '4px');
 							updateStyle(
@@ -215,45 +275,12 @@ export function DropdownCustomizerModal({
 						</ToolsPanelItem>
 					</ToolsPanel>
 
-					{/* DROPDOWN CONTAINER COLORS */}
-					<PanelColorSettings
-						title={__(
-							'Dropdown Container Colors',
+					{/* DROPDOWN ITEM STYLES */}
+					{/* <ToolsPanel
+						label={__(
+							'Navigation Items Styles',
 							'priority-plus-navigation'
 						)}
-						colorSettings={[
-							{
-								label: __(
-									'Background Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.backgroundColor,
-								onChange: (color) =>
-									updateStyle(
-										'backgroundColor',
-										color || '#ffffff'
-									),
-								clearable: true,
-							},
-							{
-								label: __(
-									'Border Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.borderColor,
-								onChange: (color) =>
-									updateStyle(
-										'borderColor',
-										color || '#dddddd'
-									),
-								clearable: true,
-							},
-						]}
-					/>
-
-					{/* DROPDOWN ITEM STYLES */}
-					<ToolsPanel
-						label={__('Dropdown Items', 'priority-plus-navigation')}
 						resetAll={() => {
 							updateStyle(
 								'itemSpacing',
@@ -273,7 +300,6 @@ export function DropdownCustomizerModal({
 							);
 						}}
 					>
-						{/* Item Spacing */}
 						<ToolsPanelItem
 							hasValue={hasItemSpacingValue}
 							label={__(
@@ -321,8 +347,6 @@ export function DropdownCustomizerModal({
 								/>
 							)}
 						</ToolsPanelItem>
-
-						{/* Multi-level Indent */}
 						<ToolsPanelItem
 							hasValue={() => hasValue('multiLevelIndent')}
 							label={__(
@@ -357,47 +381,13 @@ export function DropdownCustomizerModal({
 								]}
 							/>
 						</ToolsPanelItem>
-					</ToolsPanel>
-
-					{/* DROPDOWN ITEM HOVER COLORS */}
-					<PanelColorSettings
-						title={__(
-							'Dropdown Item Hover Colors',
-							'priority-plus-navigation'
-						)}
-						colorSettings={[
-							{
-								label: __(
-									'Hover Background Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.itemHoverBackgroundColor,
-								onChange: (color) =>
-									updateStyle(
-										'itemHoverBackgroundColor',
-										color || 'rgba(0, 0, 0, 0.05)'
-									),
-								clearable: true,
-							},
-							{
-								label: __(
-									'Hover Text Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.itemHoverTextColor,
-								onChange: (color) =>
-									updateStyle(
-										'itemHoverTextColor',
-										color || 'inherit'
-									),
-								clearable: true,
-							},
-						]}
-					/>
+					</ToolsPanel> */}
 				</div>
 
 				<div className="dropdown-customizer-preview">
-					<DropdownPreview dropdownStyles={priorityNavDropdownStyles} />
+					<DropdownPreview
+						dropdownStyles={priorityNavDropdownStyles}
+					/>
 				</div>
 			</div>
 

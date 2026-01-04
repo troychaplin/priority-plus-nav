@@ -4,10 +4,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-start;
-	width: 100%;
-	height: 100%;
-	padding-top: 1rem;
 
 	// The dropdown uses the same .priority-plus-navigation-dropdown class as frontend
 	// Override position and visibility for preview display
@@ -19,28 +15,6 @@
 		min-width: 280px;
 		max-width: 320px;
 		width: 100%;
-
-		// Inherit typography from WordPress navigation block CSS variables
-		// These are set by WordPress on the parent .editor-styles-wrapper or navigation block
-		font-family: inherit;
-		font-size: inherit;
-		font-weight: inherit;
-		font-style: inherit;
-
-		// Ensure links and buttons inherit typography from the dropdown
-		a {
-			font-family: inherit;
-			font-size: inherit;
-			font-weight: inherit;
-			font-style: inherit;
-		}
-
-		button {
-			font-family: inherit;
-			font-size: inherit;
-			font-weight: inherit;
-			font-style: inherit;
-		}
 	}
 
 	// Demo hover state for the "About (Hover)" item
