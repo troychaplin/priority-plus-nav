@@ -1,20 +1,8 @@
 /**
  * WordPress dependencies
  */
-import {
-	Modal,
-	Button,
-	TextControl,
-	__experimentalUnitControl as UnitControl,
-	__experimentalBoxControl as BoxControl,
-	__experimentalToolsPanel as ToolsPanel,
-	__experimentalToolsPanelItem as ToolsPanelItem,
-} from '@wordpress/components';
-import {
-	PanelColorSettings,
-	__experimentalSpacingSizesControl as SpacingSizesControl,
-	useSetting,
-} from '@wordpress/block-editor';
+import { Modal, Button } from '@wordpress/components';
+import { useSetting } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useEffect } from '@wordpress/element';
 
@@ -23,6 +11,9 @@ import { useEffect } from '@wordpress/element';
  */
 import './modal.scss';
 import { DropdownPreview } from './dropdown-preview';
+import { ColorPanel } from './panels/color-panel';
+import { MenuStylesPanel } from './panels/menu-styles-panel';
+import { MenuSpacingPanel } from './panels/menu-spacing-panel';
 import { DEFAULT_DROPDOWN_STYLES } from '../constants';
 
 export function DropdownCustomizerModal({
@@ -178,286 +169,25 @@ export function DropdownCustomizerModal({
 		>
 			<div className="dropdown-customizer-layout">
 				<div className="dropdown-customizer-controls">
-					{/* DROPDOWN CONTAINER COLORS */}
-					<PanelColorSettings
-						title={__(
-							'Priority Plus Menu Colors',
-							'priority-plus-navigation'
-						)}
-						colorSettings={[
-							{
-								label: __(
-									'Background Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.backgroundColor,
-								onChange: (color) =>
-									updateStyle(
-										'backgroundColor',
-										color || '#ffffff'
-									),
-								clearable: true,
-							},
-							{
-								label: __(
-									'Border Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.borderColor,
-								onChange: (color) =>
-									updateStyle(
-										'borderColor',
-										color || '#dddddd'
-									),
-								clearable: true,
-							},
-							{
-								label: __(
-									'Hover Background Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.itemHoverBackgroundColor,
-								onChange: (color) =>
-									updateStyle(
-										'itemHoverBackgroundColor',
-										color || 'rgba(0, 0, 0, 0.05)'
-									),
-								clearable: true,
-							},
-							{
-								label: __(
-									'Hover Text Color',
-									'priority-plus-navigation'
-								),
-								value: priorityNavDropdownStyles.itemHoverTextColor,
-								onChange: (color) =>
-									updateStyle(
-										'itemHoverTextColor',
-										color || 'inherit'
-									),
-								clearable: true,
-							},
-						]}
+					<ColorPanel
+						styles={priorityNavDropdownStyles}
+						updateStyle={updateStyle}
 					/>
 
-					{/* DROPDOWN CONTAINER STYLES */}
-					<ToolsPanel
-						label={__(
-							'Dropdown Menu Styles',
-							'priority-plus-navigation'
-						)}
-						resetAll={() => {
-							updateStyle('borderWidth', '1px');
-							updateStyle('borderRadius', '4px');
-							updateStyle(
-								'boxShadow',
-								'0 4px 12px rgba(0, 0, 0, 0.15)'
-							);
-						}}
-					>
-						{/* Border Width */}
-						<ToolsPanelItem
-							hasValue={() => hasValue('borderWidth')}
-							label={__(
-								'Border Width',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault('borderWidth', '1px')
-							}
-							isShownByDefault
-						>
-							<UnitControl
-								label={__(
-									'Border Width',
-									'priority-plus-navigation'
-								)}
-								value={
-									priorityNavDropdownStyles.borderWidth ||
-									'1px'
-								}
-								onChange={(value) =>
-									updateStyle('borderWidth', value)
-								}
-								units={[
-									{ value: 'px', label: 'px' },
-									{ value: 'rem', label: 'rem' },
-									{ value: 'em', label: 'em' },
-								]}
-							/>
-						</ToolsPanelItem>
+					<MenuStylesPanel
+						styles={priorityNavDropdownStyles}
+						updateStyle={updateStyle}
+						hasValue={hasValue}
+						resetToDefault={resetToDefault}
+					/>
 
-						{/* Border Radius */}
-						<ToolsPanelItem
-							hasValue={() => hasValue('borderRadius')}
-							label={__(
-								'Border Radius',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault('borderRadius', '4px')
-							}
-							isShownByDefault
-						>
-							<UnitControl
-								label={__(
-									'Border Radius',
-									'priority-plus-navigation'
-								)}
-								value={
-									priorityNavDropdownStyles.borderRadius ||
-									'4px'
-								}
-								onChange={(value) =>
-									updateStyle('borderRadius', value)
-								}
-								units={[
-									{ value: 'px', label: 'px' },
-									{ value: 'rem', label: 'rem' },
-									{ value: '%', label: '%' },
-								]}
-							/>
-						</ToolsPanelItem>
-
-						{/* Box Shadow */}
-						<ToolsPanelItem
-							hasValue={() => hasValue('boxShadow')}
-							label={__('Box Shadow', 'priority-plus-navigation')}
-							onDeselect={() =>
-								resetToDefault(
-									'boxShadow',
-									'0 4px 12px rgba(0, 0, 0, 0.15)'
-								)
-							}
-							isShownByDefault
-						>
-							<TextControl
-								label={__(
-									'Box Shadow',
-									'priority-plus-navigation'
-								)}
-								value={
-									priorityNavDropdownStyles.boxShadow ||
-									'0 4px 12px rgba(0, 0, 0, 0.15)'
-								}
-								onChange={(value) =>
-									updateStyle('boxShadow', value)
-								}
-								help={__(
-									'CSS box-shadow property',
-									'priority-plus-navigation'
-								)}
-							/>
-						</ToolsPanelItem>
-					</ToolsPanel>
-
-					{/* DROPDOWN ITEM STYLES */}
-					<ToolsPanel
-						label={__(
-							'Navigation Items Styles',
-							'priority-plus-navigation'
-						)}
-						resetAll={() => {
-							updateStyle(
-								'itemSpacing',
-								DEFAULT_DROPDOWN_STYLES.itemSpacing
-							);
-							updateStyle(
-								'itemHoverBackgroundColor',
-								DEFAULT_DROPDOWN_STYLES.itemHoverBackgroundColor
-							);
-							updateStyle(
-								'itemHoverTextColor',
-								DEFAULT_DROPDOWN_STYLES.itemHoverTextColor
-							);
-							updateStyle(
-								'multiLevelIndent',
-								DEFAULT_DROPDOWN_STYLES.multiLevelIndent
-							);
-						}}
-					>
-						<ToolsPanelItem
-							hasValue={hasItemSpacingValue}
-							label={__(
-								'Item Spacing',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								updateStyle(
-									'itemSpacing',
-									DEFAULT_DROPDOWN_STYLES.itemSpacing
-								)
-							}
-							isShownByDefault
-						>
-							{spacingSizes.length > 0 ? (
-								<SpacingSizesControl
-									values={
-										priorityNavDropdownStyles.itemSpacing
-									}
-									onChange={(value) =>
-										updateStyle('itemSpacing', value)
-									}
-									label={__(
-										'Item Spacing (Padding)',
-										'priority-plus-navigation'
-									)}
-									sides={['top', 'right', 'bottom', 'left']}
-									units={['px', 'em', 'rem', 'vh', 'vw']}
-								/>
-							) : (
-								<BoxControl
-									label={__(
-										'Item Spacing (Padding)',
-										'priority-plus-navigation'
-									)}
-									values={
-										priorityNavDropdownStyles.itemSpacing
-									}
-									onChange={(value) =>
-										updateStyle('itemSpacing', value)
-									}
-									sides={['top', 'right', 'bottom', 'left']}
-									units={['px', 'em', 'rem', 'vh', 'vw']}
-									allowReset={true}
-								/>
-							)}
-						</ToolsPanelItem>
-						<ToolsPanelItem
-							hasValue={() => hasValue('multiLevelIndent')}
-							label={__(
-								'Multi-level Indent',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								resetToDefault('multiLevelIndent', '1.25rem')
-							}
-							isShownByDefault
-						>
-							<UnitControl
-								label={__(
-									'Multi-level Indent',
-									'priority-plus-navigation'
-								)}
-								value={
-									priorityNavDropdownStyles.multiLevelIndent ||
-									'1.25rem'
-								}
-								onChange={(value) =>
-									updateStyle('multiLevelIndent', value)
-								}
-								help={__(
-									'Indentation for nested submenu items',
-									'priority-plus-navigation'
-								)}
-								units={[
-									{ value: 'px', label: 'px' },
-									{ value: 'rem', label: 'rem' },
-									{ value: 'em', label: 'em' },
-								]}
-							/>
-						</ToolsPanelItem>
-					</ToolsPanel>
+					<MenuSpacingPanel
+						styles={priorityNavDropdownStyles}
+						spacingSizes={spacingSizes}
+						updateStyle={updateStyle}
+						hasValue={hasValue}
+						hasItemSpacingValue={hasItemSpacingValue}
+					/>
 				</div>
 
 				<div className="dropdown-customizer-preview">
