@@ -59,6 +59,8 @@ return array(
     'PHPCSUtils\\Utils\\TypeString' => $vendorDir . '/phpcsstandards/phpcsutils/PHPCSUtils/Utils/TypeString.php',
     'PHPCSUtils\\Utils\\UseStatements' => $vendorDir . '/phpcsstandards/phpcsutils/PHPCSUtils/Utils/UseStatements.php',
     'PHPCSUtils\\Utils\\Variables' => $vendorDir . '/phpcsstandards/phpcsutils/PHPCSUtils/Utils/Variables.php',
+    'PriorityPlusNavigation\\Block_Renderer' => $baseDir . '/classes/class-block-renderer.php',
+    'PriorityPlusNavigation\\CSS_Converter' => $baseDir . '/classes/class-css-converter.php',
     'PriorityPlusNavigation\\Enqueues' => $baseDir . '/classes/class-enqueues.php',
     'PriorityPlusNavigation\\Plugin_Module' => $baseDir . '/classes/class-plugin-module.php',
     'PriorityPlusNavigation\\Plugin_Paths' => $baseDir . '/classes/class-plugin-paths.php',
