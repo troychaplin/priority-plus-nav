@@ -13,7 +13,8 @@ Priority Plus Navigation is a responsive design pattern that keeps all navigatio
 - **Core Navigation Variation** - Extends the standard WordPress navigation block as a variation, no need to rebuild your menus
 - **Automatic Overflow Detection** - Intelligently calculates available space and moves items to dropdown
 - **Easy Conversion** - Transform any Navigation block to Priority Plus Navigation via block variations
-- **Customizable "More" Button** - Choose label text and button styles
+- **Customizable Toggle Button** - Choose label text, colors, and padding for the "More" button
+- **Customizable Dropdown Menu** - Full control over menu appearance with live preview: colors, borders, shadows, spacing
 - **Responsive by Design** - Uses ResizeObserver for smooth, performant resizing
 - **Core Navigation Integration** - Automatically detects and respects "Open submenus on click" setting
 - **Smart Mobile Detection** - Automatically disables on mobile/hamburger mode to avoid conflicts
@@ -78,9 +79,25 @@ The Priority Plus Navigation is available as a variation of the core Navigation 
 
 ### Block Settings (Inspector Sidebar)
 
-**More Button Label**
-- Default: "More"
-- Customize the text displayed on the overflow button
+When Priority Plus Navigation is active, you'll find these control panels in the block inspector sidebar under the "Styles" tab:
+
+#### Priority Plus Settings
+- **Toggle Button Label**: Customize the text displayed on the "More" button (default: "More")
+
+#### Toggle Button Colors
+- **Text Color**: Color of the button text
+- **Text Hover Color**: Color when hovering over the button
+- **Background Color**: Background color of the button
+- **Background Hover Color**: Background when hovering
+
+#### Toggle Button Spacing
+- **Padding**: Control the internal padding of the toggle button
+
+#### Menu Styles
+- **Customize Menu**: Opens a modal with a live preview where you can customize:
+  - **Menu Colors**: Background, item hover background, item hover text color
+  - **Menu Styles**: Border (with per-side control), border radius, box shadow
+  - **Menu Item Spacing**: Item padding, submenu indent
 
 ### Core Navigation Settings
 
@@ -101,31 +118,35 @@ The block supports all standard WordPress block features:
 - **Spacing**: Margin, Padding
 - **Colors**: Background, Text
 
-### Theme.json Styling
+### Two Ways to Customize Menu Styles
 
-The Priority Plus Navigation dropdown menu can be customized via your theme's `theme.json`. The plugin provides sensible defaults, and you can override any property you want to customize.
+#### Option 1: Block Inspector (Recommended)
 
-**Style Examples:**
+Use the "Customize Menu" button in the block inspector to open a modal with a live preview. This is the easiest way to customize your dropdown menu and allows per-block customization.
+
+#### Option 2: Theme.json (Global Defaults)
+
+For site-wide defaults, customize via your theme's `theme.json`. Block-level customizations will override these defaults.
 
 ```json
 {
     "version": 3,
     "settings": {
-    "custom": {
-        "priorityPlusNavigation": {
-            "dropdown": {
-                "backgroundColor": "#f0f0f0",
-                "borderColor": "#999999",
-                "borderWidth": "2px",
-                "borderRadius": "8px",
-                "boxShadow": "0 8px 16px rgba(0, 0, 0, 0.2)",
-                "itemSpacing": "1rem 1.5rem",
-                "itemHoverBackgroundColor": "rgba(0, 0, 0, 0.08)",
-                "itemHoverTextColor": "#007cba",
-                "multiLevelIndent": "3.5rem"
+        "custom": {
+            "priorityPlusNavigation": {
+                "dropdown": {
+                    "backgroundColor": "#f0f0f0",
+                    "borderColor": "#999999",
+                    "borderWidth": "2px",
+                    "borderRadius": "8px",
+                    "boxShadow": "0 8px 16px rgba(0, 0, 0, 0.2)",
+                    "itemSpacing": "1rem 1.5rem",
+                    "itemHoverBackgroundColor": "rgba(0, 0, 0, 0.08)",
+                    "itemHoverTextColor": "#007cba",
+                    "multiLevelIndent": "3.5rem"
+                }
             }
         }
-    },
     }
 }
 ```
@@ -256,6 +277,17 @@ The plugin detects when WordPress's overlay/hamburger menu is active by checking
 - Legacy wrapper blocks (from previous plugin versions) are no longer insertable in the editor, but will continue to function on the frontend for backward compatibility
 
 ## Changelog
+
+### 0.4.0 - Menu Customization & UI Improvements
+- Added dropdown menu customizer modal with live preview
+- Full control over menu colors: background, item hover background, item hover text
+- Border customization with per-side control (top, right, bottom, left)
+- Border radius and box shadow controls
+- Menu item padding controls with theme spacing size support
+- Submenu indent control for nested navigation
+- Toggle button styling: text colors, background colors, hover states, padding
+- Renamed attributes for clarity (`priorityPlus*` prefix)
+- Improved reset functionality for all style controls
 
 ### 0.3.0 - Overlay Menu Compatibility
 - Added intelligent overlay menu detection and compatibility

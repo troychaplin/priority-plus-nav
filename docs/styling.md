@@ -1,14 +1,41 @@
 # Styling Priority Plus Navigation
 
-This guide explains how to customize the appearance of the Priority Plus Navigation dropdown menu using theme.json.
+This guide explains how to customize the appearance of the Priority Plus Navigation dropdown menu.
 
 ## Overview
 
-The Priority Plus Navigation plugin provides sensible defaults for dropdown styling, which can be easily customized through your theme's `theme.json` file. The plugin uses CSS custom properties that can be overridden without writing any custom CSS.
+The Priority Plus Navigation plugin provides two ways to customize dropdown styling:
 
-## Quick Start
+1. **Block Inspector Controls (Recommended)** - Use the "Customize Menu" button in the block sidebar for per-block customization with a live preview
+2. **Theme.json** - Set site-wide defaults that apply to all Priority Plus Navigation blocks
 
-Add the following to your theme's `theme.json` file:
+Block-level customizations always take priority over theme.json defaults.
+
+## Using Block Inspector Controls
+
+The easiest way to customize your dropdown menu is through the block inspector:
+
+1. Select your Priority Plus Navigation block in the editor
+2. In the sidebar, find the **Menu Styles** panel under the Styles tab
+3. Click the **Customize Menu** button
+4. A modal opens with a live preview showing:
+   - **Menu Colors**: Background color, item hover background, item hover text color
+   - **Menu Styles**: Border (with per-side control), border radius, shadow presets
+   - **Menu Item Spacing**: Item padding, submenu indent
+5. Changes are reflected in the live preview immediately
+6. Click **Done** to save, or **Reset to Defaults** to restore original values
+
+### Toggle Button Styling
+
+The toggle ("More") button is styled separately in the block inspector:
+
+- **Priority Plus Settings**: Button label text
+- **Toggle Button Colors**: Text color, hover text color, background, hover background
+- **Toggle Button Spacing**: Padding around the button
+
+## Using Theme.json
+
+For site-wide defaults, add the following to your theme's `theme.json` file:
 
 ```json
 {
@@ -224,15 +251,19 @@ If you need even more control, you can write custom CSS targeting the dropdown e
 
 **Note:** Custom CSS has the highest priority and will override both plugin defaults and theme.json values.
 
-## More Button Styling
+## Toggle Button Styling
 
-The "More" button is styled separately through **block attributes** in the WordPress editor, not theme.json. You can customize it using the block inspector controls:
+The toggle ("More") button is styled through **block attributes** in the WordPress editor, not theme.json. You can customize it using the block inspector controls:
 
-- Button Label
-- Button Icon
-- Text Color & Hover Color
-- Background Color & Hover Color
-- Padding
+- **Button Label**: Text displayed on the button
+- **Text Color & Hover Color**: Button text colors
+- **Background Color & Hover Color**: Button background colors
+- **Padding**: Internal spacing using theme spacing sizes or custom values
+
+These settings are found in the block inspector under:
+- Priority Plus Settings (label)
+- Toggle Button Colors
+- Toggle Button Spacing
 
 See the main [README.md](../README.md) for details on using the block controls.
 
