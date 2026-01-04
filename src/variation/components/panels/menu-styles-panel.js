@@ -3,13 +3,108 @@
  */
 import {
 	TextControl,
+	Flex,
+	FlexItem,
+	RangeControl,
+	__experimentalSpacer as Spacer,
 	__experimentalBorderControl as BorderControl,
 	__experimentalUnitControl as UnitControl,
+	__experimentalParseQuantityAndUnitFromRawValue as parseQuantityAndUnitFromRawValue,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
 import { useSetting } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+
+/**
+ * Range control settings for different units
+ */
+const BORDER_RADIUS_RANGE_SETTINGS = {
+	px: { max: 100, step: 1 },
+	'%': { max: 100, step: 1 },
+	em: { max: 10, step: 0.1 },
+	rem: { max: 10, step: 0.1 },
+};
+
+/**
+ * Available units for border radius
+ */
+const BORDER_RADIUS_UNITS = [
+	{ value: 'px', label: 'px' },
+	{ value: '%', label: '%' },
+	{ value: 'em', label: 'em' },
+	{ value: 'rem', label: 'rem' },
+];
+
+/**
+ * BorderRadiusControl Component
+ *
+ * A composite control combining UnitControl and RangeControl for border radius,
+ * following the same pattern as WordPress core's HeightControl.
+ *
+ * @param {Object}   props          - Component props
+ * @param {string}   props.value    - Current border radius value (e.g., '4px')
+ * @param {Function} props.onChange - Callback when value changes
+ * @return {JSX.Element} Border radius control component
+ */
+function BorderRadiusControl({ value, onChange }) {
+	// Parse the value into quantity and unit
+	const [quantity, unit] = parseQuantityAndUnitFromRawValue(value);
+	const selectedUnit = unit || 'px';
+	const numericValue = quantity !== undefined ? quantity : 4;
+
+	// Get range settings for current unit
+	const rangeSettings = BORDER_RADIUS_RANGE_SETTINGS[selectedUnit] || {
+		max: 100,
+		step: 1,
+	};
+
+	// Handle slider changes
+	const handleSliderChange = (newValue) => {
+		onChange(`${newValue}${selectedUnit}`);
+	};
+
+	// Handle unit control changes (includes both value and unit changes)
+	const handleUnitControlChange = (newValue) => {
+		onChange(newValue);
+	};
+
+	return (
+		<fieldset className="priority-plus-border-radius-control">
+			<Flex>
+				<FlexItem isBlock>
+					<UnitControl
+						label={__('Border Radius', 'priority-plus-navigation')}
+						hideLabelFromVision
+						value={value}
+						onChange={handleUnitControlChange}
+						units={BORDER_RADIUS_UNITS}
+						min={0}
+						size="__unstable-large"
+					/>
+				</FlexItem>
+				<FlexItem isBlock>
+					<Spacer marginX={2} marginBottom={0}>
+						<RangeControl
+							label={__(
+								'Border Radius',
+								'priority-plus-navigation'
+							)}
+							hideLabelFromVision
+							value={numericValue}
+							onChange={handleSliderChange}
+							min={0}
+							max={rangeSettings.max}
+							step={rangeSettings.step}
+							withInputField={false}
+							__nextHasNoMarginBottom
+						/>
+					</Spacer>
+				</FlexItem>
+			</Flex>
+		</fieldset>
+	);
+}
 
 /**
  * MenuStylesPanel Component
@@ -108,17 +203,9 @@ export function MenuStylesPanel({
 				onDeselect={() => resetToDefault('borderRadius', '4px')}
 				isShownByDefault
 			>
-				<UnitControl
-					label={__('Border Radius', 'priority-plus-navigation')}
+				<BorderRadiusControl
 					value={styles.borderRadius || '4px'}
 					onChange={(value) => updateStyle('borderRadius', value)}
-					units={[
-						{ value: 'px', label: 'px' },
-						{ value: 'rem', label: 'rem' },
-						{ value: 'em', label: 'em' },
-						{ value: '%', label: '%' },
-					]}
-					size="__unstable-large"
 				/>
 			</ToolsPanelItem>
 
