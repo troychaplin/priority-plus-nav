@@ -12,7 +12,6 @@ import {
 } from '@wordpress/block-editor';
 import {
 	TextControl,
-	SelectControl,
 	BoxControl,
 	Notice,
 	Button,
@@ -20,7 +19,7 @@ import {
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -109,7 +108,6 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 		}
 
 		const {
-			priorityPlusEnabled,
 			priorityPlusToggleLabel,
 			priorityPlusToggleBackgroundColor,
 			priorityPlusToggleBackgroundColorHover,
@@ -353,16 +351,12 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 						</ToolsPanelItem>
 					</ToolsPanel>
 					<ToolsPanel
-						label={__(
-							'Menu Styles',
-							'priority-plus-navigation'
-						)}
+						label={__('Menu Styles', 'priority-plus-navigation')}
 						resetAll={() => {
 							setAttributes({
 								priorityPlusMenuBackgroundColor:
 									DEFAULT_MENU_BACKGROUND_COLOR,
-								priorityPlusMenuBorder:
-									DEFAULT_MENU_BORDER,
+								priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
 								priorityPlusMenuBorderRadius:
 									DEFAULT_MENU_BORDER_RADIUS,
 								priorityPlusMenuBoxShadow:
@@ -409,8 +403,7 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 								setAttributes({
 									priorityPlusMenuBackgroundColor:
 										DEFAULT_MENU_BACKGROUND_COLOR,
-									priorityPlusMenuBorder:
-										DEFAULT_MENU_BORDER,
+									priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
 									priorityPlusMenuBorderRadius:
 										DEFAULT_MENU_BORDER_RADIUS,
 									priorityPlusMenuBoxShadow:

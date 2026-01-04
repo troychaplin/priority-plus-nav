@@ -21,7 +21,15 @@
 	}
 
 	.dropdown-customizer-controls {
-        border: 1px solid rgb(221, 221, 221);
+        // border: 1px solid rgb(221, 221, 221);
+
+        & > .components-tools-panel {
+            border: 1px solid rgb(221, 221, 221);
+
+            & + .components-tools-panel {
+                margin-top: 1.5rem;
+            }
+        }
 	}
 
 	.priority-plus-navigation-dropdown.is-open {

@@ -141,19 +141,16 @@ export function DropdownCustomizerModal({
 						attributes={attributes}
 						setAttributes={setAttributes}
 					/>
-
 					<MenuStylesPanel
 						attributes={attributes}
 						setAttributes={setAttributes}
 					/>
-
 					<MenuSpacingPanel
 						attributes={attributes}
 						setAttributes={setAttributes}
 						spacingSizes={spacingSizes}
 					/>
 				</div>
-
 				<div className="dropdown-customizer-preview">
 					<DropdownPreview
 						attributes={attributes}

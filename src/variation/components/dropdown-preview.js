@@ -267,11 +267,14 @@ export function DropdownPreview({ attributes, typographyStyles = {} }) {
 	const borderRadius =
 		priorityPlusMenuBorderRadius || DEFAULT_MENU_BORDER_RADIUS;
 	const boxShadow = priorityPlusMenuBoxShadow || DEFAULT_MENU_BOX_SHADOW;
-	const itemPadding = priorityPlusMenuItemPadding || DEFAULT_MENU_ITEM_PADDING;
+	const itemPadding =
+		priorityPlusMenuItemPadding || DEFAULT_MENU_ITEM_PADDING;
 	const itemHoverBackground =
-		priorityPlusMenuItemHoverBackground || DEFAULT_MENU_ITEM_HOVER_BACKGROUND;
+		priorityPlusMenuItemHoverBackground ||
+		DEFAULT_MENU_ITEM_HOVER_BACKGROUND;
 	const itemHoverTextColor =
-		priorityPlusMenuItemHoverTextColor || DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR;
+		priorityPlusMenuItemHoverTextColor ||
+		DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR;
 	const submenuIndent =
 		priorityPlusMenuSubmenuIndent || DEFAULT_MENU_SUBMENU_INDENT;
 
@@ -335,14 +338,14 @@ export function DropdownPreview({ attributes, typographyStyles = {} }) {
 			style={previewStyles}
 		>
 			<li>
-				<a href="#" onClick={(e) => e.preventDefault()}>
-					{__('Home', 'priority-plus-navigation')}
-				</a>
+				<span className="priority-plus-navigation-preview-link">
+					{__('Top level item', 'priority-plus-navigation')}
+				</span>
 			</li>
 			<li className="dropdown-preview-hover-demo">
-				<a href="#" onClick={(e) => e.preventDefault()}>
-					{__('About (Hover)', 'priority-plus-navigation')}
-				</a>
+				<span className="priority-plus-navigation-preview-link">
+					{__('Another top level item', 'priority-plus-navigation')}
+				</span>
 			</li>
 			<li>
 				<button
@@ -352,7 +355,10 @@ export function DropdownPreview({ attributes, typographyStyles = {} }) {
 					aria-expanded={isAccordionOpen}
 				>
 					<span className="priority-plus-navigation-accordion-text">
-						{__('Services', 'priority-plus-navigation')}
+						{__(
+							'Top level with a submenu',
+							'priority-plus-navigation'
+						)}
 					</span>
 					<span
 						className="priority-plus-navigation-accordion-arrow"
@@ -364,22 +370,63 @@ export function DropdownPreview({ attributes, typographyStyles = {} }) {
 				{isAccordionOpen && (
 					<ul className="priority-plus-navigation-accordion-content is-open">
 						<li>
-							<a href="#" onClick={(e) => e.preventDefault()}>
-								{__('Web Design', 'priority-plus-navigation')}
-							</a>
+							<span className="priority-plus-navigation-preview-link">
+								{__('Submenu item', 'priority-plus-navigation')}
+							</span>
 						</li>
 						<li>
-							<a href="#" onClick={(e) => e.preventDefault()}>
-								{__('Development', 'priority-plus-navigation')}
-							</a>
+							<button
+								type="button"
+								className="priority-plus-navigation-accordion-toggle priority-plus-navigation-accordion-toggle-full"
+								onClick={() =>
+									setIsAccordionOpen(!isAccordionOpen)
+								}
+								aria-expanded={isAccordionOpen}
+							>
+								<span className="priority-plus-navigation-accordion-text">
+									{__(
+										'Submenu in a submenu',
+										'priority-plus-navigation'
+									)}
+								</span>
+								<span
+									className="priority-plus-navigation-accordion-arrow"
+									aria-hidden="true"
+								>
+									›
+								</span>
+							</button>
+							{isAccordionOpen && (
+								<ul className="priority-plus-navigation-accordion-content is-open">
+									<li>
+										<span className="priority-plus-navigation-preview-link">
+											{__(
+												'Going deeper into the submenu',
+												'priority-plus-navigation'
+											)}
+										</span>
+									</li>
+									<li>
+										<span className="priority-plus-navigation-preview-link">
+											{__(
+												'Woah, submenu inception!',
+												'priority-plus-navigation'
+											)}
+										</span>
+									</li>
+								</ul>
+							)}
 						</li>
 					</ul>
 				)}
 			</li>
 			<li>
-				<a href="#" onClick={(e) => e.preventDefault()}>
-					{__('Contact', 'priority-plus-navigation')}
-				</a>
+				<span className="priority-plus-navigation-preview-link">
+					{__(
+						"Don't forget to test nav item the hover effect!",
+						'priority-plus-navigation'
+					)}
+				</span>
 			</li>
 		</ul>
 	);

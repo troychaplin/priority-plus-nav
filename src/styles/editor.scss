@@ -57,7 +57,8 @@
 			margin: 0;
 			padding: 0;
 
-			a {
+			a,
+			.priority-plus-navigation-preview-link {
 				display: block;
 				padding: var(--wp--custom--priority-plus-navigation--dropdown--item-spacing);
 				color: inherit;
@@ -153,9 +154,10 @@
 			}
 
 			// Multi-level indentation - each nested level adds indent
-			// Applied to links and accordion toggle buttons
+			// Applied to links, preview links, and accordion toggle buttons
 			// First level - add 1x indent to the left padding
 			> li > a,
+			> li > .priority-plus-navigation-preview-link,
 			> li > .priority-plus-navigation-accordion-wrapper > a,
 			> li > .priority-plus-navigation-accordion-toggle-full {
 				padding-left: calc(1rem + var(--wp--custom--priority-plus-navigation--dropdown--multi-level-indent));
@@ -164,6 +166,7 @@
 			// Second level - add 2x indent to the left padding
 			.priority-plus-navigation-accordion-content {
 				> li > a,
+				> li > .priority-plus-navigation-preview-link,
 				> li > .priority-plus-navigation-accordion-wrapper > a,
 				> li > .priority-plus-navigation-accordion-toggle-full {
 					padding-left: calc(1rem + (var(--wp--custom--priority-plus-navigation--dropdown--multi-level-indent) * 2));
@@ -172,6 +175,7 @@
 				// Third level - add 3x indent to the left padding
 				.priority-plus-navigation-accordion-content {
 					> li > a,
+					> li > .priority-plus-navigation-preview-link,
 					> li > .priority-plus-navigation-accordion-wrapper > a,
 					> li > .priority-plus-navigation-accordion-toggle-full {
 						padding-left: calc(1rem + (var(--wp--custom--priority-plus-navigation--dropdown--multi-level-indent) * 3));
@@ -180,6 +184,7 @@
 					// Fourth level - add 4x indent to the left padding
 					.priority-plus-navigation-accordion-content {
 						> li > a,
+						> li > .priority-plus-navigation-preview-link,
 						> li > .priority-plus-navigation-accordion-wrapper > a,
 						> li > .priority-plus-navigation-accordion-toggle-full {
 							padding-left: calc(1rem + (var(--wp--custom--priority-plus-navigation--dropdown--multi-level-indent) * 4));

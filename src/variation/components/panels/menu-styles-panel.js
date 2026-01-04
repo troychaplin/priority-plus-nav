@@ -86,11 +86,14 @@ function hasBorderRadiusValue(borderRadius) {
  */
 function ShadowPresetPicker({ value, onChange }) {
 	// Get shadow presets from theme settings
-	const themeShadows = useSetting('shadow.presets.theme') || [];
-	const defaultShadows = useSetting('shadow.presets.default') || [];
+	const themeShadowsRaw = useSetting('shadow.presets.theme');
+	const defaultShadowsRaw = useSetting('shadow.presets.default');
 
 	// Build options for ComboboxControl (requires value/label format)
 	const shadowOptions = useMemo(() => {
+		const themeShadows = themeShadowsRaw || [];
+		const defaultShadows = defaultShadowsRaw || [];
+
 		const options = [
 			{
 				value: 'none',
@@ -123,7 +126,7 @@ function ShadowPresetPicker({ value, onChange }) {
 		}
 
 		return options;
-	}, [themeShadows, defaultShadows]);
+	}, [themeShadowsRaw, defaultShadowsRaw]);
 
 	// State for filtering options
 	const [filteredOptions, setFilteredOptions] = useState(shadowOptions);
@@ -223,7 +226,8 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 				label={__('Border Radius', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityPlusMenuBorderRadius: DEFAULT_MENU_BORDER_RADIUS,
+						priorityPlusMenuBorderRadius:
+							DEFAULT_MENU_BORDER_RADIUS,
 					})
 				}
 				isShownByDefault

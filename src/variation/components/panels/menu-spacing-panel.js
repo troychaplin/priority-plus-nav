@@ -49,10 +49,8 @@ function hasItemPaddingValue(itemPadding) {
  * @return {JSX.Element} Menu spacing panel component
  */
 export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
-	const {
-		priorityPlusMenuItemPadding,
-		priorityPlusMenuSubmenuIndent,
-	} = attributes;
+	const { priorityPlusMenuItemPadding, priorityPlusMenuSubmenuIndent } =
+		attributes;
 
 	return (
 		<ToolsPanel
@@ -65,7 +63,9 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 			}}
 		>
 			<ToolsPanelItem
-				hasValue={() => hasItemPaddingValue(priorityPlusMenuItemPadding)}
+				hasValue={() =>
+					hasItemPaddingValue(priorityPlusMenuItemPadding)
+				}
 				label={__('Item Padding', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
@@ -78,7 +78,9 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 					<SpacingSizesControl
 						values={priorityPlusMenuItemPadding}
 						onChange={(value) =>
-							setAttributes({ priorityPlusMenuItemPadding: value })
+							setAttributes({
+								priorityPlusMenuItemPadding: value,
+							})
 						}
 						label={__('Item Padding', 'priority-plus-navigation')}
 						sides={['top', 'right', 'bottom', 'left']}
@@ -89,7 +91,9 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 						label={__('Item Padding', 'priority-plus-navigation')}
 						values={priorityPlusMenuItemPadding}
 						onChange={(value) =>
-							setAttributes({ priorityPlusMenuItemPadding: value })
+							setAttributes({
+								priorityPlusMenuItemPadding: value,
+							})
 						}
 						sides={['top', 'right', 'bottom', 'left']}
 						units={['px', 'em', 'rem', 'vh', 'vw']}
@@ -102,7 +106,8 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 				label={__('Submenu Indent', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityPlusMenuSubmenuIndent: DEFAULT_MENU_SUBMENU_INDENT,
+						priorityPlusMenuSubmenuIndent:
+							DEFAULT_MENU_SUBMENU_INDENT,
 					})
 				}
 				isShownByDefault
