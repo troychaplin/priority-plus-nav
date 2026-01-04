@@ -48,10 +48,9 @@ export function isMeasurable(list) {
  * Check if navigation is in hamburger/responsive mode
  * Returns true if the responsive overlay container exists and is active
  * @param {HTMLElement} responsiveContainer - Responsive container element
- * @param {HTMLElement} list                - Navigation list container
  * @return {boolean} True if in hamburger mode
  */
-export function isInHamburgerMode(responsiveContainer, list) {
+export function isInHamburgerMode(responsiveContainer) {
 	// No responsive container means overlayMenu is 'never' - not in hamburger mode
 	if (!responsiveContainer) {
 		return false;

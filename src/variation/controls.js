@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
+
 import {
 	InspectorControls,
 	PanelColorSettings,
@@ -11,14 +12,29 @@ import {
 } from '@wordpress/block-editor';
 import {
 	TextControl,
-	SelectControl,
 	BoxControl,
 	Notice,
+	Button,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { useEffect, useRef } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
+
+/**
+ * Internal dependencies
+ */
+import { DropdownCustomizerModal } from './components/dropdown-customizer-modal';
+import {
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_SUBMENU_INDENT,
+} from './constants';
 
 /**
  * Add DOM manipulation to disable 'always' overlay option when Priority+ is active
@@ -33,13 +49,13 @@ const addDisableAlwaysOption = createHigherOrderComponent((BlockEdit) => {
 
 		// Check if Priority+ variation is active
 		const className = attributes.className || '';
-		const isPriorityNavVariation =
+		const isPriorityPlusVariation =
 			className.includes('is-style-priority-plus-navigation') ||
-			attributes.priorityNavEnabled === true;
+			attributes.priorityPlusEnabled === true;
 
 		// Use effect to modify the DOM after render
 		useEffect(() => {
-			if (!isPriorityNavVariation) {
+			if (!isPriorityPlusVariation) {
 				return;
 			}
 
@@ -62,7 +78,7 @@ const addDisableAlwaysOption = createHigherOrderComponent((BlockEdit) => {
 				alwaysButton.style.textDecoration = 'line-through';
 				alwaysButton.style.cursor = 'not-allowed';
 			}
-		}, [isPriorityNavVariation, attributes.overlayMenu]);
+		}, [isPriorityPlusVariation, attributes.overlayMenu]);
 
 		return <BlockEdit {...props} />;
 	};
@@ -71,7 +87,7 @@ const addDisableAlwaysOption = createHigherOrderComponent((BlockEdit) => {
 /**
  * Add Inspector Controls to core/navigation block
  */
-const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
+const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
 		const { name, attributes, setAttributes } = props;
 
@@ -80,44 +96,87 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 		}
 
 		// Only show controls if the Priority+ variation is active.
-		// Check for the variation className or explicit priorityNavEnabled attribute.
+		// Check for the variation className or explicit priorityPlusEnabled attribute.
 		const className = attributes.className || '';
-		const isPriorityNavVariation =
+		const isPriorityPlusVariation =
 			className.includes('is-style-priority-plus-navigation') ||
-			attributes.priorityNavEnabled === true;
+			attributes.priorityPlusEnabled === true;
 
 		// If not using the variation, return the block edit without our controls.
-		if (!isPriorityNavVariation) {
+		if (!isPriorityPlusVariation) {
 			return <BlockEdit {...props} />;
 		}
 
 		const {
-			priorityNavEnabled,
-			priorityNavMoreLabel,
-			priorityNavMoreBackgroundColor,
-			priorityNavMoreBackgroundColorHover,
-			priorityNavMoreTextColor,
-			priorityNavMoreTextColorHover,
-			priorityNavMorePadding,
+			priorityPlusToggleLabel,
+			priorityPlusToggleBackgroundColor,
+			priorityPlusToggleBackgroundColorHover,
+			priorityPlusToggleTextColor,
+			priorityPlusToggleTextColorHover,
+			priorityPlusTogglePadding,
 			overlayMenu,
 		} = attributes;
 
+		// State for dropdown customizer modal
+		const [isDropdownCustomizerOpen, setIsDropdownCustomizerOpen] =
+			useState(false);
+
 		// Automatically change overlayMenu from 'always' to 'mobile' when Priority+ is active
 		useEffect(() => {
-			if (isPriorityNavVariation && overlayMenu === 'always') {
+			if (isPriorityPlusVariation && overlayMenu === 'always') {
 				setAttributes({ overlayMenu: 'mobile' });
 			}
-		}, [isPriorityNavVariation, overlayMenu, setAttributes]);
+		}, [isPriorityPlusVariation, overlayMenu, setAttributes]);
+
+		// Store typography attribute values for preview
+		useEffect(() => {
+			if (!isPriorityPlusVariation) {
+				return;
+			}
+
+			// Store fontSize and fontFamily slug values directly from attributes
+			// Also get fontWeight and fontStyle from style object
+			const fontWeight = attributes.style?.typography?.fontWeight;
+			const fontStyle = attributes.style?.typography?.fontStyle;
+
+			// Only update if values have changed to avoid infinite loops
+			if (
+				attributes.fontSize !==
+					attributes.priorityPlusTypographyFontSize ||
+				attributes.fontFamily !==
+					attributes.priorityPlusTypographyFontFamily ||
+				fontWeight !== attributes.priorityPlusTypographyFontWeight ||
+				fontStyle !== attributes.priorityPlusTypographyFontStyle
+			) {
+				setAttributes({
+					priorityPlusTypographyFontFamily: attributes.fontFamily,
+					priorityPlusTypographyFontSize: attributes.fontSize,
+					priorityPlusTypographyFontWeight: fontWeight,
+					priorityPlusTypographyFontStyle: fontStyle,
+				});
+			}
+		}, [
+			isPriorityPlusVariation,
+			attributes.fontSize,
+			attributes.fontFamily,
+			attributes.style?.typography?.fontWeight,
+			attributes.style?.typography?.fontStyle,
+			attributes.priorityPlusTypographyFontFamily,
+			attributes.priorityPlusTypographyFontSize,
+			attributes.priorityPlusTypographyFontWeight,
+			attributes.priorityPlusTypographyFontStyle,
+			setAttributes,
+		]);
 
 		// Get spacing sizes from theme.
 		const spacingSizes = useSetting('spacing.spacingSizes') || [];
 
 		// Helper to check if padding has values.
 		const hasPaddingValue = () => {
-			if (!priorityNavMorePadding) {
+			if (!priorityPlusTogglePadding) {
 				return false;
 			}
-			return Object.keys(priorityNavMorePadding).length > 0;
+			return Object.keys(priorityPlusTogglePadding).length > 0;
 		};
 
 		return (
@@ -135,86 +194,101 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 
 				<InspectorControls group="styles">
 					<ToolsPanel
-						label={__('Priority Plus Settings', 'priority-plus-navigation')}
+						label={__(
+							'Priority Plus Settings',
+							'priority-plus-navigation'
+						)}
 						resetAll={() =>
 							setAttributes({
-								priorityNavMoreLabel: 'More',
+								priorityPlusToggleLabel: 'More',
 							})
 						}
 					>
 						<ToolsPanelItem
-							hasValue={() => !!priorityNavMoreLabel}
-							label={__('More Button Label', 'priority-plus-navigation')}
+							hasValue={() => !!priorityPlusToggleLabel}
+							label={__(
+								'Toggle Button Label',
+								'priority-plus-navigation'
+							)}
 							onDeselect={() =>
 								setAttributes({
-									priorityNavMoreLabel: 'More',
+									priorityPlusToggleLabel: 'More',
 								})
 							}
 							isShownByDefault
 						>
 							<TextControl
-								label={__('More Button Label', 'priority-plus-navigation')}
-								value={priorityNavMoreLabel}
+								label={__(
+									'Toggle Button Label',
+									'priority-plus-navigation'
+								)}
+								value={priorityPlusToggleLabel}
 								onChange={(value) =>
 									setAttributes({
-										priorityNavMoreLabel: value,
+										priorityPlusToggleLabel: value,
 									})
 								}
 								help={__(
-									'Text displayed on the "More" button',
+									'Text displayed on the toggle button',
 									'priority-plus-navigation'
 								)}
 							/>
 						</ToolsPanelItem>
 					</ToolsPanel>
 					<PanelColorSettings
-						title={__('Priority Plus Colors', 'priority-plus-navigation')}
+						title={__(
+							'Toggle Button Colors',
+							'priority-plus-navigation'
+						)}
 						colorSettings={[
 							{
-								label: __('Button Text Color', 'priority-plus-navigation'),
-								value: priorityNavMoreTextColor,
+								label: __(
+									'Text Color',
+									'priority-plus-navigation'
+								),
+								value: priorityPlusToggleTextColor,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreTextColor:
+										priorityPlusToggleTextColor:
 											color || undefined,
 									}),
 								clearable: true,
 							},
 							{
 								label: __(
-									'Button Text Hover Color',
+									'Text Hover Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreTextColorHover,
+								value: priorityPlusToggleTextColorHover,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreTextColorHover:
+										priorityPlusToggleTextColorHover:
 											color || undefined,
 									}),
 								clearable: true,
 							},
 							{
 								label: __(
-									'Button Background Color',
+									'Background Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreBackgroundColor,
+								value: priorityPlusToggleBackgroundColor,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreBackgroundColor:
+										priorityPlusToggleBackgroundColor:
 											color || undefined,
 									}),
 								clearable: true,
 							},
 							{
 								label: __(
-									'Button Background Hover Color',
+									'Background Hover Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreBackgroundColorHover,
+								value: priorityPlusToggleBackgroundColorHover,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreBackgroundColorHover:
+										priorityPlusToggleBackgroundColorHover:
 											color || undefined,
 									}),
 								clearable: true,
@@ -222,10 +296,13 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 						]}
 					/>
 					<ToolsPanel
-						label={__('Priority Plus Button', 'priority-plus-navigation')}
+						label={__(
+							'Toggle Button Spacing',
+							'priority-plus-navigation'
+						)}
 						resetAll={() =>
 							setAttributes({
-								priorityNavMorePadding: undefined,
+								priorityPlusTogglePadding: undefined,
 							})
 						}
 					>
@@ -234,30 +311,36 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 							label={__('Padding', 'priority-plus-navigation')}
 							onDeselect={() =>
 								setAttributes({
-									priorityNavMorePadding: undefined,
+									priorityPlusTogglePadding: undefined,
 								})
 							}
 							isShownByDefault
 						>
 							{spacingSizes.length > 0 ? (
 								<SpacingSizesControl
-									values={priorityNavMorePadding}
+									values={priorityPlusTogglePadding}
 									onChange={(value) =>
 										setAttributes({
-											priorityNavMorePadding: value,
+											priorityPlusTogglePadding: value,
 										})
 									}
-									label={__('Button Padding', 'priority-plus-navigation')}
+									label={__(
+										'Button Padding',
+										'priority-plus-navigation'
+									)}
 									sides={['top', 'right', 'bottom', 'left']}
 									units={['px', 'em', 'rem', 'vh', 'vw']}
 								/>
 							) : (
 								<BoxControl
-									label={__('Button Padding', 'priority-plus-navigation')}
-									values={priorityNavMorePadding}
+									label={__(
+										'Button Padding',
+										'priority-plus-navigation'
+									)}
+									values={priorityPlusTogglePadding}
 									onChange={(value) =>
 										setAttributes({
-											priorityNavMorePadding: value,
+											priorityPlusTogglePadding: value,
 										})
 									}
 									sides={['top', 'right', 'bottom', 'left']}
@@ -267,11 +350,103 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 							)}
 						</ToolsPanelItem>
 					</ToolsPanel>
+					<ToolsPanel
+						label={__('Menu Styles', 'priority-plus-navigation')}
+						resetAll={() => {
+							setAttributes({
+								priorityPlusMenuBackgroundColor:
+									DEFAULT_MENU_BACKGROUND_COLOR,
+								priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
+								priorityPlusMenuBorderRadius:
+									DEFAULT_MENU_BORDER_RADIUS,
+								priorityPlusMenuBoxShadow:
+									DEFAULT_MENU_BOX_SHADOW,
+								priorityPlusMenuItemPadding:
+									DEFAULT_MENU_ITEM_PADDING,
+								priorityPlusMenuItemHoverBackground:
+									DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+								priorityPlusMenuItemHoverTextColor:
+									DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+								priorityPlusMenuSubmenuIndent:
+									DEFAULT_MENU_SUBMENU_INDENT,
+							});
+						}}
+					>
+						<ToolsPanelItem
+							hasValue={() => {
+								const {
+									priorityPlusMenuBackgroundColor,
+									priorityPlusMenuBorder,
+									priorityPlusMenuBorderRadius,
+									priorityPlusMenuBoxShadow,
+									priorityPlusMenuItemPadding,
+									priorityPlusMenuItemHoverBackground,
+									priorityPlusMenuItemHoverTextColor,
+									priorityPlusMenuSubmenuIndent,
+								} = attributes;
+								return (
+									!!priorityPlusMenuBackgroundColor ||
+									!!priorityPlusMenuBorder ||
+									!!priorityPlusMenuBorderRadius ||
+									!!priorityPlusMenuBoxShadow ||
+									!!priorityPlusMenuItemPadding ||
+									!!priorityPlusMenuItemHoverBackground ||
+									!!priorityPlusMenuItemHoverTextColor ||
+									!!priorityPlusMenuSubmenuIndent
+								);
+							}}
+							label={__(
+								'Customize Menu',
+								'priority-plus-navigation'
+							)}
+							onDeselect={() =>
+								setAttributes({
+									priorityPlusMenuBackgroundColor:
+										DEFAULT_MENU_BACKGROUND_COLOR,
+									priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
+									priorityPlusMenuBorderRadius:
+										DEFAULT_MENU_BORDER_RADIUS,
+									priorityPlusMenuBoxShadow:
+										DEFAULT_MENU_BOX_SHADOW,
+									priorityPlusMenuItemPadding:
+										DEFAULT_MENU_ITEM_PADDING,
+									priorityPlusMenuItemHoverBackground:
+										DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+									priorityPlusMenuItemHoverTextColor:
+										DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+									priorityPlusMenuSubmenuIndent:
+										DEFAULT_MENU_SUBMENU_INDENT,
+								})
+							}
+							isShownByDefault
+						>
+							<Button
+								variant="secondary"
+								onClick={() =>
+									setIsDropdownCustomizerOpen(true)
+								}
+							>
+								{__(
+									'Customize Menu',
+									'priority-plus-navigation'
+								)}
+							</Button>
+						</ToolsPanelItem>
+					</ToolsPanel>
 				</InspectorControls>
+
+				{/* Render modal conditionally */}
+				{isDropdownCustomizerOpen && (
+					<DropdownCustomizerModal
+						attributes={attributes}
+						setAttributes={setAttributes}
+						onClose={() => setIsDropdownCustomizerOpen(false)}
+					/>
+				)}
 			</>
 		);
 	};
-}, 'withPriorityNavControls');
+}, 'withPriorityPlusControls');
 
 // Apply filters in order: first add DOM manipulation for styling, then our controls
 addFilter(
@@ -284,6 +459,6 @@ addFilter(
 addFilter(
 	'editor.BlockEdit',
 	'priority-plus-navigation/add-priority-plus-navigation-controls',
-	withPriorityNavControls,
+	withPriorityPlusControls,
 	10
 );

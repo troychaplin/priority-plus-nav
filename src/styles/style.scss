@@ -3,12 +3,16 @@
 .is-style-priority-plus-navigation {
 	position: relative;
 
+	// Reset any WordPress core border styles that might interfere
+	border: none !important;
+
 	.priority-plus-navigation-more-button {
 		display: flex;
 		align-items: center;
 		font-family: var(--priority-plus-navigation--font-family);
 		font-size: var(--priority-plus-navigation--font-size);
 		font-weight: var(--priority-plus-navigation--font-weight);
+		font-style: var(--priority-plus-navigation--font-style);
 		color: var(--priority-plus-navigation--color);
 		padding: var(--priority-plus-navigation--padding);
 		background: var(--priority-plus-navigation--background);
@@ -31,7 +35,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid currentColor;
+			outline: 2px solid currentcolor;
 			outline-offset: -2px;
 		}
 
@@ -56,14 +60,38 @@
 
 	.priority-plus-navigation-dropdown {
 		position: absolute;
-        overflow: hidden;
+		overflow: hidden;
 		top: 100%;
 		right: 0;
 		min-width: 200px;
-		background: var(--wp--custom--priority-plus-navigation--dropdown--background-color);
-		border-width: var(--wp--custom--priority-plus-navigation--dropdown--border-width);
-		border-style: solid;
-		border-color: var(--wp--custom--priority-plus-navigation--dropdown--border-color);
+		background: var(--wp--custom--priority-plus-navigation--dropdown--background-color) !important;
+		// Border: Use per-side CSS custom properties when set, otherwise fall back to unified border
+		// The fallback chain: per-side var -> unified var -> default value
+		// Using !important to override WordPress core .wp-block-navigation__submenu-container styles
+		border-top: var(
+			--wp--custom--priority-plus-navigation--dropdown--border-top,
+			var(--wp--custom--priority-plus-navigation--dropdown--border-width, 1px)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-style, solid)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-color, #ddd)
+		) !important;
+		border-right: var(
+			--wp--custom--priority-plus-navigation--dropdown--border-right,
+			var(--wp--custom--priority-plus-navigation--dropdown--border-width, 1px)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-style, solid)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-color, #ddd)
+		) !important;
+		border-bottom: var(
+			--wp--custom--priority-plus-navigation--dropdown--border-bottom,
+			var(--wp--custom--priority-plus-navigation--dropdown--border-width, 1px)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-style, solid)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-color, #ddd)
+		) !important;
+		border-left: var(
+			--wp--custom--priority-plus-navigation--dropdown--border-left,
+			var(--wp--custom--priority-plus-navigation--dropdown--border-width, 1px)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-style, solid)
+				var(--wp--custom--priority-plus-navigation--dropdown--border-color, #ddd)
+		) !important;
 		border-radius: var(--wp--custom--priority-plus-navigation--dropdown--border-radius);
 		box-shadow: var(--wp--custom--priority-plus-navigation--dropdown--box-shadow);
 		list-style: none;
@@ -89,12 +117,70 @@
 				display: block;
 				padding: var(--wp--custom--priority-plus-navigation--dropdown--item-spacing);
 				color: inherit;
+				font-weight: inherit;
+				font-style: inherit;
 				text-decoration: none;
 				transition: background 0.2s ease, color 0.2s ease;
 
 				&:hover {
 					background: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color);
 					color: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color);
+				}
+			}
+		}
+
+        .priority-plus-navigation-accordion-toggle-arrow .priority-plus-navigation-accordion-arrow {
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+		// Click mode: entire button is clickable
+		.priority-plus-navigation-accordion-toggle-full {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			padding: var(--wp--custom--priority-plus-navigation--dropdown--item-spacing);
+			background: transparent;
+			border: none;
+			cursor: pointer;
+			font-size: inherit;
+			font-family: inherit;
+			font-weight: inherit;
+			font-style: inherit;
+			color: inherit;
+			text-align: left;
+			transition: background 0.2s ease, color 0.2s ease;
+			outline: none;
+
+			.priority-plus-navigation-accordion-text {
+				flex: 1;
+			}
+
+			.priority-plus-navigation-accordion-arrow {
+				margin-left: 0.5rem;
+				transition: transform 0.2s ease;
+			}
+
+			&:hover {
+				background: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color);
+				color: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color);
+			}
+
+			&:focus {
+				background: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color);
+				color: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color);
+			}
+
+			&:focus-visible {
+				outline: 2px solid currentcolor;
+				outline-offset: -2px;
+			}
+
+			&[aria-expanded="true"] {
+
+				.priority-plus-navigation-accordion-arrow {
+					transform: rotate(90deg);
 				}
 			}
 		}
@@ -160,55 +246,6 @@
 			width: 100%;
 		}
 
-		// Click mode: entire button is clickable
-		.priority-plus-navigation-accordion-toggle-full {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			width: 100%;
-			padding: var(--wp--custom--priority-plus-navigation--dropdown--item-spacing);
-			background: transparent;
-			border: none;
-			cursor: pointer;
-			font-size: inherit;
-			font-family: inherit;
-			color: inherit;
-			text-align: left;
-			transition: background 0.2s ease, color 0.2s ease;
-			outline: none;
-
-			.priority-plus-navigation-accordion-text {
-				flex: 1;
-			}
-
-			.priority-plus-navigation-accordion-arrow {
-				margin-left: 0.5rem;
-				transition: transform 0.2s ease;
-			}
-
-			&:hover {
-				background: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color);
-				color: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color);
-			}
-
-			&:focus {
-				background: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color);
-				color: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color);
-			}
-
-			&:focus-visible {
-				outline: 2px solid currentColor;
-				outline-offset: -2px;
-			}
-
-			&[aria-expanded="true"] {
-
-				.priority-plus-navigation-accordion-arrow {
-					transform: rotate(90deg);
-				}
-			}
-		}
-
 		// Arrow mode: link stays functional, separate arrow button
 		.priority-plus-navigation-accordion-link {
 			flex: 1;
@@ -233,11 +270,6 @@
 			transition: background 0.2s ease, color 0.2s ease;
 			outline: none;
 
-			.priority-plus-navigation-accordion-arrow {
-				transition: transform 0.2s ease;
-				display: inline-block;
-			}
-
 			&:hover {
 				background: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color);
 				color: var(--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color);
@@ -249,7 +281,7 @@
 			}
 
 			&:focus-visible {
-				outline: 2px solid currentColor;
+				outline: 2px solid currentcolor;
 				outline-offset: -2px;
 			}
 

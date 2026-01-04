@@ -30,8 +30,20 @@ if ( ! class_exists( PriorityPlusNavigation\Plugin_Paths::class ) ) {
 
 // Initialize plugin modules.
 ( function () {
+	// Create shared dependencies.
+	$enqueues      = new PriorityPlusNavigation\Enqueues( __DIR__ . '/build' );
+	$css_converter = new PriorityPlusNavigation\CSS_Converter();
+
+	// Create block renderer with callback to enqueue frontend assets.
+	$block_renderer = new PriorityPlusNavigation\Block_Renderer(
+		$css_converter,
+		array( $enqueues, 'enqueue_frontend_assets' )
+	);
+
+	// Initialize all modules.
 	$modules = array(
-		new PriorityPlusNavigation\Enqueues( __DIR__ . '/build' ),
+		$enqueues,
+		$block_renderer,
 	);
 
 	foreach ( $modules as $module ) {

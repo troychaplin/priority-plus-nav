@@ -1,0 +1,56 @@
+.priority-plus-dropdown-customizer {
+    .components-modal__header {
+        position: sticky;
+        background-color: #fff;
+        border-bottom: 1px solid rgb(221, 221, 221);
+        padding: 24px 32px 18px;
+        z-index: 2000;
+    }
+
+	// Override default modal content padding
+	.components-modal__content {
+		padding: 0;
+        margin-top: 0;
+	}
+
+	.dropdown-customizer-layout {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		padding: 2rem;
+	}
+
+	.dropdown-customizer-controls {
+        // border: 1px solid rgb(221, 221, 221);
+
+        & > .components-tools-panel {
+            border: 1px solid rgb(221, 221, 221);
+
+            & + .components-tools-panel {
+                margin-top: 1.5rem;
+            }
+        }
+	}
+
+	.priority-plus-navigation-dropdown.is-open {
+        position: sticky;
+        top: 110px;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
+	.dropdown-customizer-footer {
+		padding: 1rem 2rem;
+		border-top: 1px solid #ddd;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background: #f9f9f9;
+	}
+
+	@media (max-width: 896px) {
+		.dropdown-customizer-layout {
+			grid-template-columns: 1fr;
+		}
+	}
+}

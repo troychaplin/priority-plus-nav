@@ -74,6 +74,8 @@ class ComposerStaticInitf9d04d7e736903c2a373df2ce066c133
         'PHPCSUtils\\Utils\\TypeString' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/Utils/TypeString.php',
         'PHPCSUtils\\Utils\\UseStatements' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/Utils/UseStatements.php',
         'PHPCSUtils\\Utils\\Variables' => __DIR__ . '/..' . '/phpcsstandards/phpcsutils/PHPCSUtils/Utils/Variables.php',
+        'PriorityPlusNavigation\\Block_Renderer' => __DIR__ . '/../..' . '/classes/class-block-renderer.php',
+        'PriorityPlusNavigation\\CSS_Converter' => __DIR__ . '/../..' . '/classes/class-css-converter.php',
         'PriorityPlusNavigation\\Enqueues' => __DIR__ . '/../..' . '/classes/class-enqueues.php',
         'PriorityPlusNavigation\\Plugin_Module' => __DIR__ . '/../..' . '/classes/class-plugin-module.php',
         'PriorityPlusNavigation\\Plugin_Paths' => __DIR__ . '/../..' . '/classes/class-plugin-paths.php',

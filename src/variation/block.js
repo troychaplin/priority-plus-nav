@@ -7,6 +7,20 @@ import { plusCircle } from '@wordpress/icons';
 import { addFilter } from '@wordpress/hooks';
 
 /**
+ * Internal dependencies
+ */
+import {
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_SUBMENU_INDENT,
+} from './constants';
+
+/**
  * Register Priority Plus Navigation block variation
  */
 registerBlockVariation('core/navigation', {
@@ -21,12 +35,12 @@ registerBlockVariation('core/navigation', {
 	attributes: {
 		className: 'is-style-priority-plus-navigation',
 		overlayMenu: 'never',
-		priorityNavEnabled: true,
-		priorityNavMoreLabel: 'More',
-		priorityNavMoreBackgroundColor: undefined,
-		priorityNavMoreBackgroundColorHover: undefined,
-		priorityNavMoreTextColor: undefined,
-		priorityNavMoreTextColorHover: undefined,
+		priorityPlusEnabled: true,
+		priorityPlusToggleLabel: 'More',
+		priorityPlusToggleBackgroundColor: undefined,
+		priorityPlusToggleBackgroundColorHover: undefined,
+		priorityPlusToggleTextColor: undefined,
+		priorityPlusToggleTextColorHover: undefined,
 	},
 	isActive: (blockAttributes, variationAttributes) => {
 		return blockAttributes.className?.includes(
@@ -50,33 +64,81 @@ addFilter(
 			...settings,
 			attributes: {
 				...settings.attributes,
-				priorityNavEnabled: {
+				// Priority+ enabled flag
+				priorityPlusEnabled: {
 					type: 'boolean',
 					default: false,
 				},
-				priorityNavMoreLabel: {
+				// Toggle button settings (the "More" button)
+				priorityPlusToggleLabel: {
 					type: 'string',
 					default: 'More',
 				},
-				priorityNavMoreIcon: {
+				priorityPlusToggleIcon: {
 					type: 'string',
 					default: 'none',
 				},
-				priorityNavMoreBackgroundColor: {
+				priorityPlusToggleBackgroundColor: {
 					type: 'string',
 				},
-				priorityNavMoreBackgroundColorHover: {
+				priorityPlusToggleBackgroundColorHover: {
 					type: 'string',
 				},
-				priorityNavMoreTextColor: {
+				priorityPlusToggleTextColor: {
 					type: 'string',
 				},
-				priorityNavMoreTextColorHover: {
+				priorityPlusToggleTextColorHover: {
 					type: 'string',
 				},
-				priorityNavMorePadding: {
+				priorityPlusTogglePadding: {
 					type: 'object',
 					default: undefined,
+				},
+				// Menu style attributes (the dropdown menu)
+				priorityPlusMenuBackgroundColor: {
+					type: 'string',
+					default: DEFAULT_MENU_BACKGROUND_COLOR,
+				},
+				priorityPlusMenuBorder: {
+					type: 'object',
+					default: DEFAULT_MENU_BORDER,
+				},
+				priorityPlusMenuBorderRadius: {
+					type: ['string', 'object'],
+					default: DEFAULT_MENU_BORDER_RADIUS,
+				},
+				priorityPlusMenuBoxShadow: {
+					type: 'string',
+					default: DEFAULT_MENU_BOX_SHADOW,
+				},
+				priorityPlusMenuItemPadding: {
+					type: 'object',
+					default: DEFAULT_MENU_ITEM_PADDING,
+				},
+				priorityPlusMenuItemHoverBackground: {
+					type: 'string',
+					default: DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+				},
+				priorityPlusMenuItemHoverTextColor: {
+					type: 'string',
+					default: DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+				},
+				priorityPlusMenuSubmenuIndent: {
+					type: 'string',
+					default: DEFAULT_MENU_SUBMENU_INDENT,
+				},
+				// Typography attributes (for preview)
+				priorityPlusTypographyFontFamily: {
+					type: 'string',
+				},
+				priorityPlusTypographyFontSize: {
+					type: 'string',
+				},
+				priorityPlusTypographyFontWeight: {
+					type: 'string',
+				},
+				priorityPlusTypographyFontStyle: {
+					type: 'string',
 				},
 			},
 		};

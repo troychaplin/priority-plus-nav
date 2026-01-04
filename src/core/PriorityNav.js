@@ -3,7 +3,7 @@
 /**
  * Internal dependencies
  */
-import { DEFAULT_MORE_LABEL, DEFAULT_MORE_ICON } from '../utils/constants.js';
+import { DEFAULT_MORE_LABEL } from '../utils/constants.js';
 import { isMeasurable, isInHamburgerMode } from '../utils/dom-utils.js';
 import { setupEventListeners } from '../events/event-handlers.js';
 import {
@@ -222,7 +222,7 @@ class PriorityNav {
 	 * @return {boolean} True if in hamburger mode
 	 */
 	isInHamburgerMode() {
-		return isInHamburgerMode(this.responsiveContainer, this.list);
+		return isInHamburgerMode(this.responsiveContainer);
 	}
 
 	/**
