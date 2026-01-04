@@ -135,28 +135,15 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 			const fontWeight = attributes.style?.typography?.fontWeight;
 			const fontStyle = attributes.style?.typography?.fontStyle;
 
-			console.log('Typography Capture - All Attributes:', attributes);
-			console.log('Typography Capture - Source values:', {
-				fontSize: attributes.fontSize,
-				fontFamily: attributes.fontFamily,
-				fontWeight,
-				fontStyle,
-			});
-			console.log('Typography Capture - Currently stored values:', {
-				priorityNavTypographyFontFamily: attributes.priorityNavTypographyFontFamily,
-				priorityNavTypographyFontSize: attributes.priorityNavTypographyFontSize,
-				priorityNavTypographyFontWeight: attributes.priorityNavTypographyFontWeight,
-				priorityNavTypographyFontStyle: attributes.priorityNavTypographyFontStyle,
-			});
-
 			// Only update if values have changed to avoid infinite loops
 			if (
-				attributes.fontSize !== attributes.priorityNavTypographyFontSize ||
-				attributes.fontFamily !== attributes.priorityNavTypographyFontFamily ||
+				attributes.fontSize !==
+					attributes.priorityNavTypographyFontSize ||
+				attributes.fontFamily !==
+					attributes.priorityNavTypographyFontFamily ||
 				fontWeight !== attributes.priorityNavTypographyFontWeight ||
 				fontStyle !== attributes.priorityNavTypographyFontStyle
 			) {
-				console.log('Typography Capture - Updating stored values');
 				setAttributes({
 					priorityNavTypographyFontFamily: attributes.fontFamily,
 					priorityNavTypographyFontSize: attributes.fontSize,

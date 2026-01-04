@@ -44,15 +44,6 @@ export function DropdownCustomizerModal({
 	const fontSizes = useSetting('typography.fontSizes') || [];
 	const fontFamilies = useSetting('typography.fontFamilies') || [];
 
-	console.log('Modal - Font Sizes from theme:', fontSizes);
-	console.log('Modal - Font Families from theme:', fontFamilies);
-	console.log('Modal - Stored typography attributes:', {
-		priorityNavTypographyFontFamily: attributes.priorityNavTypographyFontFamily,
-		priorityNavTypographyFontSize: attributes.priorityNavTypographyFontSize,
-		priorityNavTypographyFontWeight: attributes.priorityNavTypographyFontWeight,
-		priorityNavTypographyFontStyle: attributes.priorityNavTypographyFontStyle,
-	});
-
 	// Convert typography slugs to actual CSS values
 	const typographyStyles = {};
 
@@ -62,20 +53,20 @@ export function DropdownCustomizerModal({
 		let allFontFamilies = [];
 
 		// Handle object structure with theme/custom properties
-		if (fontFamilies && typeof fontFamilies === 'object' && !Array.isArray(fontFamilies)) {
-			console.log('Modal - Font families is an object, extracting theme/custom arrays');
+		if (
+			fontFamilies &&
+			typeof fontFamilies === 'object' &&
+			!Array.isArray(fontFamilies)
+		) {
 			if (fontFamilies.theme && Array.isArray(fontFamilies.theme)) {
-				console.log('Modal - Adding theme fonts:', fontFamilies.theme);
 				allFontFamilies = allFontFamilies.concat(fontFamilies.theme);
 			}
 			if (fontFamilies.custom && Array.isArray(fontFamilies.custom)) {
-				console.log('Modal - Adding custom fonts:', fontFamilies.custom);
 				allFontFamilies = allFontFamilies.concat(fontFamilies.custom);
 			}
 		}
 		// Handle flat array structure
 		else if (Array.isArray(fontFamilies)) {
-			console.log('Modal - Font families is an array');
 			fontFamilies.forEach((item) => {
 				if (item.fontFamilies && Array.isArray(item.fontFamilies)) {
 					allFontFamilies = allFontFamilies.concat(item.fontFamilies);
@@ -85,14 +76,9 @@ export function DropdownCustomizerModal({
 			});
 		}
 
-		console.log('Modal - All font families collected:', allFontFamilies);
-		console.log('Modal - Looking for slug:', attributes.priorityNavTypographyFontFamily);
-
 		const fontFamilyPreset = allFontFamilies.find(
 			(font) => font.slug === attributes.priorityNavTypographyFontFamily
 		);
-
-		console.log('Modal - Found font family preset:', fontFamilyPreset);
 
 		if (fontFamilyPreset) {
 			typographyStyles.fontFamily = fontFamilyPreset.fontFamily;
@@ -123,13 +109,12 @@ export function DropdownCustomizerModal({
 
 	// Use direct values from style object for fontWeight and fontStyle
 	if (attributes.priorityNavTypographyFontWeight) {
-		typographyStyles.fontWeight = attributes.priorityNavTypographyFontWeight;
+		typographyStyles.fontWeight =
+			attributes.priorityNavTypographyFontWeight;
 	}
 	if (attributes.priorityNavTypographyFontStyle) {
 		typographyStyles.fontStyle = attributes.priorityNavTypographyFontStyle;
 	}
-
-	console.log('Modal - Final typography styles to pass to preview:', typographyStyles);
 
 	// Get spacing sizes from theme
 	const spacingSizes = useSetting('spacing.spacingSizes') || [];

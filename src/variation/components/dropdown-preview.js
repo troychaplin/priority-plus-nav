@@ -119,9 +119,9 @@ function getItemSpacingCSS(spacing) {
  * Displays a live preview of the dropdown menu using the exact same classes
  * and structure as the frontend to ensure 100% accuracy.
  *
- * @param {Object} props                   - Component props
- * @param {Object} props.dropdownStyles    - Dropdown style settings
- * @param {Object} props.typographyStyles  - Typography values from navigation block
+ * @param {Object} props                  - Component props
+ * @param {Object} props.dropdownStyles   - Dropdown style settings
+ * @param {Object} props.typographyStyles - Typography values from navigation block
  * @return {JSX.Element} Preview component
  */
 export function DropdownPreview({ dropdownStyles, typographyStyles = {} }) {
