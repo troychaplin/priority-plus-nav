@@ -2,9 +2,8 @@
 
 // Import frontend dropdown styles for use in the preview
 // This ensures the preview in the customizer modal uses the exact same styles as the frontend
-.is-style-priority-plus-navigation,
-.dropdown-preview-wrapper {
-	.priority-plus-navigation-dropdown {
+.is-style-priority-plus-navigation .priority-plus-navigation-dropdown,
+.priority-plus-navigation-dropdown.is-open {
 		position: absolute;
 		overflow: hidden;
 		top: 100%;
@@ -235,7 +234,6 @@
 				}
 			}
 		}
-	}
 }
 
 .editor-styles-wrapper .priority-plus-navigation-editor-wrapper nav {

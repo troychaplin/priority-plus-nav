@@ -5,11 +5,6 @@ import { __ } from '@wordpress/i18n';
 import { useMemo, useState } from '@wordpress/element';
 
 /**
- * Internal dependencies
- */
-import './dropdown-preview.scss';
-
-/**
  * Convert WordPress preset value format to CSS custom property format.
  *
  * WordPress stores preset values as "var:preset|spacing|30" which needs to be
@@ -307,73 +302,55 @@ export function DropdownPreview({ dropdownStyles, typographyStyles = {} }) {
 		typographyStyles,
 	]);
 
-	// Build class names
-	const dropdownClasses = 'priority-plus-navigation-dropdown is-open';
-
 	return (
-		<div className="dropdown-preview-wrapper">
-			{/* Use exact same classes as frontend for 100% accuracy */}
-			<ul className={dropdownClasses} style={previewStyles}>
-				<li>
-					<a href="#" onClick={(e) => e.preventDefault()}>
-						{__('Home', 'priority-plus-navigation')}
-					</a>
-				</li>
-				<li className="dropdown-preview-hover-demo">
-					<a href="#" onClick={(e) => e.preventDefault()}>
-						{__('About (Hover)', 'priority-plus-navigation')}
-					</a>
-				</li>
-				<li>
-					<button
-						type="button"
-						className="priority-plus-navigation-accordion-toggle priority-plus-navigation-accordion-toggle-full"
-						onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-						aria-expanded={isAccordionOpen}
+		<ul className="priority-plus-navigation-dropdown is-open" style={previewStyles}>
+			<li>
+				<a href="#" onClick={(e) => e.preventDefault()}>
+					{__('Home', 'priority-plus-navigation')}
+				</a>
+			</li>
+			<li className="dropdown-preview-hover-demo">
+				<a href="#" onClick={(e) => e.preventDefault()}>
+					{__('About (Hover)', 'priority-plus-navigation')}
+				</a>
+			</li>
+			<li>
+				<button
+					type="button"
+					className="priority-plus-navigation-accordion-toggle priority-plus-navigation-accordion-toggle-full"
+					onClick={() => setIsAccordionOpen(!isAccordionOpen)}
+					aria-expanded={isAccordionOpen}
+				>
+					<span className="priority-plus-navigation-accordion-text">
+						{__('Services', 'priority-plus-navigation')}
+					</span>
+					<span
+						className="priority-plus-navigation-accordion-arrow"
+						aria-hidden="true"
 					>
-						<span className="priority-plus-navigation-accordion-text">
-							{__('Services', 'priority-plus-navigation')}
-						</span>
-						<span
-							className="priority-plus-navigation-accordion-arrow"
-							aria-hidden="true"
-						>
-							›
-						</span>
-					</button>
-					{isAccordionOpen && (
-						<ul className="priority-plus-navigation-accordion-content is-open">
-							<li>
-								<a href="#" onClick={(e) => e.preventDefault()}>
-									{__(
-										'Web Design',
-										'priority-plus-navigation'
-									)}
-								</a>
-							</li>
-							<li>
-								<a href="#" onClick={(e) => e.preventDefault()}>
-									{__(
-										'Development',
-										'priority-plus-navigation'
-									)}
-								</a>
-							</li>
-						</ul>
-					)}
-				</li>
-				<li>
-					<a href="#" onClick={(e) => e.preventDefault()}>
-						{__('Contact', 'priority-plus-navigation')}
-					</a>
-				</li>
-			</ul>
-			<p className="dropdown-preview-help">
-				{__(
-					'Live preview - Click "Services" to toggle accordion',
-					'priority-plus-navigation'
+						›
+					</span>
+				</button>
+				{isAccordionOpen && (
+					<ul className="priority-plus-navigation-accordion-content is-open">
+						<li>
+							<a href="#" onClick={(e) => e.preventDefault()}>
+								{__('Web Design', 'priority-plus-navigation')}
+							</a>
+						</li>
+						<li>
+							<a href="#" onClick={(e) => e.preventDefault()}>
+								{__('Development', 'priority-plus-navigation')}
+							</a>
+						</li>
+					</ul>
 				)}
-			</p>
-		</div>
+			</li>
+			<li>
+				<a href="#" onClick={(e) => e.preventDefault()}>
+					{__('Contact', 'priority-plus-navigation')}
+				</a>
+			</li>
+		</ul>
 	);
 }
