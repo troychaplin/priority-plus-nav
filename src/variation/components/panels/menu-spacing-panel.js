@@ -54,7 +54,10 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 
 	return (
 		<ToolsPanel
-			label={__('Menu Item Spacing', 'priority-plus-navigation')}
+			label={__(
+				'Priority Menu Item Settings',
+				'priority-plus-navigation'
+			)}
 			resetAll={() => {
 				setAttributes({
 					priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,
@@ -66,7 +69,7 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 				hasValue={() =>
 					hasItemPaddingValue(priorityPlusMenuItemPadding)
 				}
-				label={__('Item Padding', 'priority-plus-navigation')}
+				label={__('Menu Item Padding', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
 						priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,
@@ -82,13 +85,19 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 								priorityPlusMenuItemPadding: value,
 							})
 						}
-						label={__('Item Padding', 'priority-plus-navigation')}
+						label={__(
+							'Menu Item Padding',
+							'priority-plus-navigation'
+						)}
 						sides={['top', 'right', 'bottom', 'left']}
 						units={['px', 'em', 'rem', 'vh', 'vw']}
 					/>
 				) : (
 					<BoxControl
-						label={__('Item Padding', 'priority-plus-navigation')}
+						label={__(
+							'Menu Item Padding',
+							'priority-plus-navigation'
+						)}
 						values={priorityPlusMenuItemPadding}
 						onChange={(value) =>
 							setAttributes({

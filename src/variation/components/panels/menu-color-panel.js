@@ -48,7 +48,7 @@ export function ColorPanel({ attributes, setAttributes }) {
 
 	return (
 		<PanelColorSettings
-			title={__('Menu Colors', 'priority-plus-navigation')}
+			title={__('Priority Plus Menu Colors', 'priority-plus-navigation')}
 			colorSettings={[
 				{
 					label: __('Background Color', 'priority-plus-navigation'),

@@ -10,7 +10,7 @@ import { __ } from '@wordpress/i18n';
  */
 import './modal.scss';
 import { DropdownPreview } from './dropdown-preview';
-import { ColorPanel } from './panels/color-panel';
+import { ColorPanel } from './panels/menu-color-panel';
 import { MenuStylesPanel } from './panels/menu-styles-panel';
 import { MenuSpacingPanel } from './panels/menu-spacing-panel';
 import {

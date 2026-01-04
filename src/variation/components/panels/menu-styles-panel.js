@@ -185,7 +185,7 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 
 	return (
 		<ToolsPanel
-			label={__('Menu Styles', 'priority-plus-navigation')}
+			label={__('Priority Plus Menu Styles', 'priority-plus-navigation')}
 			resetAll={() => {
 				setAttributes({
 					priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
@@ -197,7 +197,7 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 			{/* Border */}
 			<ToolsPanelItem
 				hasValue={() => hasBorderBoxValue(priorityPlusMenuBorder)}
-				label={__('Border', 'priority-plus-navigation')}
+				label={__('Menu Border', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
 						priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
@@ -233,6 +233,7 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 				isShownByDefault
 			>
 				<BorderRadiusControl
+					label={__('Border Radius', 'priority-plus-navigation')}
 					values={priorityPlusMenuBorderRadius}
 					onChange={(value) =>
 						setAttributes({ priorityPlusMenuBorderRadius: value })
