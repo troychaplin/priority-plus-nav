@@ -27,14 +27,14 @@ import { useEffect, useRef, useState } from '@wordpress/element';
  */
 import { DropdownCustomizerModal } from './components/dropdown-customizer-modal';
 import {
-	DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_BORDER,
-	DEFAULT_DROPDOWN_BORDER_RADIUS,
-	DEFAULT_DROPDOWN_BOX_SHADOW,
-	DEFAULT_DROPDOWN_ITEM_SPACING,
-	DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-	DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_SUBMENU_INDENT,
 } from './constants';
 
 /**
@@ -50,13 +50,13 @@ const addDisableAlwaysOption = createHigherOrderComponent((BlockEdit) => {
 
 		// Check if Priority+ variation is active
 		const className = attributes.className || '';
-		const isPriorityNavVariation =
+		const isPriorityPlusVariation =
 			className.includes('is-style-priority-plus-navigation') ||
-			attributes.priorityNavEnabled === true;
+			attributes.priorityPlusEnabled === true;
 
 		// Use effect to modify the DOM after render
 		useEffect(() => {
-			if (!isPriorityNavVariation) {
+			if (!isPriorityPlusVariation) {
 				return;
 			}
 
@@ -79,7 +79,7 @@ const addDisableAlwaysOption = createHigherOrderComponent((BlockEdit) => {
 				alwaysButton.style.textDecoration = 'line-through';
 				alwaysButton.style.cursor = 'not-allowed';
 			}
-		}, [isPriorityNavVariation, attributes.overlayMenu]);
+		}, [isPriorityPlusVariation, attributes.overlayMenu]);
 
 		return <BlockEdit {...props} />;
 	};
@@ -88,7 +88,7 @@ const addDisableAlwaysOption = createHigherOrderComponent((BlockEdit) => {
 /**
  * Add Inspector Controls to core/navigation block
  */
-const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
+const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
 		const { name, attributes, setAttributes } = props;
 
@@ -97,25 +97,25 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 		}
 
 		// Only show controls if the Priority+ variation is active.
-		// Check for the variation className or explicit priorityNavEnabled attribute.
+		// Check for the variation className or explicit priorityPlusEnabled attribute.
 		const className = attributes.className || '';
-		const isPriorityNavVariation =
+		const isPriorityPlusVariation =
 			className.includes('is-style-priority-plus-navigation') ||
-			attributes.priorityNavEnabled === true;
+			attributes.priorityPlusEnabled === true;
 
 		// If not using the variation, return the block edit without our controls.
-		if (!isPriorityNavVariation) {
+		if (!isPriorityPlusVariation) {
 			return <BlockEdit {...props} />;
 		}
 
 		const {
-			priorityNavEnabled,
-			priorityNavMoreLabel,
-			priorityNavMoreBackgroundColor,
-			priorityNavMoreBackgroundColorHover,
-			priorityNavMoreTextColor,
-			priorityNavMoreTextColorHover,
-			priorityNavMorePadding,
+			priorityPlusEnabled,
+			priorityPlusToggleLabel,
+			priorityPlusToggleBackgroundColor,
+			priorityPlusToggleBackgroundColorHover,
+			priorityPlusToggleTextColor,
+			priorityPlusToggleTextColorHover,
+			priorityPlusTogglePadding,
 			overlayMenu,
 		} = attributes;
 
@@ -125,14 +125,14 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 
 		// Automatically change overlayMenu from 'always' to 'mobile' when Priority+ is active
 		useEffect(() => {
-			if (isPriorityNavVariation && overlayMenu === 'always') {
+			if (isPriorityPlusVariation && overlayMenu === 'always') {
 				setAttributes({ overlayMenu: 'mobile' });
 			}
-		}, [isPriorityNavVariation, overlayMenu, setAttributes]);
+		}, [isPriorityPlusVariation, overlayMenu, setAttributes]);
 
 		// Store typography attribute values for preview
 		useEffect(() => {
-			if (!isPriorityNavVariation) {
+			if (!isPriorityPlusVariation) {
 				return;
 			}
 
@@ -144,29 +144,29 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 			// Only update if values have changed to avoid infinite loops
 			if (
 				attributes.fontSize !==
-					attributes.priorityNavTypographyFontSize ||
+					attributes.priorityPlusTypographyFontSize ||
 				attributes.fontFamily !==
-					attributes.priorityNavTypographyFontFamily ||
-				fontWeight !== attributes.priorityNavTypographyFontWeight ||
-				fontStyle !== attributes.priorityNavTypographyFontStyle
+					attributes.priorityPlusTypographyFontFamily ||
+				fontWeight !== attributes.priorityPlusTypographyFontWeight ||
+				fontStyle !== attributes.priorityPlusTypographyFontStyle
 			) {
 				setAttributes({
-					priorityNavTypographyFontFamily: attributes.fontFamily,
-					priorityNavTypographyFontSize: attributes.fontSize,
-					priorityNavTypographyFontWeight: fontWeight,
-					priorityNavTypographyFontStyle: fontStyle,
+					priorityPlusTypographyFontFamily: attributes.fontFamily,
+					priorityPlusTypographyFontSize: attributes.fontSize,
+					priorityPlusTypographyFontWeight: fontWeight,
+					priorityPlusTypographyFontStyle: fontStyle,
 				});
 			}
 		}, [
-			isPriorityNavVariation,
+			isPriorityPlusVariation,
 			attributes.fontSize,
 			attributes.fontFamily,
 			attributes.style?.typography?.fontWeight,
 			attributes.style?.typography?.fontStyle,
-			attributes.priorityNavTypographyFontFamily,
-			attributes.priorityNavTypographyFontSize,
-			attributes.priorityNavTypographyFontWeight,
-			attributes.priorityNavTypographyFontStyle,
+			attributes.priorityPlusTypographyFontFamily,
+			attributes.priorityPlusTypographyFontSize,
+			attributes.priorityPlusTypographyFontWeight,
+			attributes.priorityPlusTypographyFontStyle,
 			setAttributes,
 		]);
 
@@ -175,10 +175,10 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 
 		// Helper to check if padding has values.
 		const hasPaddingValue = () => {
-			if (!priorityNavMorePadding) {
+			if (!priorityPlusTogglePadding) {
 				return false;
 			}
-			return Object.keys(priorityNavMorePadding).length > 0;
+			return Object.keys(priorityPlusTogglePadding).length > 0;
 		};
 
 		return (
@@ -202,36 +202,36 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 						)}
 						resetAll={() =>
 							setAttributes({
-								priorityNavMoreLabel: 'More',
+								priorityPlusToggleLabel: 'More',
 							})
 						}
 					>
 						<ToolsPanelItem
-							hasValue={() => !!priorityNavMoreLabel}
+							hasValue={() => !!priorityPlusToggleLabel}
 							label={__(
-								'More Button Label',
+								'Toggle Button Label',
 								'priority-plus-navigation'
 							)}
 							onDeselect={() =>
 								setAttributes({
-									priorityNavMoreLabel: 'More',
+									priorityPlusToggleLabel: 'More',
 								})
 							}
 							isShownByDefault
 						>
 							<TextControl
 								label={__(
-									'More Button Label',
+									'Toggle Button Label',
 									'priority-plus-navigation'
 								)}
-								value={priorityNavMoreLabel}
+								value={priorityPlusToggleLabel}
 								onChange={(value) =>
 									setAttributes({
-										priorityNavMoreLabel: value,
+										priorityPlusToggleLabel: value,
 									})
 								}
 								help={__(
-									'Text displayed on the "More" button',
+									'Text displayed on the toggle button',
 									'priority-plus-navigation'
 								)}
 							/>
@@ -239,58 +239,58 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 					</ToolsPanel>
 					<PanelColorSettings
 						title={__(
-							'Priority Plus Colors',
+							'Toggle Button Colors',
 							'priority-plus-navigation'
 						)}
 						colorSettings={[
 							{
 								label: __(
-									'Button Text Color',
+									'Text Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreTextColor,
+								value: priorityPlusToggleTextColor,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreTextColor:
+										priorityPlusToggleTextColor:
 											color || undefined,
 									}),
 								clearable: true,
 							},
 							{
 								label: __(
-									'Button Text Hover Color',
+									'Text Hover Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreTextColorHover,
+								value: priorityPlusToggleTextColorHover,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreTextColorHover:
+										priorityPlusToggleTextColorHover:
 											color || undefined,
 									}),
 								clearable: true,
 							},
 							{
 								label: __(
-									'Button Background Color',
+									'Background Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreBackgroundColor,
+								value: priorityPlusToggleBackgroundColor,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreBackgroundColor:
+										priorityPlusToggleBackgroundColor:
 											color || undefined,
 									}),
 								clearable: true,
 							},
 							{
 								label: __(
-									'Button Background Hover Color',
+									'Background Hover Color',
 									'priority-plus-navigation'
 								),
-								value: priorityNavMoreBackgroundColorHover,
+								value: priorityPlusToggleBackgroundColorHover,
 								onChange: (color) =>
 									setAttributes({
-										priorityNavMoreBackgroundColorHover:
+										priorityPlusToggleBackgroundColorHover:
 											color || undefined,
 									}),
 								clearable: true,
@@ -299,12 +299,12 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 					/>
 					<ToolsPanel
 						label={__(
-							'Priority Plus Button',
+							'Toggle Button Spacing',
 							'priority-plus-navigation'
 						)}
 						resetAll={() =>
 							setAttributes({
-								priorityNavMorePadding: undefined,
+								priorityPlusTogglePadding: undefined,
 							})
 						}
 					>
@@ -313,17 +313,17 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 							label={__('Padding', 'priority-plus-navigation')}
 							onDeselect={() =>
 								setAttributes({
-									priorityNavMorePadding: undefined,
+									priorityPlusTogglePadding: undefined,
 								})
 							}
 							isShownByDefault
 						>
 							{spacingSizes.length > 0 ? (
 								<SpacingSizesControl
-									values={priorityNavMorePadding}
+									values={priorityPlusTogglePadding}
 									onChange={(value) =>
 										setAttributes({
-											priorityNavMorePadding: value,
+											priorityPlusTogglePadding: value,
 										})
 									}
 									label={__(
@@ -339,10 +339,10 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 										'Button Padding',
 										'priority-plus-navigation'
 									)}
-									values={priorityNavMorePadding}
+									values={priorityPlusTogglePadding}
 									onChange={(value) =>
 										setAttributes({
-											priorityNavMorePadding: value,
+											priorityPlusTogglePadding: value,
 										})
 									}
 									sides={['top', 'right', 'bottom', 'left']}
@@ -354,75 +354,75 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 					</ToolsPanel>
 					<ToolsPanel
 						label={__(
-							'Dropdown Styles',
+							'Menu Styles',
 							'priority-plus-navigation'
 						)}
 						resetAll={() => {
 							setAttributes({
-								priorityNavDropdownBackgroundColor:
-									DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-								priorityNavDropdownBorder:
-									DEFAULT_DROPDOWN_BORDER,
-								priorityNavDropdownBorderRadius:
-									DEFAULT_DROPDOWN_BORDER_RADIUS,
-								priorityNavDropdownBoxShadow:
-									DEFAULT_DROPDOWN_BOX_SHADOW,
-								priorityNavDropdownItemSpacing:
-									DEFAULT_DROPDOWN_ITEM_SPACING,
-								priorityNavDropdownItemHoverBackgroundColor:
-									DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-								priorityNavDropdownItemHoverTextColor:
-									DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-								priorityNavDropdownMultiLevelIndent:
-									DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+								priorityPlusMenuBackgroundColor:
+									DEFAULT_MENU_BACKGROUND_COLOR,
+								priorityPlusMenuBorder:
+									DEFAULT_MENU_BORDER,
+								priorityPlusMenuBorderRadius:
+									DEFAULT_MENU_BORDER_RADIUS,
+								priorityPlusMenuBoxShadow:
+									DEFAULT_MENU_BOX_SHADOW,
+								priorityPlusMenuItemPadding:
+									DEFAULT_MENU_ITEM_PADDING,
+								priorityPlusMenuItemHoverBackground:
+									DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+								priorityPlusMenuItemHoverTextColor:
+									DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+								priorityPlusMenuSubmenuIndent:
+									DEFAULT_MENU_SUBMENU_INDENT,
 							});
 						}}
 					>
 						<ToolsPanelItem
 							hasValue={() => {
 								const {
-									priorityNavDropdownBackgroundColor,
-									priorityNavDropdownBorder,
-									priorityNavDropdownBorderRadius,
-									priorityNavDropdownBoxShadow,
-									priorityNavDropdownItemSpacing,
-									priorityNavDropdownItemHoverBackgroundColor,
-									priorityNavDropdownItemHoverTextColor,
-									priorityNavDropdownMultiLevelIndent,
+									priorityPlusMenuBackgroundColor,
+									priorityPlusMenuBorder,
+									priorityPlusMenuBorderRadius,
+									priorityPlusMenuBoxShadow,
+									priorityPlusMenuItemPadding,
+									priorityPlusMenuItemHoverBackground,
+									priorityPlusMenuItemHoverTextColor,
+									priorityPlusMenuSubmenuIndent,
 								} = attributes;
 								return (
-									!!priorityNavDropdownBackgroundColor ||
-									!!priorityNavDropdownBorder ||
-									!!priorityNavDropdownBorderRadius ||
-									!!priorityNavDropdownBoxShadow ||
-									!!priorityNavDropdownItemSpacing ||
-									!!priorityNavDropdownItemHoverBackgroundColor ||
-									!!priorityNavDropdownItemHoverTextColor ||
-									!!priorityNavDropdownMultiLevelIndent
+									!!priorityPlusMenuBackgroundColor ||
+									!!priorityPlusMenuBorder ||
+									!!priorityPlusMenuBorderRadius ||
+									!!priorityPlusMenuBoxShadow ||
+									!!priorityPlusMenuItemPadding ||
+									!!priorityPlusMenuItemHoverBackground ||
+									!!priorityPlusMenuItemHoverTextColor ||
+									!!priorityPlusMenuSubmenuIndent
 								);
 							}}
 							label={__(
-								'Customize Dropdown',
+								'Customize Menu',
 								'priority-plus-navigation'
 							)}
 							onDeselect={() =>
 								setAttributes({
-									priorityNavDropdownBackgroundColor:
-										DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-									priorityNavDropdownBorder:
-										DEFAULT_DROPDOWN_BORDER,
-									priorityNavDropdownBorderRadius:
-										DEFAULT_DROPDOWN_BORDER_RADIUS,
-									priorityNavDropdownBoxShadow:
-										DEFAULT_DROPDOWN_BOX_SHADOW,
-									priorityNavDropdownItemSpacing:
-										DEFAULT_DROPDOWN_ITEM_SPACING,
-									priorityNavDropdownItemHoverBackgroundColor:
-										DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-									priorityNavDropdownItemHoverTextColor:
-										DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-									priorityNavDropdownMultiLevelIndent:
-										DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+									priorityPlusMenuBackgroundColor:
+										DEFAULT_MENU_BACKGROUND_COLOR,
+									priorityPlusMenuBorder:
+										DEFAULT_MENU_BORDER,
+									priorityPlusMenuBorderRadius:
+										DEFAULT_MENU_BORDER_RADIUS,
+									priorityPlusMenuBoxShadow:
+										DEFAULT_MENU_BOX_SHADOW,
+									priorityPlusMenuItemPadding:
+										DEFAULT_MENU_ITEM_PADDING,
+									priorityPlusMenuItemHoverBackground:
+										DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+									priorityPlusMenuItemHoverTextColor:
+										DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+									priorityPlusMenuSubmenuIndent:
+										DEFAULT_MENU_SUBMENU_INDENT,
 								})
 							}
 							isShownByDefault
@@ -434,7 +434,7 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 								}
 							>
 								{__(
-									'Customize Dropdown',
+									'Customize Menu',
 									'priority-plus-navigation'
 								)}
 							</Button>
@@ -453,7 +453,7 @@ const withPriorityNavControls = createHigherOrderComponent((BlockEdit) => {
 			</>
 		);
 	};
-}, 'withPriorityNavControls');
+}, 'withPriorityPlusControls');
 
 // Apply filters in order: first add DOM manipulation for styling, then our controls
 addFilter(
@@ -466,6 +466,6 @@ addFilter(
 addFilter(
 	'editor.BlockEdit',
 	'priority-plus-navigation/add-priority-plus-navigation-controls',
-	withPriorityNavControls,
+	withPriorityPlusControls,
 	10
 );

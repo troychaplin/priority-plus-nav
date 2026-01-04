@@ -8,9 +8,9 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import {
-	DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 } from '../../constants';
 
 /**
@@ -32,7 +32,7 @@ function getDisplayValue(value, defaultValue) {
 /**
  * ColorPanel Component
  *
- * Provides color controls for dropdown menu styling.
+ * Provides color controls for menu styling.
  *
  * @param {Object}   props               - Component props
  * @param {Object}   props.attributes    - Block attributes
@@ -41,55 +41,57 @@ function getDisplayValue(value, defaultValue) {
  */
 export function ColorPanel({ attributes, setAttributes }) {
 	const {
-		priorityNavDropdownBackgroundColor,
-		priorityNavDropdownItemHoverBackgroundColor,
-		priorityNavDropdownItemHoverTextColor,
+		priorityPlusMenuBackgroundColor,
+		priorityPlusMenuItemHoverBackground,
+		priorityPlusMenuItemHoverTextColor,
 	} = attributes;
 
 	return (
 		<PanelColorSettings
-			title={__('Priority Plus Menu Colors', 'priority-plus-navigation')}
+			title={__('Menu Colors', 'priority-plus-navigation')}
 			colorSettings={[
 				{
 					label: __('Background Color', 'priority-plus-navigation'),
 					value: getDisplayValue(
-						priorityNavDropdownBackgroundColor,
-						DEFAULT_DROPDOWN_BACKGROUND_COLOR
+						priorityPlusMenuBackgroundColor,
+						DEFAULT_MENU_BACKGROUND_COLOR
 					),
 					onChange: (color) =>
 						setAttributes({
-							priorityNavDropdownBackgroundColor:
-								color || DEFAULT_DROPDOWN_BACKGROUND_COLOR,
+							priorityPlusMenuBackgroundColor:
+								color || DEFAULT_MENU_BACKGROUND_COLOR,
 						}),
 					clearable: true,
 				},
 				{
 					label: __(
-						'Hover Background Color',
+						'Item Hover Background',
 						'priority-plus-navigation'
 					),
 					value: getDisplayValue(
-						priorityNavDropdownItemHoverBackgroundColor,
-						DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR
+						priorityPlusMenuItemHoverBackground,
+						DEFAULT_MENU_ITEM_HOVER_BACKGROUND
 					),
 					onChange: (color) =>
 						setAttributes({
-							priorityNavDropdownItemHoverBackgroundColor:
-								color ||
-								DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
+							priorityPlusMenuItemHoverBackground:
+								color || DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
 						}),
 					clearable: true,
 				},
 				{
-					label: __('Hover Text Color', 'priority-plus-navigation'),
+					label: __(
+						'Item Hover Text Color',
+						'priority-plus-navigation'
+					),
 					value: getDisplayValue(
-						priorityNavDropdownItemHoverTextColor,
-						DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR
+						priorityPlusMenuItemHoverTextColor,
+						DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR
 					),
 					onChange: (color) =>
 						setAttributes({
-							priorityNavDropdownItemHoverTextColor:
-								color || DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
+							priorityPlusMenuItemHoverTextColor:
+								color || DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 						}),
 					clearable: true,
 				},

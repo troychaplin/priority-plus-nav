@@ -10,14 +10,14 @@ import { addFilter } from '@wordpress/hooks';
  * Internal dependencies
  */
 import {
-	DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_BORDER,
-	DEFAULT_DROPDOWN_BORDER_RADIUS,
-	DEFAULT_DROPDOWN_BOX_SHADOW,
-	DEFAULT_DROPDOWN_ITEM_SPACING,
-	DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-	DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_SUBMENU_INDENT,
 } from './constants';
 
 /**
@@ -35,12 +35,12 @@ registerBlockVariation('core/navigation', {
 	attributes: {
 		className: 'is-style-priority-plus-navigation',
 		overlayMenu: 'never',
-		priorityNavEnabled: true,
-		priorityNavMoreLabel: 'More',
-		priorityNavMoreBackgroundColor: undefined,
-		priorityNavMoreBackgroundColorHover: undefined,
-		priorityNavMoreTextColor: undefined,
-		priorityNavMoreTextColorHover: undefined,
+		priorityPlusEnabled: true,
+		priorityPlusToggleLabel: 'More',
+		priorityPlusToggleBackgroundColor: undefined,
+		priorityPlusToggleBackgroundColorHover: undefined,
+		priorityPlusToggleTextColor: undefined,
+		priorityPlusToggleTextColorHover: undefined,
 	},
 	isActive: (blockAttributes, variationAttributes) => {
 		return blockAttributes.className?.includes(
@@ -65,79 +65,79 @@ addFilter(
 			attributes: {
 				...settings.attributes,
 				// Priority+ enabled flag
-				priorityNavEnabled: {
+				priorityPlusEnabled: {
 					type: 'boolean',
 					default: false,
 				},
-				// More button settings
-				priorityNavMoreLabel: {
+				// Toggle button settings (the "More" button)
+				priorityPlusToggleLabel: {
 					type: 'string',
 					default: 'More',
 				},
-				priorityNavMoreIcon: {
+				priorityPlusToggleIcon: {
 					type: 'string',
 					default: 'none',
 				},
-				priorityNavMoreBackgroundColor: {
+				priorityPlusToggleBackgroundColor: {
 					type: 'string',
 				},
-				priorityNavMoreBackgroundColorHover: {
+				priorityPlusToggleBackgroundColorHover: {
 					type: 'string',
 				},
-				priorityNavMoreTextColor: {
+				priorityPlusToggleTextColor: {
 					type: 'string',
 				},
-				priorityNavMoreTextColorHover: {
+				priorityPlusToggleTextColorHover: {
 					type: 'string',
 				},
-				priorityNavMorePadding: {
+				priorityPlusTogglePadding: {
 					type: 'object',
 					default: undefined,
 				},
-				// Dropdown style attributes (separate for reliable updates)
-				priorityNavDropdownBackgroundColor: {
+				// Menu style attributes (the dropdown menu)
+				priorityPlusMenuBackgroundColor: {
 					type: 'string',
-					default: DEFAULT_DROPDOWN_BACKGROUND_COLOR,
+					default: DEFAULT_MENU_BACKGROUND_COLOR,
 				},
-				priorityNavDropdownBorder: {
+				priorityPlusMenuBorder: {
 					type: 'object',
-					default: DEFAULT_DROPDOWN_BORDER,
+					default: DEFAULT_MENU_BORDER,
 				},
-				priorityNavDropdownBorderRadius: {
+				priorityPlusMenuBorderRadius: {
 					type: ['string', 'object'],
-					default: DEFAULT_DROPDOWN_BORDER_RADIUS,
+					default: DEFAULT_MENU_BORDER_RADIUS,
 				},
-				priorityNavDropdownBoxShadow: {
+				priorityPlusMenuBoxShadow: {
 					type: 'string',
-					default: DEFAULT_DROPDOWN_BOX_SHADOW,
+					default: DEFAULT_MENU_BOX_SHADOW,
 				},
-				priorityNavDropdownItemSpacing: {
+				priorityPlusMenuItemPadding: {
 					type: 'object',
-					default: DEFAULT_DROPDOWN_ITEM_SPACING,
+					default: DEFAULT_MENU_ITEM_PADDING,
 				},
-				priorityNavDropdownItemHoverBackgroundColor: {
+				priorityPlusMenuItemHoverBackground: {
 					type: 'string',
-					default: DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
+					default: DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
 				},
-				priorityNavDropdownItemHoverTextColor: {
+				priorityPlusMenuItemHoverTextColor: {
 					type: 'string',
-					default: DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
+					default: DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 				},
-				priorityNavDropdownMultiLevelIndent: {
+				priorityPlusMenuSubmenuIndent: {
 					type: 'string',
-					default: DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+					default: DEFAULT_MENU_SUBMENU_INDENT,
 				},
 				// Typography attributes (for preview)
-				priorityNavTypographyFontFamily: {
+				priorityPlusTypographyFontFamily: {
 					type: 'string',
 				},
-				priorityNavTypographyFontSize: {
+				priorityPlusTypographyFontSize: {
 					type: 'string',
 				},
-				priorityNavTypographyFontWeight: {
+				priorityPlusTypographyFontWeight: {
 					type: 'string',
 				},
-				priorityNavTypographyFontStyle: {
+				priorityPlusTypographyFontStyle: {
 					type: 'string',
 				},
 			},

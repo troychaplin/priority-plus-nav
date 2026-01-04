@@ -142,44 +142,44 @@ class Enqueues extends Plugin_Module {
 		$this->enqueue_frontend_assets_once();
 
 		// Get Priority+ configuration with defaults.
-		$more_label                  = $this->get_priority_attr( $block, 'priorityNavMoreLabel', 'More' );
-		$more_icon                   = $this->get_priority_attr( $block, 'priorityNavMoreIcon', 'none' );
-		$more_background_color       = $this->get_priority_attr( $block, 'priorityNavMoreBackgroundColor', '' );
-		$more_background_color_hover = $this->get_priority_attr( $block, 'priorityNavMoreBackgroundColorHover', '' );
-		$more_text_color             = $this->get_priority_attr( $block, 'priorityNavMoreTextColor', '' );
-		$more_text_color_hover       = $this->get_priority_attr( $block, 'priorityNavMoreTextColorHover', '' );
-		$more_padding                = $this->get_priority_attr( $block, 'priorityNavMorePadding', array() );
-		$overlay_menu                = $this->get_priority_attr( $block, 'overlayMenu', 'never' );
+		$toggle_label                  = $this->get_priority_attr( $block, 'priorityPlusToggleLabel', 'More' );
+		$toggle_icon                   = $this->get_priority_attr( $block, 'priorityPlusToggleIcon', 'none' );
+		$toggle_background_color       = $this->get_priority_attr( $block, 'priorityPlusToggleBackgroundColor', '' );
+		$toggle_background_color_hover = $this->get_priority_attr( $block, 'priorityPlusToggleBackgroundColorHover', '' );
+		$toggle_text_color             = $this->get_priority_attr( $block, 'priorityPlusToggleTextColor', '' );
+		$toggle_text_color_hover       = $this->get_priority_attr( $block, 'priorityPlusToggleTextColorHover', '' );
+		$toggle_padding                = $this->get_priority_attr( $block, 'priorityPlusTogglePadding', array() );
+		$overlay_menu                  = $this->get_priority_attr( $block, 'overlayMenu', 'never' );
 
-		// Get dropdown style attributes (separate attributes for reliable updates).
-		$dropdown_background_color            = $this->get_priority_attr( $block, 'priorityNavDropdownBackgroundColor', '' );
-		$dropdown_border                      = $this->get_priority_attr( $block, 'priorityNavDropdownBorder', array() );
-		$dropdown_border_radius               = $this->get_priority_attr( $block, 'priorityNavDropdownBorderRadius', '' );
-		$dropdown_box_shadow                  = $this->get_priority_attr( $block, 'priorityNavDropdownBoxShadow', '' );
-		$dropdown_item_spacing                = $this->get_priority_attr( $block, 'priorityNavDropdownItemSpacing', array() );
-		$dropdown_item_hover_background_color = $this->get_priority_attr( $block, 'priorityNavDropdownItemHoverBackgroundColor', '' );
-		$dropdown_item_hover_text_color       = $this->get_priority_attr( $block, 'priorityNavDropdownItemHoverTextColor', '' );
-		$dropdown_multi_level_indent          = $this->get_priority_attr( $block, 'priorityNavDropdownMultiLevelIndent', '' );
+		// Get menu style attributes (separate attributes for reliable updates).
+		$menu_background_color      = $this->get_priority_attr( $block, 'priorityPlusMenuBackgroundColor', '' );
+		$menu_border                = $this->get_priority_attr( $block, 'priorityPlusMenuBorder', array() );
+		$menu_border_radius         = $this->get_priority_attr( $block, 'priorityPlusMenuBorderRadius', '' );
+		$menu_box_shadow            = $this->get_priority_attr( $block, 'priorityPlusMenuBoxShadow', '' );
+		$menu_item_padding          = $this->get_priority_attr( $block, 'priorityPlusMenuItemPadding', array() );
+		$menu_item_hover_background = $this->get_priority_attr( $block, 'priorityPlusMenuItemHoverBackground', '' );
+		$menu_item_hover_text_color = $this->get_priority_attr( $block, 'priorityPlusMenuItemHoverTextColor', '' );
+		$menu_submenu_indent        = $this->get_priority_attr( $block, 'priorityPlusMenuSubmenuIndent', '' );
 
 		// Inject data attributes into the navigation element.
 		return $this->inject_priority_attributes(
 			$block_content,
-			$more_label,
-			$more_icon,
-			$more_background_color,
-			$more_background_color_hover,
-			$more_text_color,
-			$more_text_color_hover,
-			$more_padding,
+			$toggle_label,
+			$toggle_icon,
+			$toggle_background_color,
+			$toggle_background_color_hover,
+			$toggle_text_color,
+			$toggle_text_color_hover,
+			$toggle_padding,
 			$overlay_menu,
-			$dropdown_background_color,
-			$dropdown_border,
-			$dropdown_border_radius,
-			$dropdown_box_shadow,
-			$dropdown_item_spacing,
-			$dropdown_item_hover_background_color,
-			$dropdown_item_hover_text_color,
-			$dropdown_multi_level_indent
+			$menu_background_color,
+			$menu_border,
+			$menu_border_radius,
+			$menu_box_shadow,
+			$menu_item_padding,
+			$menu_item_hover_background,
+			$menu_item_hover_text_color,
+			$menu_submenu_indent
 		);
 	}
 
@@ -199,7 +199,7 @@ class Enqueues extends Plugin_Module {
 		}
 
 		// Check explicit attribute.
-		if ( ! empty( $attrs['priorityNavEnabled'] ) ) {
+		if ( ! empty( $attrs['priorityPlusEnabled'] ) ) {
 			return true;
 		}
 
@@ -432,43 +432,43 @@ class Enqueues extends Plugin_Module {
 	/**
 	 * Inject Priority+ data attributes into the navigation element.
 	 *
-	 * @param string       $block_content                        The block HTML content.
-	 * @param string       $more_label                           The "more" button label.
-	 * @param string       $more_icon                            The "more" button icon.
-	 * @param string       $more_background_color                The "more" button background color.
-	 * @param string       $more_background_color_hover          The "more" button background hover color.
-	 * @param string       $more_text_color                      The "more" button text color.
-	 * @param string       $more_text_color_hover                The "more" button text hover color.
-	 * @param array        $more_padding                         The "more" button padding values.
-	 * @param string       $overlay_menu                         The overlay menu setting (never, mobile, always).
-	 * @param string       $dropdown_background_color            Dropdown background color.
-	 * @param array        $dropdown_border                      Dropdown border (flat or per-side).
-	 * @param string|array $dropdown_border_radius               Dropdown border radius.
-	 * @param string       $dropdown_box_shadow                  Dropdown box shadow.
-	 * @param array        $dropdown_item_spacing                Dropdown item spacing.
-	 * @param string       $dropdown_item_hover_background_color Dropdown item hover background color.
-	 * @param string       $dropdown_item_hover_text_color       Dropdown item hover text color.
-	 * @param string       $dropdown_multi_level_indent          Dropdown multi-level indent.
+	 * @param string       $block_content                 The block HTML content.
+	 * @param string       $toggle_label                  The toggle button label.
+	 * @param string       $toggle_icon                   The toggle button icon.
+	 * @param string       $toggle_background_color       The toggle button background color.
+	 * @param string       $toggle_background_color_hover The toggle button background hover color.
+	 * @param string       $toggle_text_color             The toggle button text color.
+	 * @param string       $toggle_text_color_hover       The toggle button text hover color.
+	 * @param array        $toggle_padding                The toggle button padding values.
+	 * @param string       $overlay_menu                  The overlay menu setting (never, mobile, always).
+	 * @param string       $menu_background_color         Menu background color.
+	 * @param array        $menu_border                   Menu border (flat or per-side).
+	 * @param string|array $menu_border_radius            Menu border radius.
+	 * @param string       $menu_box_shadow               Menu box shadow.
+	 * @param array        $menu_item_padding             Menu item padding.
+	 * @param string       $menu_item_hover_background    Menu item hover background color.
+	 * @param string       $menu_item_hover_text_color    Menu item hover text color.
+	 * @param string       $menu_submenu_indent           Menu submenu indent.
 	 * @return string Modified block content with data attributes.
 	 */
 	private function inject_priority_attributes(
 		string $block_content,
-		string $more_label,
-		string $more_icon,
-		string $more_background_color = '',
-		string $more_background_color_hover = '',
-		string $more_text_color = '',
-		string $more_text_color_hover = '',
-		array $more_padding = array(),
+		string $toggle_label,
+		string $toggle_icon,
+		string $toggle_background_color = '',
+		string $toggle_background_color_hover = '',
+		string $toggle_text_color = '',
+		string $toggle_text_color_hover = '',
+		array $toggle_padding = array(),
 		string $overlay_menu = 'never',
-		string $dropdown_background_color = '',
-		array $dropdown_border = array(),
-		$dropdown_border_radius = '',
-		string $dropdown_box_shadow = '',
-		array $dropdown_item_spacing = array(),
-		string $dropdown_item_hover_background_color = '',
-		string $dropdown_item_hover_text_color = '',
-		string $dropdown_multi_level_indent = ''
+		string $menu_background_color = '',
+		array $menu_border = array(),
+		$menu_border_radius = '',
+		string $menu_box_shadow = '',
+		array $menu_item_padding = array(),
+		string $menu_item_hover_background = '',
+		string $menu_item_hover_text_color = '',
+		string $menu_submenu_indent = ''
 	): string {
 		if ( '' === $block_content ) {
 			return $block_content;
@@ -499,35 +499,35 @@ class Enqueues extends Plugin_Module {
 		}
 
 		// Add our CSS custom properties.
-		if ( ! empty( $more_background_color ) ) {
+		if ( ! empty( $toggle_background_color ) ) {
 			$style_parts[] = sprintf(
 				'--priority-plus-navigation--background: %s',
-				esc_attr( $more_background_color )
+				esc_attr( $toggle_background_color )
 			);
 		}
-		if ( ! empty( $more_background_color_hover ) ) {
+		if ( ! empty( $toggle_background_color_hover ) ) {
 			$style_parts[] = sprintf(
 				'--priority-plus-navigation--background-hover: %s',
-				esc_attr( $more_background_color_hover )
+				esc_attr( $toggle_background_color_hover )
 			);
 		}
-		if ( ! empty( $more_text_color ) ) {
+		if ( ! empty( $toggle_text_color ) ) {
 			$style_parts[] = sprintf(
 				'--priority-plus-navigation--color: %s',
-				esc_attr( $more_text_color )
+				esc_attr( $toggle_text_color )
 			);
 		}
-		if ( ! empty( $more_text_color_hover ) ) {
+		if ( ! empty( $toggle_text_color_hover ) ) {
 			$style_parts[] = sprintf(
 				'--priority-plus-navigation--color-hover: %s',
-				esc_attr( $more_text_color_hover )
+				esc_attr( $toggle_text_color_hover )
 			);
 		}
 
 		// Convert padding object to CSS value and add as custom property.
 		// Check if padding is an array with at least one key (even if values are empty strings).
-		if ( is_array( $more_padding ) && ! empty( $more_padding ) ) {
-			$padding_css = $this->padding_to_css( $more_padding );
+		if ( is_array( $toggle_padding ) && ! empty( $toggle_padding ) ) {
+			$padding_css = $this->padding_to_css( $toggle_padding );
 			// Only add if we got a non-empty CSS value (empty string means no padding was set).
 			if ( '' !== $padding_css ) {
 				$style_parts[] = sprintf(
@@ -537,51 +537,51 @@ class Enqueues extends Plugin_Module {
 			}
 		}
 
-		// Add dropdown style CSS custom properties.
-		if ( ! empty( $dropdown_background_color ) ) {
+		// Add menu style CSS custom properties.
+		if ( ! empty( $menu_background_color ) ) {
 			$style_parts[] = sprintf(
 				'--wp--custom--priority-plus-navigation--dropdown--background-color: %s',
-				esc_attr( $dropdown_background_color )
+				esc_attr( $menu_background_color )
 			);
 		}
 
-		if ( ! empty( $dropdown_box_shadow ) ) {
+		if ( ! empty( $menu_box_shadow ) ) {
 			$style_parts[] = sprintf(
 				'--wp--custom--priority-plus-navigation--dropdown--box-shadow: %s',
-				esc_attr( $dropdown_box_shadow )
+				esc_attr( $menu_box_shadow )
 			);
 		}
 
-		if ( ! empty( $dropdown_item_hover_background_color ) ) {
+		if ( ! empty( $menu_item_hover_background ) ) {
 			$style_parts[] = sprintf(
 				'--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color: %s',
-				esc_attr( $dropdown_item_hover_background_color )
+				esc_attr( $menu_item_hover_background )
 			);
 		}
 
-		if ( ! empty( $dropdown_item_hover_text_color ) ) {
+		if ( ! empty( $menu_item_hover_text_color ) ) {
 			$style_parts[] = sprintf(
 				'--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color: %s',
-				esc_attr( $dropdown_item_hover_text_color )
+				esc_attr( $menu_item_hover_text_color )
 			);
 		}
 
-		if ( ! empty( $dropdown_multi_level_indent ) ) {
+		if ( ! empty( $menu_submenu_indent ) ) {
 			$style_parts[] = sprintf(
 				'--wp--custom--priority-plus-navigation--dropdown--multi-level-indent: %s',
-				esc_attr( $dropdown_multi_level_indent )
+				esc_attr( $menu_submenu_indent )
 			);
 		}
 
 		// Handle border separately as it can be flat or per-side object.
-		if ( is_array( $dropdown_border ) && ! empty( $dropdown_border ) ) {
-			$border_css_parts = $this->border_to_css( $dropdown_border );
+		if ( is_array( $menu_border ) && ! empty( $menu_border ) ) {
+			$border_css_parts = $this->border_to_css( $menu_border );
 			$style_parts      = array_merge( $style_parts, $border_css_parts );
 		}
 
 		// Handle borderRadius separately as it can be a string or per-corner object.
-		if ( ! empty( $dropdown_border_radius ) ) {
-			$border_radius_css = $this->border_radius_to_css( $dropdown_border_radius );
+		if ( ! empty( $menu_border_radius ) ) {
+			$border_radius_css = $this->border_radius_to_css( $menu_border_radius );
 
 			if ( '' !== $border_radius_css ) {
 				$style_parts[] = sprintf(
@@ -591,21 +591,21 @@ class Enqueues extends Plugin_Module {
 			}
 		}
 
-		// Handle itemSpacing separately as it can be an object (SpacingSizesControl) or string.
-		if ( ! empty( $dropdown_item_spacing ) ) {
-			$item_spacing_css = '';
-			if ( is_array( $dropdown_item_spacing ) ) {
-				// Convert spacing object to CSS value (same logic as padding_to_css).
-				$item_spacing_css = $this->padding_to_css( $dropdown_item_spacing );
-			} elseif ( is_string( $dropdown_item_spacing ) ) {
+		// Handle itemPadding separately as it can be an object (SpacingSizesControl) or string.
+		if ( ! empty( $menu_item_padding ) ) {
+			$item_padding_css = '';
+			if ( is_array( $menu_item_padding ) ) {
+				// Convert padding object to CSS value (same logic as padding_to_css).
+				$item_padding_css = $this->padding_to_css( $menu_item_padding );
+			} elseif ( is_string( $menu_item_padding ) ) {
 				// Use string value directly (backward compatibility).
-				$item_spacing_css = $dropdown_item_spacing;
+				$item_padding_css = $menu_item_padding;
 			}
 
-			if ( '' !== $item_spacing_css ) {
+			if ( '' !== $item_padding_css ) {
 				$style_parts[] = sprintf(
 					'--wp--custom--priority-plus-navigation--dropdown--item-spacing: %s',
-					esc_attr( $item_spacing_css )
+					esc_attr( $item_padding_css )
 				);
 			}
 		}
@@ -613,8 +613,8 @@ class Enqueues extends Plugin_Module {
 		// Build attributes string.
 		$attributes = sprintf(
 			'$1 data-more-label="%s" data-more-icon="%s" data-overlay-menu="%s"',
-			esc_attr( $more_label ),
-			esc_attr( $more_icon ),
+			esc_attr( $toggle_label ),
+			esc_attr( $toggle_icon ),
 			esc_attr( $overlay_menu )
 		);
 

@@ -14,33 +14,33 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import {
-	DEFAULT_DROPDOWN_ITEM_SPACING,
-	DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_SUBMENU_INDENT,
 } from '../../constants';
 
 /**
- * Check if item spacing has values
+ * Check if item padding has values
  *
- * @param {Object|string} itemSpacing - The item spacing value
- * @return {boolean} Whether item spacing has values
+ * @param {Object|string} itemPadding - The item padding value
+ * @return {boolean} Whether item padding has values
  */
-function hasItemSpacingValue(itemSpacing) {
-	if (!itemSpacing) {
+function hasItemPaddingValue(itemPadding) {
+	if (!itemPadding) {
 		return false;
 	}
 	// Check if it's an object (SpacingSizesControl format) or string (legacy format)
-	if (typeof itemSpacing === 'object') {
+	if (typeof itemPadding === 'object') {
 		// Check if object has any non-empty values
-		const values = Object.values(itemSpacing);
+		const values = Object.values(itemPadding);
 		return values.some((value) => value && value !== '');
 	}
-	return !!itemSpacing;
+	return !!itemPadding;
 }
 
 /**
  * MenuSpacingPanel Component
  *
- * Provides controls for dropdown menu spacing (item padding and multi-level indent).
+ * Provides controls for menu spacing (item padding and submenu indent).
  *
  * @param {Object}   props               - Component props
  * @param {Object}   props.attributes    - Block attributes
@@ -50,57 +50,46 @@ function hasItemSpacingValue(itemSpacing) {
  */
 export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 	const {
-		priorityNavDropdownItemSpacing,
-		priorityNavDropdownMultiLevelIndent,
+		priorityPlusMenuItemPadding,
+		priorityPlusMenuSubmenuIndent,
 	} = attributes;
 
 	return (
 		<ToolsPanel
-			label={__(
-				'Priority Plus Nav Item Spacing',
-				'priority-plus-navigation'
-			)}
+			label={__('Menu Item Spacing', 'priority-plus-navigation')}
 			resetAll={() => {
 				setAttributes({
-					priorityNavDropdownItemSpacing: DEFAULT_DROPDOWN_ITEM_SPACING,
-					priorityNavDropdownMultiLevelIndent:
-						DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+					priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,
+					priorityPlusMenuSubmenuIndent: DEFAULT_MENU_SUBMENU_INDENT,
 				});
 			}}
 		>
 			<ToolsPanelItem
-				hasValue={() => hasItemSpacingValue(priorityNavDropdownItemSpacing)}
-				label={__('Padding', 'priority-plus-navigation')}
+				hasValue={() => hasItemPaddingValue(priorityPlusMenuItemPadding)}
+				label={__('Item Padding', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityNavDropdownItemSpacing:
-							DEFAULT_DROPDOWN_ITEM_SPACING,
+						priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,
 					})
 				}
 				isShownByDefault
 			>
 				{spacingSizes.length > 0 ? (
 					<SpacingSizesControl
-						values={priorityNavDropdownItemSpacing}
+						values={priorityPlusMenuItemPadding}
 						onChange={(value) =>
-							setAttributes({ priorityNavDropdownItemSpacing: value })
+							setAttributes({ priorityPlusMenuItemPadding: value })
 						}
-						label={__(
-							'Nav Item Spacing',
-							'priority-plus-navigation'
-						)}
+						label={__('Item Padding', 'priority-plus-navigation')}
 						sides={['top', 'right', 'bottom', 'left']}
 						units={['px', 'em', 'rem', 'vh', 'vw']}
 					/>
 				) : (
 					<BoxControl
-						label={__(
-							'Nav Item Spacing',
-							'priority-plus-navigation'
-						)}
-						values={priorityNavDropdownItemSpacing}
+						label={__('Item Padding', 'priority-plus-navigation')}
+						values={priorityPlusMenuItemPadding}
 						onChange={(value) =>
-							setAttributes({ priorityNavDropdownItemSpacing: value })
+							setAttributes({ priorityPlusMenuItemPadding: value })
 						}
 						sides={['top', 'right', 'bottom', 'left']}
 						units={['px', 'em', 'rem', 'vh', 'vw']}
@@ -109,27 +98,23 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 				)}
 			</ToolsPanelItem>
 			<ToolsPanelItem
-				hasValue={() => !!priorityNavDropdownMultiLevelIndent}
-				label={__('Submenu Indentation', 'priority-plus-navigation')}
+				hasValue={() => !!priorityPlusMenuSubmenuIndent}
+				label={__('Submenu Indent', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityNavDropdownMultiLevelIndent:
-							DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+						priorityPlusMenuSubmenuIndent: DEFAULT_MENU_SUBMENU_INDENT,
 					})
 				}
 				isShownByDefault
 			>
 				<UnitControl
-					label={__(
-						'Submenu Indentation',
-						'priority-plus-navigation'
-					)}
+					label={__('Submenu Indent', 'priority-plus-navigation')}
 					value={
-						priorityNavDropdownMultiLevelIndent ||
-						DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT
+						priorityPlusMenuSubmenuIndent ||
+						DEFAULT_MENU_SUBMENU_INDENT
 					}
 					onChange={(value) =>
-						setAttributes({ priorityNavDropdownMultiLevelIndent: value })
+						setAttributes({ priorityPlusMenuSubmenuIndent: value })
 					}
 					help={__(
 						'Indentation for nested submenu items',

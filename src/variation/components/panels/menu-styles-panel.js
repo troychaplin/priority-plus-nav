@@ -18,9 +18,9 @@ import { useMemo, useState } from '@wordpress/element';
  * Internal dependencies
  */
 import {
-	DEFAULT_DROPDOWN_BORDER,
-	DEFAULT_DROPDOWN_BORDER_RADIUS,
-	DEFAULT_DROPDOWN_BOX_SHADOW,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
 } from '../../constants';
 
 /**
@@ -97,7 +97,7 @@ function ShadowPresetPicker({ value, onChange }) {
 				label: __('None', 'priority-plus-navigation'),
 			},
 			{
-				value: DEFAULT_DROPDOWN_BOX_SHADOW,
+				value: DEFAULT_MENU_BOX_SHADOW,
 				label: __('Default', 'priority-plus-navigation'),
 			},
 		];
@@ -163,7 +163,7 @@ function ShadowPresetPicker({ value, onChange }) {
 /**
  * MenuStylesPanel Component
  *
- * Provides controls for dropdown container styles (border, radius, shadow).
+ * Provides controls for menu container styles (border, radius, shadow).
  *
  * @param {Object}   props               - Component props
  * @param {Object}   props.attributes    - Block attributes
@@ -172,9 +172,9 @@ function ShadowPresetPicker({ value, onChange }) {
  */
 export function MenuStylesPanel({ attributes, setAttributes }) {
 	const {
-		priorityNavDropdownBorder,
-		priorityNavDropdownBorderRadius,
-		priorityNavDropdownBoxShadow,
+		priorityPlusMenuBorder,
+		priorityPlusMenuBorderRadius,
+		priorityPlusMenuBoxShadow,
 	} = attributes;
 
 	// Get color palette from theme settings
@@ -182,23 +182,22 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 
 	return (
 		<ToolsPanel
-			label={__('Priority Plus Menu Styles', 'priority-plus-navigation')}
+			label={__('Menu Styles', 'priority-plus-navigation')}
 			resetAll={() => {
 				setAttributes({
-					priorityNavDropdownBorder: DEFAULT_DROPDOWN_BORDER,
-					priorityNavDropdownBorderRadius:
-						DEFAULT_DROPDOWN_BORDER_RADIUS,
-					priorityNavDropdownBoxShadow: DEFAULT_DROPDOWN_BOX_SHADOW,
+					priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
+					priorityPlusMenuBorderRadius: DEFAULT_MENU_BORDER_RADIUS,
+					priorityPlusMenuBoxShadow: DEFAULT_MENU_BOX_SHADOW,
 				});
 			}}
 		>
 			{/* Border */}
 			<ToolsPanelItem
-				hasValue={() => hasBorderBoxValue(priorityNavDropdownBorder)}
+				hasValue={() => hasBorderBoxValue(priorityPlusMenuBorder)}
 				label={__('Border', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityNavDropdownBorder: DEFAULT_DROPDOWN_BORDER,
+						priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
 					})
 				}
 				isShownByDefault
@@ -206,9 +205,9 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 				<BorderBoxControl
 					label={__('Border', 'priority-plus-navigation')}
 					colors={colors}
-					value={priorityNavDropdownBorder}
+					value={priorityPlusMenuBorder}
 					onChange={(newBorder) =>
-						setAttributes({ priorityNavDropdownBorder: newBorder })
+						setAttributes({ priorityPlusMenuBorder: newBorder })
 					}
 					enableAlpha={true}
 					enableStyle={true}
@@ -219,40 +218,39 @@ export function MenuStylesPanel({ attributes, setAttributes }) {
 			{/* Border Radius */}
 			<ToolsPanelItem
 				hasValue={() =>
-					hasBorderRadiusValue(priorityNavDropdownBorderRadius)
+					hasBorderRadiusValue(priorityPlusMenuBorderRadius)
 				}
 				label={__('Border Radius', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityNavDropdownBorderRadius:
-							DEFAULT_DROPDOWN_BORDER_RADIUS,
+						priorityPlusMenuBorderRadius: DEFAULT_MENU_BORDER_RADIUS,
 					})
 				}
 				isShownByDefault
 			>
 				<BorderRadiusControl
-					values={priorityNavDropdownBorderRadius}
+					values={priorityPlusMenuBorderRadius}
 					onChange={(value) =>
-						setAttributes({ priorityNavDropdownBorderRadius: value })
+						setAttributes({ priorityPlusMenuBorderRadius: value })
 					}
 				/>
 			</ToolsPanelItem>
 
 			{/* Box Shadow */}
 			<ToolsPanelItem
-				hasValue={() => !!priorityNavDropdownBoxShadow}
+				hasValue={() => !!priorityPlusMenuBoxShadow}
 				label={__('Shadow', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityNavDropdownBoxShadow: DEFAULT_DROPDOWN_BOX_SHADOW,
+						priorityPlusMenuBoxShadow: DEFAULT_MENU_BOX_SHADOW,
 					})
 				}
 				isShownByDefault
 			>
 				<ShadowPresetPicker
-					value={priorityNavDropdownBoxShadow || DEFAULT_DROPDOWN_BOX_SHADOW}
+					value={priorityPlusMenuBoxShadow || DEFAULT_MENU_BOX_SHADOW}
 					onChange={(value) =>
-						setAttributes({ priorityNavDropdownBoxShadow: value })
+						setAttributes({ priorityPlusMenuBoxShadow: value })
 					}
 				/>
 			</ToolsPanelItem>

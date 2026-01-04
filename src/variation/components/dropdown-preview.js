@@ -8,14 +8,14 @@ import { useMemo, useState } from '@wordpress/element';
  * Internal dependencies
  */
 import {
-	DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_BORDER,
-	DEFAULT_DROPDOWN_BORDER_RADIUS,
-	DEFAULT_DROPDOWN_BOX_SHADOW,
-	DEFAULT_DROPDOWN_ITEM_SPACING,
-	DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-	DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_SUBMENU_INDENT,
 } from '../constants';
 
 /**
@@ -61,7 +61,7 @@ function convertPresetValue(value) {
  * @return {Object} Object with CSS custom properties for borders
  */
 function getBorderCSSProperties(border) {
-	const defaults = DEFAULT_DROPDOWN_BORDER;
+	const defaults = DEFAULT_MENU_BORDER;
 
 	const cssVarPrefix = '--wp--custom--priority-plus-navigation--dropdown--';
 
@@ -130,7 +130,7 @@ function getBorderCSSProperties(border) {
 function getBorderRadiusCSS(borderRadius) {
 	// Handle null, undefined, or empty values
 	if (!borderRadius) {
-		return DEFAULT_DROPDOWN_BORDER_RADIUS;
+		return DEFAULT_MENU_BORDER_RADIUS;
 	}
 
 	// If it's already a string, return as-is
@@ -161,36 +161,36 @@ function getBorderRadiusCSS(borderRadius) {
 		return `${tl} ${tr} ${br} ${bl}`;
 	}
 
-	return DEFAULT_DROPDOWN_BORDER_RADIUS;
+	return DEFAULT_MENU_BORDER_RADIUS;
 }
 
 /**
- * Convert itemSpacing to CSS string (handles both object and string formats)
+ * Convert itemPadding to CSS string (handles both object and string formats)
  *
- * @param {Object|string} spacing - The spacing value (object or string)
- * @return {string} CSS spacing value
+ * @param {Object|string} padding - The padding value (object or string)
+ * @return {string} CSS padding value
  */
-function getItemSpacingCSS(spacing) {
-	const defaultSpacing = `${DEFAULT_DROPDOWN_ITEM_SPACING.top} ${DEFAULT_DROPDOWN_ITEM_SPACING.right} ${DEFAULT_DROPDOWN_ITEM_SPACING.bottom} ${DEFAULT_DROPDOWN_ITEM_SPACING.left}`;
+function getItemPaddingCSS(padding) {
+	const defaultPadding = `${DEFAULT_MENU_ITEM_PADDING.top} ${DEFAULT_MENU_ITEM_PADDING.right} ${DEFAULT_MENU_ITEM_PADDING.bottom} ${DEFAULT_MENU_ITEM_PADDING.left}`;
 
 	// Handle null, undefined, or empty values
-	if (!spacing) {
-		return defaultSpacing;
+	if (!padding) {
+		return defaultPadding;
 	}
 
 	// If it's already a string, convert presets and return
-	if (typeof spacing === 'string') {
-		return convertPresetValue(spacing);
+	if (typeof padding === 'string') {
+		return convertPresetValue(padding);
 	}
 
 	// If it's an object (SpacingSizesControl format), convert to CSS
-	if (typeof spacing === 'object') {
+	if (typeof padding === 'object') {
 		// Check if it's an empty object (after reset)
-		if (Object.keys(spacing).length === 0) {
-			return defaultSpacing;
+		if (Object.keys(padding).length === 0) {
+			return defaultPadding;
 		}
 
-		const { top, right, bottom, left } = spacing;
+		const { top, right, bottom, left } = padding;
 
 		// Check if all values are undefined, empty, or "0" - use default
 		const hasValues =
@@ -200,7 +200,7 @@ function getItemSpacingCSS(spacing) {
 			(left && left !== '' && left !== '0');
 
 		if (!hasValues) {
-			return defaultSpacing;
+			return defaultPadding;
 		}
 
 		// Convert preset values to CSS custom properties
@@ -234,7 +234,7 @@ function getItemSpacingCSS(spacing) {
 		return `${topFinal} ${rightFinal} ${bottomFinal} ${leftFinal}`;
 	}
 
-	return defaultSpacing;
+	return defaultPadding;
 }
 
 /**
@@ -250,34 +250,30 @@ function getItemSpacingCSS(spacing) {
  */
 export function DropdownPreview({ attributes, typographyStyles = {} }) {
 	const {
-		priorityNavDropdownBackgroundColor,
-		priorityNavDropdownBorder,
-		priorityNavDropdownBorderRadius,
-		priorityNavDropdownBoxShadow,
-		priorityNavDropdownItemSpacing,
-		priorityNavDropdownItemHoverBackgroundColor,
-		priorityNavDropdownItemHoverTextColor,
-		priorityNavDropdownMultiLevelIndent,
+		priorityPlusMenuBackgroundColor,
+		priorityPlusMenuBorder,
+		priorityPlusMenuBorderRadius,
+		priorityPlusMenuBoxShadow,
+		priorityPlusMenuItemPadding,
+		priorityPlusMenuItemHoverBackground,
+		priorityPlusMenuItemHoverTextColor,
+		priorityPlusMenuSubmenuIndent,
 	} = attributes;
 
 	// Use defaults if attributes are undefined
 	const backgroundColor =
-		priorityNavDropdownBackgroundColor || DEFAULT_DROPDOWN_BACKGROUND_COLOR;
-	const border = priorityNavDropdownBorder || DEFAULT_DROPDOWN_BORDER;
+		priorityPlusMenuBackgroundColor || DEFAULT_MENU_BACKGROUND_COLOR;
+	const border = priorityPlusMenuBorder || DEFAULT_MENU_BORDER;
 	const borderRadius =
-		priorityNavDropdownBorderRadius || DEFAULT_DROPDOWN_BORDER_RADIUS;
-	const boxShadow =
-		priorityNavDropdownBoxShadow || DEFAULT_DROPDOWN_BOX_SHADOW;
-	const itemSpacing =
-		priorityNavDropdownItemSpacing || DEFAULT_DROPDOWN_ITEM_SPACING;
-	const itemHoverBackgroundColor =
-		priorityNavDropdownItemHoverBackgroundColor ||
-		DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR;
+		priorityPlusMenuBorderRadius || DEFAULT_MENU_BORDER_RADIUS;
+	const boxShadow = priorityPlusMenuBoxShadow || DEFAULT_MENU_BOX_SHADOW;
+	const itemPadding = priorityPlusMenuItemPadding || DEFAULT_MENU_ITEM_PADDING;
+	const itemHoverBackground =
+		priorityPlusMenuItemHoverBackground || DEFAULT_MENU_ITEM_HOVER_BACKGROUND;
 	const itemHoverTextColor =
-		priorityNavDropdownItemHoverTextColor ||
-		DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR;
-	const multiLevelIndent =
-		priorityNavDropdownMultiLevelIndent || DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT;
+		priorityPlusMenuItemHoverTextColor || DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR;
+	const submenuIndent =
+		priorityPlusMenuSubmenuIndent || DEFAULT_MENU_SUBMENU_INDENT;
 
 	// State for accordion open/closed
 	const [isAccordionOpen, setIsAccordionOpen] = useState(true);
@@ -295,13 +291,13 @@ export function DropdownPreview({ attributes, typographyStyles = {} }) {
 			'--wp--custom--priority-plus-navigation--dropdown--box-shadow':
 				boxShadow,
 			'--wp--custom--priority-plus-navigation--dropdown--item-spacing':
-				getItemSpacingCSS(itemSpacing),
+				getItemPaddingCSS(itemPadding),
 			'--wp--custom--priority-plus-navigation--dropdown--item-hover-background-color':
-				itemHoverBackgroundColor,
+				itemHoverBackground,
 			'--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color':
 				itemHoverTextColor,
 			'--wp--custom--priority-plus-navigation--dropdown--multi-level-indent':
-				multiLevelIndent,
+				submenuIndent,
 			// Spread border CSS properties (either unified or per-side)
 			...borderCSSProperties,
 		};
@@ -326,10 +322,10 @@ export function DropdownPreview({ attributes, typographyStyles = {} }) {
 		border,
 		borderRadius,
 		boxShadow,
-		itemSpacing,
-		itemHoverBackgroundColor,
+		itemPadding,
+		itemHoverBackground,
 		itemHoverTextColor,
-		multiLevelIndent,
+		submenuIndent,
 		typographyStyles,
 	]);
 

@@ -14,14 +14,14 @@ import { ColorPanel } from './panels/color-panel';
 import { MenuStylesPanel } from './panels/menu-styles-panel';
 import { MenuSpacingPanel } from './panels/menu-spacing-panel';
 import {
-	DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_BORDER,
-	DEFAULT_DROPDOWN_BORDER_RADIUS,
-	DEFAULT_DROPDOWN_BOX_SHADOW,
-	DEFAULT_DROPDOWN_ITEM_SPACING,
-	DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-	DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-	DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+	DEFAULT_MENU_BACKGROUND_COLOR,
+	DEFAULT_MENU_BORDER,
+	DEFAULT_MENU_BORDER_RADIUS,
+	DEFAULT_MENU_BOX_SHADOW,
+	DEFAULT_MENU_ITEM_PADDING,
+	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+	DEFAULT_MENU_SUBMENU_INDENT,
 } from '../constants';
 
 export function DropdownCustomizerModal({
@@ -37,7 +37,7 @@ export function DropdownCustomizerModal({
 	const typographyStyles = {};
 
 	// Convert fontFamily slug to actual font-family value
-	if (attributes.priorityNavTypographyFontFamily) {
+	if (attributes.priorityPlusTypographyFontFamily) {
 		// Handle different fontFamilies structures
 		let allFontFamilies = [];
 
@@ -66,7 +66,7 @@ export function DropdownCustomizerModal({
 		}
 
 		const fontFamilyPreset = allFontFamilies.find(
-			(font) => font.slug === attributes.priorityNavTypographyFontFamily
+			(font) => font.slug === attributes.priorityPlusTypographyFontFamily
 		);
 
 		if (fontFamilyPreset) {
@@ -75,7 +75,7 @@ export function DropdownCustomizerModal({
 	}
 
 	// Convert fontSize slug to actual font-size value
-	if (attributes.priorityNavTypographyFontSize) {
+	if (attributes.priorityPlusTypographyFontSize) {
 		// Handle different fontSize structures
 		let allFontSizes = [];
 		if (Array.isArray(fontSizes)) {
@@ -89,7 +89,7 @@ export function DropdownCustomizerModal({
 		}
 
 		const fontSizePreset = allFontSizes.find(
-			(size) => size.slug === attributes.priorityNavTypographyFontSize
+			(size) => size.slug === attributes.priorityPlusTypographyFontSize
 		);
 		if (fontSizePreset) {
 			typographyStyles.fontSize = fontSizePreset.size;
@@ -97,37 +97,37 @@ export function DropdownCustomizerModal({
 	}
 
 	// Use direct values from style object for fontWeight and fontStyle
-	if (attributes.priorityNavTypographyFontWeight) {
+	if (attributes.priorityPlusTypographyFontWeight) {
 		typographyStyles.fontWeight =
-			attributes.priorityNavTypographyFontWeight;
+			attributes.priorityPlusTypographyFontWeight;
 	}
-	if (attributes.priorityNavTypographyFontStyle) {
-		typographyStyles.fontStyle = attributes.priorityNavTypographyFontStyle;
+	if (attributes.priorityPlusTypographyFontStyle) {
+		typographyStyles.fontStyle = attributes.priorityPlusTypographyFontStyle;
 	}
 
 	// Get spacing sizes from theme
 	const spacingSizes = useSetting('spacing.spacingSizes') || [];
 
-	// Reset all dropdown styles to defaults
+	// Reset all menu styles to defaults
 	const resetAllToDefaults = () => {
 		setAttributes({
-			priorityNavDropdownBackgroundColor: DEFAULT_DROPDOWN_BACKGROUND_COLOR,
-			priorityNavDropdownBorder: DEFAULT_DROPDOWN_BORDER,
-			priorityNavDropdownBorderRadius: DEFAULT_DROPDOWN_BORDER_RADIUS,
-			priorityNavDropdownBoxShadow: DEFAULT_DROPDOWN_BOX_SHADOW,
-			priorityNavDropdownItemSpacing: DEFAULT_DROPDOWN_ITEM_SPACING,
-			priorityNavDropdownItemHoverBackgroundColor:
-				DEFAULT_DROPDOWN_ITEM_HOVER_BACKGROUND_COLOR,
-			priorityNavDropdownItemHoverTextColor:
-				DEFAULT_DROPDOWN_ITEM_HOVER_TEXT_COLOR,
-			priorityNavDropdownMultiLevelIndent: DEFAULT_DROPDOWN_MULTI_LEVEL_INDENT,
+			priorityPlusMenuBackgroundColor: DEFAULT_MENU_BACKGROUND_COLOR,
+			priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
+			priorityPlusMenuBorderRadius: DEFAULT_MENU_BORDER_RADIUS,
+			priorityPlusMenuBoxShadow: DEFAULT_MENU_BOX_SHADOW,
+			priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,
+			priorityPlusMenuItemHoverBackground:
+				DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+			priorityPlusMenuItemHoverTextColor:
+				DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+			priorityPlusMenuSubmenuIndent: DEFAULT_MENU_SUBMENU_INDENT,
 		});
 	};
 
 	return (
 		<Modal
 			title={__(
-				'Customize Priority Plus Dropdown',
+				'Customize Priority Plus Menu',
 				'priority-plus-navigation'
 			)}
 			onRequestClose={onClose}
