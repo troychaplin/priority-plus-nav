@@ -12,7 +12,7 @@ import './modal.scss';
 import { DropdownPreview } from './dropdown-preview';
 import { ColorPanel } from './panels/menu-color-panel';
 import { MenuStylesPanel } from './panels/menu-styles-panel';
-import { MenuSpacingPanel } from './panels/menu-spacing-panel';
+import { MenuItemsPanel } from './panels/menu-items-panel';
 import {
 	DEFAULT_MENU_BACKGROUND_COLOR,
 	DEFAULT_MENU_BORDER,
@@ -120,7 +120,9 @@ export function DropdownCustomizerModal({
 				DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
 			priorityPlusMenuItemHoverTextColor:
 				DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
-			priorityPlusMenuSubmenuIndent: DEFAULT_MENU_SUBMENU_INDENT,
+			priorityPlusMenuSubmenuIndent: {
+				left: DEFAULT_MENU_SUBMENU_INDENT,
+			},
 		});
 	};
 
@@ -145,7 +147,7 @@ export function DropdownCustomizerModal({
 						attributes={attributes}
 						setAttributes={setAttributes}
 					/>
-					<MenuSpacingPanel
+					<MenuItemsPanel
 						attributes={attributes}
 						setAttributes={setAttributes}
 						spacingSizes={spacingSizes}

@@ -3,7 +3,6 @@
  */
 import {
 	BoxControl,
-	__experimentalUnitControl as UnitControl,
 	__experimentalToolsPanel as ToolsPanel,
 	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
@@ -38,7 +37,46 @@ function hasItemPaddingValue(itemPadding) {
 }
 
 /**
- * MenuSpacingPanel Component
+ * Check if submenu indent has a value
+ *
+ * @param {Object|string} indent - The submenu indent value
+ * @return {boolean} Whether submenu indent has a value
+ */
+function hasSubmenuIndentValue(indent) {
+	if (!indent) {
+		return false;
+	}
+	// Handle object format from SpacingSizesControl (e.g., { left: '1.25rem' })
+	if (typeof indent === 'object') {
+		return indent.left && indent.left !== '';
+	}
+	// Handle legacy string format (e.g., '1.25rem')
+	return !!indent;
+}
+
+/**
+ * Normalize submenu indent value to object format for SpacingSizesControl
+ *
+ * @param {Object|string} indent - The submenu indent value
+ * @return {Object} Normalized indent object with 'left' property
+ */
+function normalizeIndentValue(indent) {
+	if (!indent) {
+		return { left: DEFAULT_MENU_SUBMENU_INDENT };
+	}
+	// Already in object format
+	if (typeof indent === 'object' && indent.left) {
+		return indent;
+	}
+	// Convert string to object format
+	if (typeof indent === 'string') {
+		return { left: indent };
+	}
+	return { left: DEFAULT_MENU_SUBMENU_INDENT };
+}
+
+/**
+ * MenuItemsPanel Component
  *
  * Provides controls for menu spacing (item padding and submenu indent).
  *
@@ -48,16 +86,13 @@ function hasItemPaddingValue(itemPadding) {
  * @param {Array}    props.spacingSizes  - Available spacing sizes from theme
  * @return {JSX.Element} Menu spacing panel component
  */
-export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
+export function MenuItemsPanel({ attributes, setAttributes, spacingSizes }) {
 	const { priorityPlusMenuItemPadding, priorityPlusMenuSubmenuIndent } =
 		attributes;
 
 	return (
 		<ToolsPanel
-			label={__(
-				'Priority Menu Item Settings',
-				'priority-plus-navigation'
-			)}
+			label={__('Priority Menu Item Styles', 'priority-plus-navigation')}
 			resetAll={() => {
 				setAttributes({
 					priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,
@@ -111,34 +146,28 @@ export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
 				)}
 			</ToolsPanelItem>
 			<ToolsPanelItem
-				hasValue={() => !!priorityPlusMenuSubmenuIndent}
+				hasValue={() =>
+					hasSubmenuIndentValue(priorityPlusMenuSubmenuIndent)
+				}
 				label={__('Submenu Indent', 'priority-plus-navigation')}
 				onDeselect={() =>
 					setAttributes({
-						priorityPlusMenuSubmenuIndent:
-							DEFAULT_MENU_SUBMENU_INDENT,
+						priorityPlusMenuSubmenuIndent: {
+							left: DEFAULT_MENU_SUBMENU_INDENT,
+						},
 					})
 				}
 				isShownByDefault
 			>
-				<UnitControl
+				<SpacingSizesControl
 					label={__('Submenu Indent', 'priority-plus-navigation')}
-					value={
-						priorityPlusMenuSubmenuIndent ||
-						DEFAULT_MENU_SUBMENU_INDENT
-					}
+					values={normalizeIndentValue(priorityPlusMenuSubmenuIndent)}
 					onChange={(value) =>
-						setAttributes({ priorityPlusMenuSubmenuIndent: value })
+						setAttributes({
+							priorityPlusMenuSubmenuIndent: value,
+						})
 					}
-					help={__(
-						'Indentation for nested submenu items',
-						'priority-plus-navigation'
-					)}
-					units={[
-						{ value: 'px', label: 'px' },
-						{ value: 'rem', label: 'rem' },
-						{ value: 'em', label: 'em' },
-					]}
+					sides={['left']}
 				/>
 			</ToolsPanelItem>
 		</ToolsPanel>
