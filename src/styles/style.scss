@@ -204,7 +204,19 @@
 			list-style: none;
 			margin: 0;
 			padding: 0;
+
+			// Nested accordion content inherits transparent background to prevent alpha doubling
+			.priority-plus-navigation-accordion-content {
+				background: transparent;
+			}
+		}
+
+		// First-level accordion content only gets the submenu background color
+		> li > .priority-plus-navigation-accordion-content {
 			background: var(--wp--custom--priority-plus-navigation--dropdown--submenu-background-color);
+		}
+
+		.priority-plus-navigation-accordion-content {
 
 			&[aria-hidden="true"] {
 				display: none !important;
@@ -214,25 +226,25 @@
 				display: block !important;
 			}
 
-			// Submenu item hover colors
-			li a:hover {
+			// Submenu item hover colors (only for items within accordion content)
+			> li > a:hover {
 				background: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-background-color);
 				color: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-text-color);
 			}
 
-			.priority-plus-navigation-accordion-toggle-full:hover,
-			.priority-plus-navigation-accordion-toggle-full:focus {
+			> li > .priority-plus-navigation-accordion-toggle-full:hover,
+			> li > .priority-plus-navigation-accordion-toggle-full:focus {
 				background: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-background-color);
 				color: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-text-color);
 			}
 
-			.priority-plus-navigation-accordion-link:hover {
+			> li > .priority-plus-navigation-accordion-wrapper > .priority-plus-navigation-accordion-link:hover {
 				background: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-background-color);
 				color: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-text-color);
 			}
 
-			.priority-plus-navigation-accordion-toggle-arrow:hover,
-			.priority-plus-navigation-accordion-toggle-arrow:focus {
+			> li > .priority-plus-navigation-accordion-wrapper > .priority-plus-navigation-accordion-toggle-arrow:hover,
+			> li > .priority-plus-navigation-accordion-wrapper > .priority-plus-navigation-accordion-toggle-arrow:focus {
 				background: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-background-color);
 				color: var(--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-text-color);
 			}
