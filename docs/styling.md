@@ -19,9 +19,10 @@ The easiest way to customize your dropdown menu is through the block inspector:
 2. In the sidebar, find the **Menu Styles** panel under the Styles tab
 3. Click the **Customize Menu** button
 4. A modal opens with a live preview showing:
-   - **Menu Colors**: Background color, item hover background, item hover text color
+   - **Menu Colors**: Background color, item hover background, item text color, item hover text color
    - **Menu Styles**: Border (with per-side control), border radius, shadow presets
-   - **Menu Item Spacing**: Item padding, submenu indent
+   - **Submenu Colors**: Background color, item hover background, item text color, item hover text color (for nested accordion items)
+   - **Menu Items**: Item padding, submenu indent, item separator
 5. Changes are reflected in the live preview immediately
 6. Click **Done** to save, or **Reset to Defaults** to restore original values
 
@@ -80,7 +81,21 @@ Only specify the properties you want to customize. All properties are optional.
 |----------|-------------|---------------|
 | `itemSpacing` | Padding around each dropdown item | `0.75rem 1rem` |
 | `itemHoverBackgroundColor` | Background color when hovering over an item | `rgba(0, 0, 0, 0.05)` |
-| `itemHoverTextColor` | Text color when hovering over an item | `inherit` |
+| `itemTextColor` | Text color for menu items | `#191919` |
+| `itemHoverTextColor` | Text color when hovering over an item | `#191919` |
+
+### Submenu Items
+
+These colors apply to nested accordion items (items within expanded submenus):
+
+| Property | Description | Default Value |
+|----------|-------------|---------------|
+| `submenuBackgroundColor` | Background color for submenu areas | `#ffffff` |
+| `submenuItemHoverBackgroundColor` | Hover background for submenu items | `rgba(0, 0, 0, 0.05)` |
+| `submenuItemTextColor` | Text color for submenu items | `#191919` |
+| `submenuItemHoverTextColor` | Hover text color for submenu items | `#191919` |
+
+**Note:** The submenu background color only applies to first-level submenus to prevent alpha transparency stacking when using semi-transparent colors.
 
 ### Multi-level Navigation
 
@@ -106,7 +121,12 @@ Here's a complete example showing all available properties:
           "boxShadow": "0 8px 16px rgba(0, 0, 0, 0.2)",
           "itemSpacing": "1rem 1.5rem",
           "itemHoverBackgroundColor": "rgba(0, 0, 0, 0.08)",
+          "itemTextColor": "#333333",
           "itemHoverTextColor": "#0066cc",
+          "submenuBackgroundColor": "#f0f0f0",
+          "submenuItemHoverBackgroundColor": "rgba(0, 0, 0, 0.1)",
+          "submenuItemTextColor": "#444444",
+          "submenuItemHoverTextColor": "#0066cc",
           "multiLevelIndent": "1.5rem"
         }
       }

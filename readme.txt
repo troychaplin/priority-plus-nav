@@ -61,12 +61,13 @@ Yes, the block is built with accessibility in mind, supporting keyboard navigati
 
 = Can I style the dropdown menu? =
 
-Absolutely! The dropdown menu can be fully customized through your theme's `theme.json` file. You can control:
+Absolutely! The dropdown menu can be fully customized through the block inspector or your theme's `theme.json` file. You can control:
 
-* Background color and border styling
+* Background color, item text color, and hover colors
+* Separate submenu colors for nested accordion items
 * Item spacing and hover effects
 * Multi-level navigation indentation
-* Box shadow and border radius
+* Box shadow, border radius, and item separators
 
 Example configuration in your theme's `theme.json`:
 
@@ -94,6 +95,22 @@ The plugin provides sensible defaults, and you only need to specify the properti
 3. Block inspector controls for customization
 
 == Changelog ==
+
+= 0.5.0 =
+* Added item text color controls for menu items (non-hover state)
+* Added separate submenu color panel for nested accordion items
+* Submenu colors include: background, item hover background, item text color, item hover text color
+* Submenu background only applies to first-level submenus to prevent alpha transparency stacking
+* Item separator controls for menu item dividers
+
+= 0.4.0 =
+* Added dropdown menu customizer modal with live preview
+* Full control over menu colors: background, item hover background, item hover text
+* Border customization with per-side control
+* Border radius and box shadow controls
+* Menu item padding controls with theme spacing size support
+* Submenu indent control for nested navigation
+* Toggle button styling: text colors, background colors, hover states, padding
 
 = 0.3.0 =
 * Added intelligent overlay menu detection and compatibility
