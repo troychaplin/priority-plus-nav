@@ -292,6 +292,7 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 											color || undefined,
 									}),
 								clearable: true,
+								enableAlpha: true,
 							},
 						]}
 					/>
