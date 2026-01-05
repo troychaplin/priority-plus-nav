@@ -95,9 +95,10 @@ When Priority Plus Navigation is active, you'll find these control panels in the
 
 #### Menu Styles
 - **Customize Menu**: Opens a modal with a live preview where you can customize:
-  - **Menu Colors**: Background, item hover background, item hover text color
+  - **Menu Colors**: Background, item hover background, item text color, item hover text color
   - **Menu Styles**: Border (with per-side control), border radius, box shadow
-  - **Menu Item Spacing**: Item padding, submenu indent
+  - **Submenu Colors**: Background, item hover background, item text color, item hover text color
+  - **Menu Items**: Item padding, submenu indent, item separator
 
 ### Core Navigation Settings
 
@@ -277,6 +278,13 @@ The plugin detects when WordPress's overlay/hamburger menu is active by checking
 - Legacy wrapper blocks (from previous plugin versions) are no longer insertable in the editor, but will continue to function on the frontend for backward compatibility
 
 ## Changelog
+
+### 0.5.0 - Item Text Colors & Submenu Styling
+- Added item text color controls for menu items (non-hover state)
+- Added separate submenu color panel for nested accordion items
+- Submenu colors include: background, item hover background, item text color, item hover text color
+- Submenu background only applies to first-level submenus to prevent alpha transparency stacking
+- Item separator controls for menu item dividers
 
 ### 0.4.0 - Menu Customization & UI Improvements
 - Added dropdown menu customizer modal with live preview

@@ -32,8 +32,14 @@ import {
 	DEFAULT_MENU_BOX_SHADOW,
 	DEFAULT_MENU_ITEM_PADDING,
 	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_TEXT_COLOR,
 	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 	DEFAULT_MENU_SUBMENU_INDENT,
+	DEFAULT_MENU_ITEM_SEPARATOR,
+	DEFAULT_SUBMENU_BACKGROUND_COLOR,
+	DEFAULT_SUBMENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_SUBMENU_ITEM_TEXT_COLOR,
+	DEFAULT_SUBMENU_ITEM_HOVER_TEXT_COLOR,
 } from './constants';
 
 /**
@@ -212,11 +218,23 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 									DEFAULT_MENU_ITEM_PADDING,
 								priorityPlusMenuItemHoverBackground:
 									DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+								priorityPlusMenuItemTextColor:
+									DEFAULT_MENU_ITEM_TEXT_COLOR,
 								priorityPlusMenuItemHoverTextColor:
 									DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 								priorityPlusMenuSubmenuIndent: {
 									left: DEFAULT_MENU_SUBMENU_INDENT,
 								},
+								priorityPlusMenuItemSeparator:
+									DEFAULT_MENU_ITEM_SEPARATOR,
+								priorityPlusSubmenuBackgroundColor:
+									DEFAULT_SUBMENU_BACKGROUND_COLOR,
+								priorityPlusSubmenuItemHoverBackground:
+									DEFAULT_SUBMENU_ITEM_HOVER_BACKGROUND,
+								priorityPlusSubmenuItemTextColor:
+									DEFAULT_SUBMENU_ITEM_TEXT_COLOR,
+								priorityPlusSubmenuItemHoverTextColor:
+									DEFAULT_SUBMENU_ITEM_HOVER_TEXT_COLOR,
 							})
 						}
 					>
@@ -274,7 +292,7 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 								);
 							}}
 							label={__(
-								'Customize DropdownMenu',
+								'Custom Dropdown',
 								'priority-plus-navigation'
 							)}
 							onDeselect={() =>
@@ -290,11 +308,23 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 										DEFAULT_MENU_ITEM_PADDING,
 									priorityPlusMenuItemHoverBackground:
 										DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+									priorityPlusMenuItemTextColor:
+										DEFAULT_MENU_ITEM_TEXT_COLOR,
 									priorityPlusMenuItemHoverTextColor:
 										DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 									priorityPlusMenuSubmenuIndent: {
 										left: DEFAULT_MENU_SUBMENU_INDENT,
 									},
+									priorityPlusMenuItemSeparator:
+										DEFAULT_MENU_ITEM_SEPARATOR,
+									priorityPlusSubmenuBackgroundColor:
+										DEFAULT_SUBMENU_BACKGROUND_COLOR,
+									priorityPlusSubmenuItemHoverBackground:
+										DEFAULT_SUBMENU_ITEM_HOVER_BACKGROUND,
+									priorityPlusSubmenuItemTextColor:
+										DEFAULT_SUBMENU_ITEM_TEXT_COLOR,
+									priorityPlusSubmenuItemHoverTextColor:
+										DEFAULT_SUBMENU_ITEM_HOVER_TEXT_COLOR,
 								})
 							}
 							isShownByDefault
@@ -386,7 +416,10 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 					>
 						<ToolsPanelItem
 							hasValue={hasPaddingValue}
-							label={__('Button Padding', 'priority-plus-navigation')}
+							label={__(
+								'Button Padding',
+								'priority-plus-navigation'
+							)}
 							onDeselect={() =>
 								setAttributes({
 									priorityPlusTogglePadding: undefined,

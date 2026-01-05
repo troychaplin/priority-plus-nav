@@ -165,8 +165,16 @@ class Block_Renderer extends Plugin_Module {
 			'menu_box_shadow'               => $this->get_priority_attr( $block, 'priorityPlusMenuBoxShadow', '' ),
 			'menu_item_padding'             => $this->get_priority_attr( $block, 'priorityPlusMenuItemPadding', array() ),
 			'menu_item_hover_background'    => $this->get_priority_attr( $block, 'priorityPlusMenuItemHoverBackground', '' ),
+			'menu_item_text_color'          => $this->get_priority_attr( $block, 'priorityPlusMenuItemTextColor', '' ),
 			'menu_item_hover_text_color'    => $this->get_priority_attr( $block, 'priorityPlusMenuItemHoverTextColor', '' ),
 			'menu_submenu_indent'           => $this->get_priority_attr( $block, 'priorityPlusMenuSubmenuIndent', '' ),
+			'menu_item_separator'           => $this->get_priority_attr( $block, 'priorityPlusMenuItemSeparator', array() ),
+
+			// Submenu color attributes.
+			'submenu_background_color'       => $this->get_priority_attr( $block, 'priorityPlusSubmenuBackgroundColor', '' ),
+			'submenu_item_hover_background'  => $this->get_priority_attr( $block, 'priorityPlusSubmenuItemHoverBackground', '' ),
+			'submenu_item_text_color'        => $this->get_priority_attr( $block, 'priorityPlusSubmenuItemTextColor', '' ),
+			'submenu_item_hover_text_color'  => $this->get_priority_attr( $block, 'priorityPlusSubmenuItemHoverTextColor', '' ),
 		);
 	}
 
@@ -327,6 +335,13 @@ class Block_Renderer extends Plugin_Module {
 			);
 		}
 
+		if ( ! empty( $attributes['menu_item_text_color'] ) ) {
+			$style_parts[] = sprintf(
+				'--wp--custom--priority-plus-navigation--dropdown--item-text-color: %s',
+				esc_attr( $attributes['menu_item_text_color'] )
+			);
+		}
+
 		if ( ! empty( $attributes['menu_item_hover_text_color'] ) ) {
 			$style_parts[] = sprintf(
 				'--wp--custom--priority-plus-navigation--dropdown--item-hover-text-color: %s',
@@ -385,6 +400,55 @@ class Block_Renderer extends Plugin_Module {
 				);
 			}
 		}
+
+		// Handle item separator (top border on each li).
+		// Use defaults if not set to ensure separator is visible on first load.
+		$separator_defaults = array(
+			'color' => '#dddddd',
+			'width' => '1px',
+			'style' => 'solid',
+		);
+		$separator          = is_array( $attributes['menu_item_separator'] ) && ! empty( $attributes['menu_item_separator'] )
+			? $attributes['menu_item_separator']
+			: $separator_defaults;
+
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--item-separator-color: %s',
+			esc_attr( ! empty( $separator['color'] ) ? $separator['color'] : $separator_defaults['color'] )
+		);
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--item-separator-width: %s',
+			esc_attr( ! empty( $separator['width'] ) ? $separator['width'] : $separator_defaults['width'] )
+		);
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--item-separator-style: %s',
+			esc_attr( ! empty( $separator['style'] ) ? $separator['style'] : $separator_defaults['style'] )
+		);
+
+		// Handle submenu colors (always output with defaults to ensure they're available on first load).
+		$submenu_defaults = array(
+			'background_color'      => '#ffffff',
+			'item_hover_background' => 'rgba(0, 0, 0, 0.05)',
+			'item_text_color'       => '#191919',
+			'item_hover_text_color' => '#191919',
+		);
+
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--submenu-background-color: %s',
+			esc_attr( ! empty( $attributes['submenu_background_color'] ) ? $attributes['submenu_background_color'] : $submenu_defaults['background_color'] )
+		);
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-background-color: %s',
+			esc_attr( ! empty( $attributes['submenu_item_hover_background'] ) ? $attributes['submenu_item_hover_background'] : $submenu_defaults['item_hover_background'] )
+		);
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--submenu-item-text-color: %s',
+			esc_attr( ! empty( $attributes['submenu_item_text_color'] ) ? $attributes['submenu_item_text_color'] : $submenu_defaults['item_text_color'] )
+		);
+		$style_parts[] = sprintf(
+			'--wp--custom--priority-plus-navigation--dropdown--submenu-item-hover-text-color: %s',
+			esc_attr( ! empty( $attributes['submenu_item_hover_text_color'] ) ? $attributes['submenu_item_hover_text_color'] : $submenu_defaults['item_hover_text_color'] )
+		);
 
 		return $style_parts;
 	}

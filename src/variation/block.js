@@ -16,8 +16,14 @@ import {
 	DEFAULT_MENU_BOX_SHADOW,
 	DEFAULT_MENU_ITEM_PADDING,
 	DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_MENU_ITEM_TEXT_COLOR,
 	DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
 	DEFAULT_MENU_SUBMENU_INDENT,
+	DEFAULT_MENU_ITEM_SEPARATOR,
+	DEFAULT_SUBMENU_BACKGROUND_COLOR,
+	DEFAULT_SUBMENU_ITEM_HOVER_BACKGROUND,
+	DEFAULT_SUBMENU_ITEM_TEXT_COLOR,
+	DEFAULT_SUBMENU_ITEM_HOVER_TEXT_COLOR,
 } from './constants';
 
 /**
@@ -119,6 +125,10 @@ addFilter(
 					type: 'string',
 					default: DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
 				},
+				priorityPlusMenuItemTextColor: {
+					type: 'string',
+					default: DEFAULT_MENU_ITEM_TEXT_COLOR,
+				},
 				priorityPlusMenuItemHoverTextColor: {
 					type: 'string',
 					default: DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
@@ -126,6 +136,27 @@ addFilter(
 				priorityPlusMenuSubmenuIndent: {
 					type: 'string',
 					default: DEFAULT_MENU_SUBMENU_INDENT,
+				},
+				priorityPlusMenuItemSeparator: {
+					type: 'object',
+					default: DEFAULT_MENU_ITEM_SEPARATOR,
+				},
+				// Submenu color attributes
+				priorityPlusSubmenuBackgroundColor: {
+					type: 'string',
+					default: DEFAULT_SUBMENU_BACKGROUND_COLOR,
+				},
+				priorityPlusSubmenuItemHoverBackground: {
+					type: 'string',
+					default: DEFAULT_SUBMENU_ITEM_HOVER_BACKGROUND,
+				},
+				priorityPlusSubmenuItemTextColor: {
+					type: 'string',
+					default: DEFAULT_SUBMENU_ITEM_TEXT_COLOR,
+				},
+				priorityPlusSubmenuItemHoverTextColor: {
+					type: 'string',
+					default: DEFAULT_SUBMENU_ITEM_HOVER_TEXT_COLOR,
 				},
 				// Typography attributes (for preview)
 				priorityPlusTypographyFontFamily: {
