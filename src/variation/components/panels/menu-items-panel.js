@@ -76,7 +76,7 @@ function normalizeIndentValue(indent) {
 }
 
 /**
- * MenuSpacingPanel Component
+ * MenuItemsPanel Component
  *
  * Provides controls for menu spacing (item padding and submenu indent).
  *
@@ -86,16 +86,13 @@ function normalizeIndentValue(indent) {
  * @param {Array}    props.spacingSizes  - Available spacing sizes from theme
  * @return {JSX.Element} Menu spacing panel component
  */
-export function MenuSpacingPanel({ attributes, setAttributes, spacingSizes }) {
+export function MenuItemsPanel({ attributes, setAttributes, spacingSizes }) {
 	const { priorityPlusMenuItemPadding, priorityPlusMenuSubmenuIndent } =
 		attributes;
 
 	return (
 		<ToolsPanel
-			label={__(
-				'Priority Menu Item Settings',
-				'priority-plus-navigation'
-			)}
+			label={__('Priority Menu Item Styles', 'priority-plus-navigation')}
 			resetAll={() => {
 				setAttributes({
 					priorityPlusMenuItemPadding: DEFAULT_MENU_ITEM_PADDING,

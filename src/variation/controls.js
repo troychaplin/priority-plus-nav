@@ -201,13 +201,29 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 						resetAll={() =>
 							setAttributes({
 								priorityPlusToggleLabel: 'More',
+								priorityPlusMenuBackgroundColor:
+									DEFAULT_MENU_BACKGROUND_COLOR,
+								priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
+								priorityPlusMenuBorderRadius:
+									DEFAULT_MENU_BORDER_RADIUS,
+								priorityPlusMenuBoxShadow:
+									DEFAULT_MENU_BOX_SHADOW,
+								priorityPlusMenuItemPadding:
+									DEFAULT_MENU_ITEM_PADDING,
+								priorityPlusMenuItemHoverBackground:
+									DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+								priorityPlusMenuItemHoverTextColor:
+									DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+								priorityPlusMenuSubmenuIndent: {
+									left: DEFAULT_MENU_SUBMENU_INDENT,
+								},
 							})
 						}
 					>
 						<ToolsPanelItem
 							hasValue={() => !!priorityPlusToggleLabel}
 							label={__(
-								'Toggle Button Label',
+								'Button Label',
 								'priority-plus-navigation'
 							)}
 							onDeselect={() =>
@@ -219,7 +235,7 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 						>
 							<TextControl
 								label={__(
-									'Toggle Button Label',
+									'Button Label',
 									'priority-plus-navigation'
 								)}
 								value={priorityPlusToggleLabel}
@@ -234,10 +250,71 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 								)}
 							/>
 						</ToolsPanelItem>
+						<ToolsPanelItem
+							hasValue={() => {
+								const {
+									priorityPlusMenuBackgroundColor,
+									priorityPlusMenuBorder,
+									priorityPlusMenuBorderRadius,
+									priorityPlusMenuBoxShadow,
+									priorityPlusMenuItemPadding,
+									priorityPlusMenuItemHoverBackground,
+									priorityPlusMenuItemHoverTextColor,
+									priorityPlusMenuSubmenuIndent,
+								} = attributes;
+								return (
+									!!priorityPlusMenuBackgroundColor ||
+									!!priorityPlusMenuBorder ||
+									!!priorityPlusMenuBorderRadius ||
+									!!priorityPlusMenuBoxShadow ||
+									!!priorityPlusMenuItemPadding ||
+									!!priorityPlusMenuItemHoverBackground ||
+									!!priorityPlusMenuItemHoverTextColor ||
+									!!priorityPlusMenuSubmenuIndent
+								);
+							}}
+							label={__(
+								'Customize DropdownMenu',
+								'priority-plus-navigation'
+							)}
+							onDeselect={() =>
+								setAttributes({
+									priorityPlusMenuBackgroundColor:
+										DEFAULT_MENU_BACKGROUND_COLOR,
+									priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
+									priorityPlusMenuBorderRadius:
+										DEFAULT_MENU_BORDER_RADIUS,
+									priorityPlusMenuBoxShadow:
+										DEFAULT_MENU_BOX_SHADOW,
+									priorityPlusMenuItemPadding:
+										DEFAULT_MENU_ITEM_PADDING,
+									priorityPlusMenuItemHoverBackground:
+										DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
+									priorityPlusMenuItemHoverTextColor:
+										DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
+									priorityPlusMenuSubmenuIndent: {
+										left: DEFAULT_MENU_SUBMENU_INDENT,
+									},
+								})
+							}
+							isShownByDefault
+						>
+							<Button
+								variant="primary"
+								onClick={() =>
+									setIsDropdownCustomizerOpen(true)
+								}
+							>
+								{__(
+									'Customize Dropdown Menu',
+									'priority-plus-navigation'
+								)}
+							</Button>
+						</ToolsPanelItem>
 					</ToolsPanel>
 					<PanelColorSettings
 						title={__(
-							'Toggle Button Colors',
+							'Priority Plus Button Colors',
 							'priority-plus-navigation'
 						)}
 						colorSettings={[
@@ -298,7 +375,7 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 					/>
 					<ToolsPanel
 						label={__(
-							'Toggle Button Spacing',
+							'Priority Plus Button Spacing',
 							'priority-plus-navigation'
 						)}
 						resetAll={() =>
@@ -309,7 +386,7 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 					>
 						<ToolsPanelItem
 							hasValue={hasPaddingValue}
-							label={__('Padding', 'priority-plus-navigation')}
+							label={__('Button Padding', 'priority-plus-navigation')}
 							onDeselect={() =>
 								setAttributes({
 									priorityPlusTogglePadding: undefined,
@@ -349,91 +426,6 @@ const withPriorityPlusControls = createHigherOrderComponent((BlockEdit) => {
 									allowReset={true}
 								/>
 							)}
-						</ToolsPanelItem>
-					</ToolsPanel>
-					<ToolsPanel
-						label={__('Menu Styles', 'priority-plus-navigation')}
-						resetAll={() => {
-							setAttributes({
-								priorityPlusMenuBackgroundColor:
-									DEFAULT_MENU_BACKGROUND_COLOR,
-								priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
-								priorityPlusMenuBorderRadius:
-									DEFAULT_MENU_BORDER_RADIUS,
-								priorityPlusMenuBoxShadow:
-									DEFAULT_MENU_BOX_SHADOW,
-								priorityPlusMenuItemPadding:
-									DEFAULT_MENU_ITEM_PADDING,
-								priorityPlusMenuItemHoverBackground:
-									DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
-								priorityPlusMenuItemHoverTextColor:
-									DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
-								priorityPlusMenuSubmenuIndent: {
-									left: DEFAULT_MENU_SUBMENU_INDENT,
-								},
-							});
-						}}
-					>
-						<ToolsPanelItem
-							hasValue={() => {
-								const {
-									priorityPlusMenuBackgroundColor,
-									priorityPlusMenuBorder,
-									priorityPlusMenuBorderRadius,
-									priorityPlusMenuBoxShadow,
-									priorityPlusMenuItemPadding,
-									priorityPlusMenuItemHoverBackground,
-									priorityPlusMenuItemHoverTextColor,
-									priorityPlusMenuSubmenuIndent,
-								} = attributes;
-								return (
-									!!priorityPlusMenuBackgroundColor ||
-									!!priorityPlusMenuBorder ||
-									!!priorityPlusMenuBorderRadius ||
-									!!priorityPlusMenuBoxShadow ||
-									!!priorityPlusMenuItemPadding ||
-									!!priorityPlusMenuItemHoverBackground ||
-									!!priorityPlusMenuItemHoverTextColor ||
-									!!priorityPlusMenuSubmenuIndent
-								);
-							}}
-							label={__(
-								'Customize Menu',
-								'priority-plus-navigation'
-							)}
-							onDeselect={() =>
-								setAttributes({
-									priorityPlusMenuBackgroundColor:
-										DEFAULT_MENU_BACKGROUND_COLOR,
-									priorityPlusMenuBorder: DEFAULT_MENU_BORDER,
-									priorityPlusMenuBorderRadius:
-										DEFAULT_MENU_BORDER_RADIUS,
-									priorityPlusMenuBoxShadow:
-										DEFAULT_MENU_BOX_SHADOW,
-									priorityPlusMenuItemPadding:
-										DEFAULT_MENU_ITEM_PADDING,
-									priorityPlusMenuItemHoverBackground:
-										DEFAULT_MENU_ITEM_HOVER_BACKGROUND,
-									priorityPlusMenuItemHoverTextColor:
-										DEFAULT_MENU_ITEM_HOVER_TEXT_COLOR,
-									priorityPlusMenuSubmenuIndent: {
-										left: DEFAULT_MENU_SUBMENU_INDENT,
-									},
-								})
-							}
-							isShownByDefault
-						>
-							<Button
-								variant="secondary"
-								onClick={() =>
-									setIsDropdownCustomizerOpen(true)
-								}
-							>
-								{__(
-									'Customize Menu',
-									'priority-plus-navigation'
-								)}
-							</Button>
 						</ToolsPanelItem>
 					</ToolsPanel>
 				</InspectorControls>
